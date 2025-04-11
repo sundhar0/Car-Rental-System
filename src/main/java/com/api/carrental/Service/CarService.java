@@ -13,6 +13,7 @@ import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
+import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 
 @Service
@@ -39,7 +40,8 @@ public class CarService {
 	public List<Car> getAll() {
 		List<CarApproval> approvedApprovals = carApprovalRepository.findByApprovedTrue();
 	    return approvedApprovals.stream()
-	    						.map(ca -> ca.getCar())
+	    						.filter(ca->ca.getCar().getCarSaleType() == CarSaleType.RENT)
+	    						.map(ca->ca.getCar())
 	                            .toList();
 	}
 	
