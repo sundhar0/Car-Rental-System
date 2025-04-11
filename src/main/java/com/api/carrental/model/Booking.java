@@ -1,6 +1,7 @@
 package com.api.carrental.model;
 
-import com.api.carrental.enums.RefundStatus;
+import com.api.carrental.enums.BookingStatus;
+import com.api.carrental.enums.DriveMode;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,78 +11,103 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Booking {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
-
-    @OneToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
+	
+	@ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
 
     @Column(nullable = false)
-    private double refundAmount;
+    private String bookingDate;
 
-    private String refundDate;
+    @Column(nullable = false)
+    private String returnDate;
+
+    @Column(nullable = false)
+    private double totalPrice;
     
     @Enumerated(EnumType.STRING)
-    private RefundStatus status;
+    private BookingStatus status;
 
-    private String transactionId;
-
-	
+    @Enumerated(EnumType.STRING)
+    private DriveMode driveMode;
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
-	public Payment getPayment() {
-		return payment;
+	public User getUser() {
+		return user;
 	}
 
-	public void setPayment(Payment payment) {
-		this.payment = payment;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public double getRefundAmount() {
-		return refundAmount;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setRefundAmount(double refundAmount) {
-		this.refundAmount = refundAmount;
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
-	public String getRefundDate() {
-		return refundDate;
+	public String getBookingDate() {
+		return bookingDate;
 	}
 
-	public void setRefundDate(String refundDate) {
-		this.refundDate = refundDate;
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
 	}
 
-	public RefundStatus getStatus() {
+	public String getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(String returnDate) {
+		this.returnDate = returnDate;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public BookingStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(RefundStatus status) {
+	public void setStatus(BookingStatus status) {
 		this.status = status;
 	}
 
-	public String getTransactionId() {
-		return transactionId;
+	public DriveMode getDriveMode() {
+		return driveMode;
 	}
 
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
+	public void setDriveMode(DriveMode driveMode) {
+		this.driveMode = driveMode;
 	}
     
+    
+
     
 
 }
