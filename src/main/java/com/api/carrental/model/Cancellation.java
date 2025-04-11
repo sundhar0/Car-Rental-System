@@ -8,8 +8,6 @@ public class Cancellation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cancellationId;
-
-     
     
     private String reason;
 

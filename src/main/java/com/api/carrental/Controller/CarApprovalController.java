@@ -37,13 +37,13 @@ public class CarApprovalController {
 		Car car = carService.getById(carId);
 		carApproval.setCar(car);
 		carApproval.setManager(manager);
-		
-		carApproval = carApprovalService.add(carApproval);
 		if(carApproval.isApproved()) {
 			car.setCarStatus(CarStatus.APPROVED);
 		}else {
 			car.setCarStatus(CarStatus.REJECTED);
 		}
+		carApproval = carApprovalService.add(carApproval);
+		
 		
 		return carApproval;	
 	}
