@@ -1,6 +1,7 @@
 package com.api.carrental.model;
  
 
+import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 
 import jakarta.persistence.Column;
@@ -46,9 +47,18 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus;
 
-    
+    @Enumerated(EnumType.STRING)
+    private CarSaleType carSaleType;
 
-    public int getCarId() {
+    public CarSaleType getCarSaleType() {
+		return carSaleType;
+	}
+
+	public void setCarSaleType(CarSaleType carSaleType) {
+		this.carSaleType = carSaleType;
+	}
+
+	public int getCarId() {
         return carId;
     }
 
