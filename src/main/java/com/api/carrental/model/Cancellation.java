@@ -1,6 +1,13 @@
 package com.api.carrental.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cancellation {
@@ -9,11 +16,13 @@ public class Cancellation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cancellationId;
 
-     
-    
+    @OneToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking; 
+
     private String reason;
 
-    private String cancelledDate;
+    private LocalDateTime cancelledDate;
 
 	public int getCancellationId() {
 		return cancellationId;
@@ -23,6 +32,13 @@ public class Cancellation {
 		this.cancellationId = cancellationId;
 	}
 
+	public Booking getBooking() {
+		return booking;
+	}
+
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
 
 	public String getReason() {
 		return reason;
@@ -32,13 +48,14 @@ public class Cancellation {
 		this.reason = reason;
 	}
 
-	public String getCancelledDate() {
+	public LocalDateTime getCancelledDate() {
 		return cancelledDate;
 	}
 
-	public void setCancelledDate(String cancelledDate) {
+	public void setCancelledDate(LocalDateTime cancelledDate) {
 		this.cancelledDate = cancelledDate;
 	}
-    
+
+	
     
 }
