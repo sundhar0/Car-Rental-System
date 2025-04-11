@@ -37,5 +37,4 @@ public class BuyerController {
 		return buyerService.getByFuelType(ft); 
 	}
 	
-	@GetMapping("/showbyRating/")
 }
