@@ -104,10 +104,16 @@ public class Booking {
 
 	public void setDriveMode(DriveMode driveMode) {
 		this.driveMode = driveMode;
+
+	} 
+    
+    
+
 	}
     
     
 
     
+
 
 }
