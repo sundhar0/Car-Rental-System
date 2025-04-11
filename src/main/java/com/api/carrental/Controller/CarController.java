@@ -3,6 +3,7 @@ package com.api.carrental.Controller;
 import java.util.List;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.CarService;
-import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.User;
 
