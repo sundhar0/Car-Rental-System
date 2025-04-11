@@ -1,6 +1,17 @@
 package com.api.carrental.model;
 
-import jakarta.persistence.*;
+import com.api.carrental.enums.RentalStatus;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -17,12 +28,23 @@ public class Rental {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    
+    @OneToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
 
     @Column(nullable = false)
     private String startDate;
-
+    
     @Column(nullable = false)
-    private String endDate;
+    private String expectedReturnDate;
+
+    private String actualReturnDate;
+
+    private double lateFee;
+
+    @Enumerated(EnumType.STRING)
+    private RentalStatus status; // RUNNING, RETURNED, LATE
 
 	public int getRentalId() {
 		return rentalId;
@@ -48,6 +70,14 @@ public class Rental {
 		this.user = user;
 	}
 
+	public Booking getBooking() {
+		return booking;
+	}
+
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+
 	public String getStartDate() {
 		return startDate;
 	}
@@ -56,13 +86,39 @@ public class Rental {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public String getExpectedReturnDate() {
+		return expectedReturnDate;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setExpectedReturnDate(String expectedReturnDate) {
+		this.expectedReturnDate = expectedReturnDate;
 	}
-    
+
+	public String getActualReturnDate() {
+		return actualReturnDate;
+	}
+
+	public void setActualReturnDate(String actualReturnDate) {
+		this.actualReturnDate = actualReturnDate;
+	}
+
+	public double getLateFee() {
+		return lateFee;
+	}
+
+	public void setLateFee(double lateFee) {
+		this.lateFee = lateFee;
+	}
+
+	public RentalStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(RentalStatus status) {
+		this.status = status;
+	}
+
+
+	
     
 }
