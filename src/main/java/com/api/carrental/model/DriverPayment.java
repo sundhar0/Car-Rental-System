@@ -45,7 +45,9 @@ public class DriverPayment {
 		return paymentDate;
 	}
 
-	
+	public void setPaymentDate(String paymentDate) {
+		this.paymentDate = paymentDate;
+	}
     
     
 }	
