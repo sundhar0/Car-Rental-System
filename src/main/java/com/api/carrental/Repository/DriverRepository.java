@@ -6,4 +6,6 @@ import com.api.carrental.model.Driver;
 
 public interface DriverRepository extends JpaRepository<Driver, Integer>{
 
+	Driver findByLicenseNo(String licenseNo);
+
 }
