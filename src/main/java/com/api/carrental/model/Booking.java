@@ -34,7 +34,7 @@ public class Booking {
     private String returnDate;
 
     @Column(nullable = false)
-    private double totalPrice;
+    private double initialCost;
     
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -82,12 +82,12 @@ public class Booking {
 		this.returnDate = returnDate;
 	}
 
-	public double getTotalPrice() {
-		return totalPrice;
+	public double getInitialCost() {
+		return initialCost;
 	}
 
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setInitialCost(double initialCost) {
+		this.initialCost = initialCost;
 	}
 
 	public BookingStatus getStatus() {

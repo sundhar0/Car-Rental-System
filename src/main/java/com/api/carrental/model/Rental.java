@@ -32,12 +32,16 @@ public class Rental {
     @OneToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
+    
+    @Column(nullable = false)
+    private double remainingCost;
 
     @Column(nullable = false)
     private String startDate;
     
     @Column(nullable = false)
     private String expectedReturnDate;
+
 
     private String actualReturnDate;
 
@@ -76,6 +80,14 @@ public class Rental {
 
 	public void setBooking(Booking booking) {
 		this.booking = booking;
+	}
+
+	public double getRemainingCost() {
+		return remainingCost;
+	}
+
+	public void setRemainingCost(double remainingCost) {
+		this.remainingCost = remainingCost;
 	}
 
 	public String getStartDate() {
