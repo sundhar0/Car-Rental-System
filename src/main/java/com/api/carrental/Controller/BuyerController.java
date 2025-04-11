@@ -22,8 +22,20 @@ public class BuyerController {
 		return buyerService.getAll();
 	}
 	
-	@GetMapping("getByModel/{model}")
+	@GetMapping("/getByModel/{model}")
 	public Object getByModel(@PathVariable String model) {
 		return buyerService.getByModel(model);
 	}
+	
+	@GetMapping("/showbyYear/{year}")
+	public Object getByYear(@PathVariable String year) {
+		return buyerService.getByYear(year);
+	}
+	
+	@GetMapping("/showByFuelType/{ft}")
+	public Object getByFueltype(@PathVariable String ft) {
+		return buyerService.getByFuelType(ft); 
+	}
+	
+	@GetMapping("/showbyRating/")
 }
