@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.CarService;
-import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.User;
 
