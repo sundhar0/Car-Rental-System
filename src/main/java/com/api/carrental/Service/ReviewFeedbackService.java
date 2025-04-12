@@ -11,13 +11,6 @@ import com.api.carrental.model.ReviewFeedback;
 @Service
 public class ReviewFeedbackService {
 	
-//	@Autowired
-//	private BuyerService buyerService;
-//
-//	public Object getByRating(int rating) {
-//		List<Car> approved=buyerService.getAll();
-//		return approved.parallelStream()
-//				.filter(rf->rf.getrating()==rating);
-//	}
+	
 
 }

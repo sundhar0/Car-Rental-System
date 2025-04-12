@@ -40,9 +40,10 @@ public class CarService {
 	public List<Car> getAll() {
 		List<CarApproval> approvedApprovals = carApprovalRepository.findByApprovedTrue();
 	    return approvedApprovals.stream()
-	    						.filter(ca->ca.getCar().getCarSaleType() == CarSaleType.RENT)
+	    						.filter(ca->ca.getCar().getCarSaleType() == CarSaleType.SELL)
 	    						.map(ca->ca.getCar())
 	                            .toList();
 	}
+	
 	
 }
