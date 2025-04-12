@@ -14,8 +14,8 @@ import com.api.carrental.model.CarApproval;
 public class BuyerService {
 	@Autowired
 	private CarApprovalRepository carApprovalRepository;
-	@Autowired
-	private BuyerService buyerService;
+	
+	
 
 	public List<Car> getAll() {
 		List<CarApproval> approvedApprovals = carApprovalRepository.findByApprovedTrue();
@@ -26,14 +26,14 @@ public class BuyerService {
 	}
 
 	public Object getByModel(String model) {
-		List<Car> approved = buyerService.getAll();
+		List<Car> approved = this.getAll();
 		return approved.parallelStream()
 				.filter(ca->ca.getModel()==model)
                 .toList();
 	}
 
 	public Object getByYear(String year) {
-		List<Car> approved=buyerService.getAll();
+		List<Car> approved=this.getAll();
 		return approved.parallelStream()
 				.filter(ca->ca.getYear()==year)
 				.toList();
@@ -41,7 +41,7 @@ public class BuyerService {
 		}
 
 	public Object getByFuelType(String ft) {
-		List<Car> approved=buyerService.getAll();
+		List<Car> approved=this.getAll();
 		return approved.parallelStream()
 				.filter(ca->ca.getFuelType()==ft)
 				.toList();

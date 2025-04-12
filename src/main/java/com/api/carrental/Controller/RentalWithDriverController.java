@@ -1,5 +1,14 @@
 package com.api.carrental.Controller;
 
-public class RentalWithDriverController {
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.api.carrental.model.RentalWithCar;
+
+@RestController
+@RequestMapping("/api/rentWithDriver")
+public class RentalWithDriverController {
+	
+	
 }
