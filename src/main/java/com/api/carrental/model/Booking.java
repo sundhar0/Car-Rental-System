@@ -1,6 +1,7 @@
 package com.api.carrental.model;
 
 import com.api.carrental.enums.BookingStatus;
+
 import com.api.carrental.enums.DriveMode;
 
 import jakarta.persistence.Column;
@@ -20,8 +21,8 @@ public class Booking {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
+	@JoinColumn(name="customer_id")
+	private Customer customer;
 	
 	@ManyToOne
     @JoinColumn(name = "car_id")
@@ -42,6 +43,7 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private DriveMode driveMode;
 
+
 	public int getId() {
 		return id;
 	}
@@ -50,12 +52,12 @@ public class Booking {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Car getCar() {
@@ -105,15 +107,14 @@ public class Booking {
 	public void setDriveMode(DriveMode driveMode) {
 		this.driveMode = driveMode;
 
-	} 
-    
-    
+	}
 
 	
     
     
 
+}
+
+    
     
 
-
-}
