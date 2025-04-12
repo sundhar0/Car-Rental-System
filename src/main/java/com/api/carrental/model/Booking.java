@@ -1,6 +1,7 @@
 package com.api.carrental.model;
 
 import com.api.carrental.enums.BookingStatus;
+
 import com.api.carrental.enums.DriveMode;
 
 import jakarta.persistence.Column;
@@ -116,4 +117,4 @@ public class Booking {
     
 
 
-}
+
