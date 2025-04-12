@@ -17,10 +17,6 @@ public class RentalWithCar {
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     private String rentalStart;
 
     private String rentalEnd;
