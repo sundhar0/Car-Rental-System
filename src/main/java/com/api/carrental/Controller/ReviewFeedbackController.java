@@ -8,12 +8,12 @@ import com.api.carrental.Service.ReviewFeedbackService;
 
 @RestController
 public class ReviewFeedbackController {
-	@Autowired
-	private ReviewFeedbackService reviewFeedbachService;
-
-	@GetMapping("/api/buyer/showByRating/{rating}")
-	public void showByRating(@PathVariable int rating){
-	
-		return reviewFeedbachService.getByRating(rating);
-	}
+//	@Autowired
+//	private ReviewFeedbackService reviewFeedbachService;
+//
+//	@GetMapping("/api/buyer/showByRating/{rating}")
+//	public Object showByRating(@PathVariable int rating){
+//	
+//		return reviewFeedbachService.getByRating(rating);
+//	}
 	}
