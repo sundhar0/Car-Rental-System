@@ -109,12 +109,8 @@ public class Booking {
 	} 
     
     
-
-	}
-    
-    
+}
 
     
-
-
+    
 
