@@ -1,5 +1,5 @@
-package com.api.carrental.Service;
 
+<<<<<<< HEAD
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +15,29 @@ import com.api.carrental.model.Customer;
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+=======
+    
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.api.carrental.Exception.InvalidIDException;
+import com.api.carrental.Repository.CustomerRepository;
+import com.api.carrental.model.Customer;
+@Service
+public class CustomerService {
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+
+	public Customer addCustomer(Customer customer) {
+		return customerRepository.save(customer);
+	}
+	
+>>>>>>> 477a9c7d1f831c0507906241b73e6083a73153db
     
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);

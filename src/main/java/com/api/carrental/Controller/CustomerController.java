@@ -2,6 +2,7 @@ package com.api.carrental.Controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,11 +16,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Exception.InvalidIDException;
+<<<<<<< HEAD
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+>>>>>>> 477a9c7d1f831c0507906241b73e6083a73153db
 import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Customer;
 
 @RestController
+<<<<<<< HEAD
 
+=======
+>>>>>>> 477a9c7d1f831c0507906241b73e6083a73153db
 @RequestMapping("/api/customer")
 public class CustomerController {
 
@@ -34,7 +46,7 @@ public class CustomerController {
     
     //Add customer 
     @PostMapping("/add")
-    public Customer addCustomer(@RequestBody Customer customer) {
+    public Customer addCustomer (@RequestBody Customer customer) {
         return customerService.saveCustomer(customer);
     }
 

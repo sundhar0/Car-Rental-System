@@ -42,7 +42,10 @@ public class Car {
     private String mileage;
     
     @ManyToOne
-    private User carOwner;
+    private Customer customer;
+    
+    @ManyToOne
+    private CarDocuments carDocuments;
     
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus;
@@ -145,12 +148,21 @@ public class Car {
         this.mileage = mileage;
     }
 
-	public User getCarOwner() {
-		return carOwner;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCarOwner(User carOwner) {
-		this.carOwner = carOwner;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+
+	public CarDocuments getCarDocuments() {
+		return carDocuments;
+	}
+
+	public void setCarDocuments(CarDocuments carDocuments) {
+		this.carDocuments = carDocuments;
 	}
 
 	public CarStatus getCarStatus() {
