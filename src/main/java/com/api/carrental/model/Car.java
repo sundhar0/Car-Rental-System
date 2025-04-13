@@ -21,7 +21,7 @@ public class Car {
     private int carId;
 
     @Column(nullable = false)
-    private String model;;
+    private String model;
 
     @Column(nullable = false)
     private String year;

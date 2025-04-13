@@ -35,6 +35,7 @@ build/
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 src/main/resources/application.properties
 =======
 src/main/resources/application.properties
@@ -42,3 +43,10 @@ src/main/resources/application.properties
 >>>>>>> ff7e92fe28c329ed35470a166dc020a7a9334176
 =======
 >>>>>>> 96cbc4ec33c20979cf4697c5c8fd1f0a9308f9fd
+=======
+"src/main/resources/application.properties" 
+=======
+src/main/resources/application.properties
+
+>>>>>>> 3d2e81fc4fb26c118b95b4f406f019467cc4a9cd
+>>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
