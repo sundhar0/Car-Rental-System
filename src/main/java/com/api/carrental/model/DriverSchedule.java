@@ -18,6 +18,7 @@ public class DriverSchedule {
     private LocalDate availableFrom;
 
     private LocalDate availableTo;
+    
 
 	public int getScheduleId() {
 		return scheduleId;
