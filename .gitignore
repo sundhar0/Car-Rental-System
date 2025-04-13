@@ -32,5 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+<<<<<<< HEAD
+"src/main/resources/application.properties" 
+=======
 src/main/resources/application.properties
 
+>>>>>>> 3d2e81fc4fb26c118b95b4f406f019467cc4a9cd

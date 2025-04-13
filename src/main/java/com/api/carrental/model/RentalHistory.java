@@ -13,7 +13,7 @@ public class RentalHistory {
     private Rental rental;
     
     @ManyToOne
-    private User user;
+    private Customer customer;
 
     @Column(nullable = false)
     private String completedDate;
@@ -43,13 +43,15 @@ public class RentalHistory {
 		this.rental = rental;
 	}
 
-	public User getUser() {
-		return user;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
+
+	
     
 	
     
