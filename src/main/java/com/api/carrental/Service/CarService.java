@@ -38,12 +38,7 @@ public class CarService {
 	    return carRepository.save(car);
 	}
 
-<<<<<<< HEAD
 	public Car getById(int carId) throws InvalidIDException {
-=======
-	public Car getById(int carId) {
-		// this will be helpful to find the cars in a particular car id
->>>>>>> 477a9c7d1f831c0507906241b73e6083a73153db
 		Optional<Car> opt = carRepository.findById(carId);
 		if(opt.isEmpty())
 			throw new InvalidIDException("Car was not found");
@@ -63,6 +58,7 @@ public class CarService {
 		//this will be used to show the feedback about the customer
 		//after getting the customer id we are checking the details about the cutomer in the reviewfeedback table
 		List<ReviewFeedback> list=reviewFeedbackService.getByReview(cId);
+		return list;
 	}
 	
 	

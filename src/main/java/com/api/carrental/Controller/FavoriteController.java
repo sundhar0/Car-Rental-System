@@ -48,7 +48,7 @@ public class FavoriteController {
             }
 
             // Update customer if provided in request body
-            if (newValue.getCustomer() != null && newValue.getCustomer().getId() != null) {
+            if (newValue.getCustomer() != null && newValue.getCustomer().getId() != 0) {
                 existingFavorites.setCustomer(newValue.getCustomer());
             }
 

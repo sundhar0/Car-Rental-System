@@ -14,7 +14,7 @@ public class CarAvailability {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long availabilityId;
+    private int availabilityId;
 
     @Column(nullable = false)
     private String dayOfWeek;
@@ -31,11 +31,11 @@ public class CarAvailability {
 
     // Getters and setters
 
-    public Long getAvailabilityId() {
+    public int getAvailabilityId() {
         return availabilityId;
     }
 
-    public void setAvailabilityId(Long availabilityId) {
+    public void setAvailabilityId(int availabilityId) {
         this.availabilityId = availabilityId;
     }
 

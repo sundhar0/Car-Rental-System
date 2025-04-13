@@ -26,18 +26,18 @@ public class CarAvailabilityService {
     }
 
     // Get car availability by ID
-    public CarAvailability getCarAvailabilityById(Long id) {
+    public CarAvailability getCarAvailabilityById(int id) {
         return carAvailabilityRepository.findById(id).orElse(null);
     }
 
     // Update car availability
-    public CarAvailability updateCarAvailability(Long id, CarAvailability carAvailability) {
+    public CarAvailability updateCarAvailability(int id, CarAvailability carAvailability) {
         carAvailability.setAvailabilityId(id);
         return carAvailabilityRepository.save(carAvailability);
     }
 
     // Delete car availability
-    public void deleteCarAvailability(Long id) {
+    public void deleteCarAvailability(int id) {
         carAvailabilityRepository.deleteById(id);
     }
 }
