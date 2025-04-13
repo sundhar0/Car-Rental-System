@@ -1,5 +1,8 @@
 package com.api.carrental.model;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import com.api.carrental.enums.RefundStatus;
 
 import jakarta.persistence.Column;
@@ -25,7 +28,7 @@ public class Refund {
     @Column(nullable = false)
     private double refundAmount;
 
-    private String refundDate;
+    private LocalDateTime refundDate;
     
     @Enumerated(EnumType.STRING)
     private RefundStatus status;
@@ -57,11 +60,11 @@ public class Refund {
 		this.refundAmount = refundAmount;
 	}
 
-	public String getRefundDate() {
+	public LocalDateTime getRefundDate() {
 		return refundDate;
 	}
 
-	public void setRefundDate(String refundDate) {
+	public void setRefundDate(LocalDateTime refundDate) {
 		this.refundDate = refundDate;
 	}
 
