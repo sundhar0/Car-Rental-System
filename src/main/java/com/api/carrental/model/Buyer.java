@@ -19,8 +19,8 @@ public class Buyer {
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     private LocalDate DateofBuying;
 
@@ -40,12 +40,14 @@ public class Buyer {
 		this.car = car;
 	}
 
-	public User getUser() {
-		return user;
+	
+
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public LocalDate getDateofBuying() {
