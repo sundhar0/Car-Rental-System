@@ -1,4 +1,5 @@
 package com.api.carrental.model;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,8 +25,11 @@ public class CarAvailability {
     @Column(nullable = false)
     private String endTime;
 
+    // Foreign Key reference to Car (implicitly handled by JPA)
     @ManyToOne
-    private RentalCar rentalcar;
+    private Car car;
+
+    // Getters and setters
 
     public Long getAvailabilityId() {
         return availabilityId;
@@ -59,13 +63,11 @@ public class CarAvailability {
         this.endTime = endTime;
     }
 
-	public RentalCar getRentalcar() {
-		return rentalcar;
-	}
+    public Car getCar() {
+        return car;
+    }
 
-	public void setRentalcar(RentalCar rentalcar) {
-		this.rentalcar = rentalcar;
-	}
-
-
+    public void setCar(Car car) {
+        this.car = car;
+    }
 }

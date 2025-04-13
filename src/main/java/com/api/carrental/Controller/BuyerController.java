@@ -37,4 +37,9 @@ public class BuyerController {
 		return buyerService.getByFuelType(ft); 
 	}
 	
+	@GetMapping("showByRate/{amount}")
+	public Object getByPrice(@PathVariable double amount) {
+		return buyerService.getByPrice(amount);
+	}
+	
 }
