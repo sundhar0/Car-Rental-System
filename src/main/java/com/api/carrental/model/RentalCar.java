@@ -21,6 +21,7 @@ public class RentalCar {
 //
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rentalcar_id")
     private int rentalcarId;
 //
 //    @Column(nullable = false)

@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/resources/application.properties
 
 ### STS ###
 .apt_generated
@@ -33,8 +34,11 @@ build/
 .vscode/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 src/main/resources/application.properties
 =======
 src/main/resources/application.properties
 
 >>>>>>> ff7e92fe28c329ed35470a166dc020a7a9334176
+=======
+>>>>>>> 96cbc4ec33c20979cf4697c5c8fd1f0a9308f9fd

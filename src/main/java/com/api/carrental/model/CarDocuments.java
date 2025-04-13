@@ -9,10 +9,6 @@ public class CarDocuments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int documentId;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id")
-    private Car car;
-
     private String documentType;
 
     private String documentUrl;
@@ -23,14 +19,6 @@ public class CarDocuments {
 
 	public void setDocumentId(int documentId) {
 		this.documentId = documentId;
-	}
-
-	public Car getCar() {
-		return car;
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
 	}
 
 	public String getDocumentType() {
