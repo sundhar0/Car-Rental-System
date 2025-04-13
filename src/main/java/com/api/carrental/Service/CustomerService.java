@@ -1,5 +1,6 @@
 package com.api.carrental.Service;
 
+<<<<<<< HEAD
 import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
@@ -44,5 +45,20 @@ public class CustomerService {
         return customerRepository.findByFullNameContainingIgnoreCase(name);
     }
 
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.api.carrental.Repository.CustomerRepository;
+import com.api.carrental.model.Customer;
+@Service
+public class CustomerService {
+	@Autowired
+	private CustomerRepository customerRepository;
+
+	public Customer addCustomer(Customer customer) {
+		return customerRepository.save(customer);
+	}
+>>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
 
 }
