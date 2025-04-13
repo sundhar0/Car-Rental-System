@@ -17,6 +17,7 @@ import com.api.carrental.Repository.DriverScheduleRepository;
 import com.api.carrental.enums.DriverAvailability;
 import com.api.carrental.model.Driver;
 import com.api.carrental.model.DriverSchedule;
+import com.api.carrental.model.User;
 
 @Service
 public class DriverService {
@@ -24,10 +25,13 @@ public class DriverService {
 	@Autowired
 	private DriverRepository driverRepository;
 	
-	@Autowired
-	private DriverScheduleRepository scheduleRepository;
 	
-	public Driver add(Driver driver) throws LicenseNoAlreadyAssigned {
+	@Autowired
+	private AuthService authService;
+	
+	public Driver add(Driver driver, int userId) throws LicenseNoAlreadyAssigned, InvalidIDException {
+		User user = authService.getById(userId);
+		driver.setUser(user);
 		Driver driver1 = driverRepository.findByLicenseNo(driver.getLicenseNo());
 		if(driver1 != null)
 			throw new LicenseNoAlreadyAssigned("The license no already assigned to other driver");
@@ -57,13 +61,15 @@ public class DriverService {
 		return drivers;
 	}
 
-	public List<Driver> getAvailableDriversOn(LocalDate date) {
-	    List<DriverSchedule> schedules = scheduleRepository
-	        .findByAvailableFromLessThanEqualAndAvailableToGreaterThanEqual(date, date);
-	    return schedules.stream()
-	        .map(ds->ds.getDriver())
-	        .distinct().toList();
+	public Driver updateAvailablility(int driverId, String availability) throws DriverNotAvailable {
+		Driver existingDriver = driverRepository.findByDriverId(driverId);
+		if(existingDriver == null)
+			throw new DriverNotAvailable("driver not found");
+		existingDriver.setDriverAvailability(DriverAvailability.valueOf(availability.toUpperCase()));
+		return driverRepository.save(existingDriver);
+//		return "Driver Availability updated";
 	}
+
 	
 	
 }

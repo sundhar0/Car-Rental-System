@@ -5,6 +5,7 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidFuelException;
@@ -49,9 +50,9 @@ public class GlobalExceptionHandlerConfig {
 	public ErrorResponse InvalidFuelException(InvalidFuelException e) {
 		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
 	}
-	@ExceptionHandler(InvalidIDException.class)
-	public ErrorResponse InvalidIDException(InvalidIDException e) {
+	
+	@ExceptionHandler(CarNotAvailable.class)
+	public ErrorResponse carNotAvailableException(CarNotAvailable e) {
 		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
 	}
-	
 }
