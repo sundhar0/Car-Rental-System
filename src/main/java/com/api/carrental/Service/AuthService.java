@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidUserNameException;
 import com.api.carrental.Repository.AuthRepository;
 import com.api.carrental.model.User;
@@ -31,8 +32,10 @@ public class AuthService{
 		return authRepository.save(user);
 	}
 
-	public User getById(int ownId) {
+	public User getById(int ownId) throws InvalidIDException {
 		Optional<User> opt = authRepository.findById(ownId);
+		if(opt.isEmpty())
+			throw new InvalidIDException("User Not Found");
 		return opt.get();
 	}
 

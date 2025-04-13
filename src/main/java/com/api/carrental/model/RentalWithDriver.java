@@ -3,7 +3,7 @@ package com.api.carrental.model;
 import jakarta.persistence.*;
 
 @Entity
-public class RentalWithCar {
+public class RentalWithDriver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
