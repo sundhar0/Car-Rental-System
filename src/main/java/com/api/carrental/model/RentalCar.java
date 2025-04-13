@@ -13,42 +13,12 @@ import jakarta.persistence.Table;
 @Table(name = "rental_cars")
 public class RentalCar {
 
-//    public enum CarStatus {
-//        AVAILABLE,
-//        RENTED_OUT,
-//        MAINTENANCE
-//    }
-//
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rentalcar_id")
     private int rentalcarId;
-//
-//    @Column(nullable = false)
-//    private String model;
-//
-//    @Column(nullable = false)
-//    private String year;
-//
-//    @Column(nullable = false)
-//    private double price;
-//
-//    @Column(nullable = false)
-//    private String brand;
-//
-//    @Column(nullable = false)
-//    private String fuelType;
-//
-//    @Column(nullable = false)
-//    private String transmission;
-//
-//    @Column(nullable = false)
-//    private String mileage;
-//
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private CarStatus carStatus;
-//    
+
     @Column(nullable = false)
     private double dailyRate;
 
@@ -63,6 +33,9 @@ public class RentalCar {
     
     @ManyToOne
     private Customer customer;
+    
+    @ManyToOne
+    private Car car;
 
 	public int getRentalcarId() {
 		return rentalcarId;
