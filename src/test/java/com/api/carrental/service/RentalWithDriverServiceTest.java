@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.RentalWithDriverRepository;
@@ -58,7 +59,7 @@ public class RentalWithDriverServiceTest {
     }
 
     @Test
-    public void testRentWithDriverSuccess() throws DriverNotAvailable, InvalidIDException {
+    public void testRentWithDriverSuccess() throws DriverNotAvailable, InvalidIDException, CarNotAvailable {
         when(rentalWithDriverRepository.save(rentalWithDriver)).thenReturn(rentalWithDriver);
 
         String result = rentalWithDriverService.rentWithDriver(rentalWithDriver, 1, 1, 1);
