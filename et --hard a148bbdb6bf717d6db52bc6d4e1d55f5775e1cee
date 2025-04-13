@@ -1,0 +1,277 @@
+[33mcommit 78b7ad434438020516deb2d5a05fa078c1c60e0c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msushmith[m[33m)[m
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Sun Apr 13 11:55:02 2025 +0530
+
+    Controller
+
+[33mcommit 1aa1f68353264934e1de8583c99ee5fe4eaeb476[m[33m ([m[1;31mmyfork/sushmith[m[33m)[m
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Sun Apr 13 00:29:55 2025 +0530
+
+    customer-apis
+
+[33mcommit 1eb2481e9b0fd89a942e4669fb28f2f3ef29479b[m
+Merge: ce9ed6b a148bbd
+Author: Sushmith Kannan <143206243+Sushmith-Kannan@users.noreply.github.com>
+Date:   Sat Apr 12 13:10:31 2025 +0530
+
+    Merge pull request #20 from Sushmith-Kannan/sushmith
+    
+    models-updated
+
+[33mcommit a148bbdb6bf717d6db52bc6d4e1d55f5775e1cee[m
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Sat Apr 12 13:06:47 2025 +0530
+
+    done-with-models
+
+[33mcommit 5723b64fbab98205b83a1364c019e2a66053a893[m
+Merge: 0db7886 ce9ed6b
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Sat Apr 12 13:04:13 2025 +0530
+
+    Merge branch 'sushmith' of https://github.com/sundhar0/Car-Rental-System into sushmith
+
+[33mcommit 0db78865df97bb6fe8658f63035e35adee0246e1[m
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Sat Apr 12 13:02:06 2025 +0530
+
+    Folder setups
+
+[33mcommit ce9ed6bd91d55cc3d25caad5b9e0f8482a8ec9b7[m
+Merge: aca5819 65d6fd6
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Sat Apr 12 12:08:49 2025 +0530
+
+    Merge branch 'main' into sushmith
+
+[33mcommit aca5819ce404b46b35a0a0e0318626cd72c6d4bd[m
+Merge: 645130c cb3c795
+Author: Sushmith Kannan <143206243+Sushmith-Kannan@users.noreply.github.com>
+Date:   Sat Apr 12 11:57:52 2025 +0530
+
+    Updated models from Sushmith-Kannan/sushmith
+    
+    Updated the models as per said
+
+[33mcommit cb3c7955fde3dea7b6d2ec1919fd3e03985127cf[m
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Sat Apr 12 11:53:56 2025 +0530
+
+    Updated the models as per said
+
+[33mcommit 65d6fd6d5d19d0b84f8ac21137f06ea8271347d1[m
+Merge: f099b65 1ccf67c
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Sat Apr 12 10:56:58 2025 +0530
+
+    Merge pull request #13 from sundhar0/sundhar
+    
+    Model class Update for driver module
+
+[33mcommit 1ccf67c87560aaaab86a918376bdd50e91384717[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Sat Apr 12 10:56:04 2025 +0530
+
+    Model class Update for driver module
+
+[33mcommit f099b65a110d26e21bd99b94aff67227dff2ab3b[m
+Merge: c23ab27 14e39ac
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Sat Apr 12 10:38:47 2025 +0530
+
+    Merge pull request #12 from sundhar0/varsha
+    
+    updated booking and rental
+
+[33mcommit 14e39ac6f85bb495e27f2f98d57deb5159a0a715[m
+Author: varshaa22 <varshaa2242004@gmail.com>
+Date:   Fri Apr 11 21:47:21 2025 +0530
+
+    updated booking and rental
+
+[33mcommit c23ab270eced43746567509988921e9ddc1f70df[m
+Merge: e15279a 06663f8
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 20:39:36 2025 +0530
+
+    Merge pull request #11 from sundhar0/varsha
+    
+    Varsha
+
+[33mcommit 06663f844a4ce5163fe3132e6ada345b4ab7db76[m
+Merge: 306794e e15279a
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 20:18:14 2025 +0530
+
+    Merge branch 'main' into varsha
+
+[33mcommit 306794eb011233892d924d15fa273854155bbc51[m
+Author: varshaa22 <varshaa2242004@gmail.com>
+Date:   Fri Apr 11 20:07:16 2025 +0530
+
+    model file
+
+[33mcommit e15279a6c01889c079eef2b57e6db08c8b2e8e7f[m
+Merge: 09bbf82 663fe88
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 20:05:35 2025 +0530
+
+    Merge pull request #10 from varshaa22/varsha
+    
+    Entity file
+
+[33mcommit 573495015b36ed16efc585062610034539fbc790[m
+Author: varshaa22 <varshaa2242004@gmail.com>
+Date:   Fri Apr 11 20:00:55 2025 +0530
+
+    entity file
+
+[33mcommit 663fe8809da905ecf83fb4064e42baf3f50bdea0[m
+Author: varshaa22 <varshaa2242004@gmail.com>
+Date:   Fri Apr 11 19:18:05 2025 +0530
+
+    entity file
+
+[33mcommit 09bbf82bd067fe2e1b495c25ef4c2ceffb8fe094[m
+Merge: 88d061a d1b4b2a
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 17:57:14 2025 +0530
+
+    Merge pull request #7 from VigneshRajappa/vignesh
+    
+    created needed model files
+
+[33mcommit 88d061af0a1118a8430c13a12109fa20736b3506[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Fri Apr 11 17:25:59 2025 +0530
+
+    buyer added
+
+[33mcommit c08a16d36e7edce60bdef6bea646c4c799b3d26b[m
+Merge: 38b60f2 c2d5297
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 17:25:04 2025 +0530
+
+    Merge pull request #9 from sundhar0/sundhar
+    
+    Sundhar
+
+[33mcommit c2d5297e95e5ab2324a95f09f1fadd8daf9d19af[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Fri Apr 11 17:12:21 2025 +0530
+
+    check
+
+[33mcommit 900a26de8ff7b127e7cf79a9cf3a27b229341163[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Fri Apr 11 17:10:17 2025 +0530
+
+    get check
+
+[33mcommit d1b4b2ac969a422dc4cbdc7ed2e7a28a6a9f9b7e[m
+Author: Vignesh Rajappa <vigneshppa@gmail.com>
+Date:   Fri Apr 11 17:01:39 2025 +0530
+
+    Buyer Controller
+
+[33mcommit f8b044cceb3b47e3a52372f77ba2da91e665642c[m
+Author: Vignesh Rajappa <vigneshppa@gmail.com>
+Date:   Fri Apr 11 16:43:41 2025 +0530
+
+    Added buyer module
+
+[33mcommit 7279b01bdc1f1cd4597a79e3107794086dfa9e4e[m
+Author: Vignesh Rajappa <vigneshppa@gmail.com>
+Date:   Fri Apr 11 16:38:55 2025 +0530
+
+    buyer module
+
+[33mcommit fc19082c4208ef5db49da65f2c2cc3de737f0b58[m
+Author: varshaa22 <varshaa2242004@gmail.com>
+Date:   Fri Apr 11 15:12:25 2025 +0530
+
+    modified entity files
+
+[33mcommit 645130cab1239f213bc1a0184f3767f925f31815[m
+Merge: 6306172 678e379
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 13:57:23 2025 +0530
+
+    Merge pull request #6 from Sushmith-Kannan/sushmith
+    
+    Models-Become-a-renter
+
+[33mcommit 678e379c9826f56bf45302bc77cd429ab34b3caa[m
+Merge: 193de92 6306172
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Fri Apr 11 13:44:52 2025 +0530
+
+    Merge branch 'sushmith' of https://github.com/sundhar0/Car-Rental-System into sushmith
+
+[33mcommit 630617229a7669f0669b9a774e5e1ec60da06d8d[m
+Merge: c0d66e0 38b60f2
+Author: Sushmith Kannan <143206243+Sushmith-Kannan@users.noreply.github.com>
+Date:   Fri Apr 11 13:44:23 2025 +0530
+
+    Merge pull request #5 from sundhar0/main
+    
+    Sundar's
+
+[33mcommit 193de9271a7202e1ab645d7b3abcb3cdfe4c70d1[m
+Author: Sushmith <sushmith.works@gmail.com>
+Date:   Fri Apr 11 13:36:06 2025 +0530
+
+    Your message describing the changes
+
+[33mcommit 2ff2de045a7582d628aec433fe58829e3e961c88[m
+Author: Vignesh Rajappa <vigneshppa@gmail.com>
+Date:   Fri Apr 11 13:30:10 2025 +0530
+
+    created needed model files
+
+[33mcommit 38b60f268030107fef2f5c2128c56f6f4745c3b8[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Fri Apr 11 13:26:53 2025 +0530
+
+    buyer
+
+[33mcommit 421e7726f4ec28f9600d50ecaeb9d10a02fa20b0[m
+Merge: 571b7a8 7387ff3
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 13:22:06 2025 +0530
+
+    Merge pull request #4 from sundhar0/sundhar
+    
+    some changes in driver module
+
+[33mcommit 245d333af7543db637e89592dfeb852ef4c596ba[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Fri Apr 11 13:21:05 2025 +0530
+
+    car controll added
+
+[33mcommit 571b7a8b00f035eb927815e5ba2218d2e1154609[m
+Merge: d6b6f3f 07fe0ca
+Author: sundhar0 <158798808+sundhar0@users.noreply.github.com>
+Date:   Fri Apr 11 13:19:00 2025 +0530
+
+    Merge pull request #3 from VigneshRajappa/vignesh
+    
+    After added model class
+
+[33mcommit 07fe0ca92181648b6f3a34fffc424f29747f5d47[m
+Author: Vignesh Rajappa <vigneshppa@gmail.com>
+Date:   Fri Apr 11 13:14:23 2025 +0530
+
+    After added model class
+
+[33mcommit 7387ff37169d77184a2aa28d05a1371d9e65ea31[m
+Author: sundhar0 <sundharapandi008@gmail.com>
+Date:   Fri Apr 11 13:00:32 2025 +0530
+
+    some changes in driver module
+
+[33mcommit d6b6f3fe2eb640722d9947e4dab2ff73a4922ec6[m[33m ([m[1;32mmain[m[33m)[m
+Merge: c6c266b aa105d4
+Author: sundhar0 <15879880
