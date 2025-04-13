@@ -1,5 +1,5 @@
 package com.api.carrental.enums;
 
 public enum CarStatus{
-	APPROVED, REJECTED, PENDING
+	APPROVED, REJECTED, PENDING, AVAILABLE
 }

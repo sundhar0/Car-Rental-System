@@ -24,22 +24,29 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String username;
-    @Column(nullable=false)
-    private String name;
-
-    @Column(nullable = false)
-    private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String phone;
-
-    @Column(nullable = false)
     private String address;
     
     private String role;
+
+    
+	
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(int userId, String username, String password, String address) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.address = address;
+	}
 
 	public String getRole() {
 		return role;
@@ -57,10 +64,6 @@ public class User implements UserDetails {
 		this.userId = userId;
 	}
 
-	public String getname() {
-		return name;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -69,18 +72,7 @@ public class User implements UserDetails {
 		this.username = username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+	
 	public String getPassword() {
 		return password;
 	}
@@ -89,13 +81,6 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
 
 	public String getAddress() {
 		return address;

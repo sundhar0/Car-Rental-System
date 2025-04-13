@@ -19,6 +19,7 @@ import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Customer;
 
 @RestController
+
 @RequestMapping("/api/customer")
 public class CustomerController {
 
@@ -94,6 +95,7 @@ public class CustomerController {
             return ResponseEntity.status(400).body("Failed to delete customer: " + e.getMessage());
         }
     }
+
 
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.CarService;
 import com.api.carrental.model.Car;
@@ -28,7 +29,7 @@ public class CarController {
 	private AuthService authService;
 	
 	@PostMapping("/add/{ownId}")
-	public Car add(@PathVariable int ownId, @RequestBody Car car) {
+	public Car add(@PathVariable int ownId, @RequestBody Car car) throws InvalidIDException {
 		User user = authService.getById(ownId);
 		car.setCarOwner(user);
 		return carService.add(car);

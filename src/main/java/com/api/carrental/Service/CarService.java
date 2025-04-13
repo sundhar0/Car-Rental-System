@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
@@ -32,8 +33,10 @@ public class CarService {
 	    return carRepository.save(car);
 	}
 
-	public Car getById(int carId) {
+	public Car getById(int carId) throws InvalidIDException {
 		Optional<Car> opt = carRepository.findById(carId);
+		if(opt.isEmpty())
+			throw new InvalidIDException("Car was not found");
 		return opt.get();
 	}
 

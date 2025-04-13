@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.CarService;
 import com.api.carrental.Service.CarTransactionService;
@@ -29,7 +30,7 @@ public class CarTransactionController {
 	
 	@PostMapping("/buy/{sellerId}/{carId}/{buyerId}")
 	public CarTransaction buy(@RequestBody CarTransaction ct,
-			@PathVariable int carId, @PathVariable int sellerId, @PathVariable int buyerId) {
+			@PathVariable int carId, @PathVariable int sellerId, @PathVariable int buyerId) throws InvalidIDException {
 		
 		Car car = carService.getById(carId);
 		User seller = authService.getById(sellerId);

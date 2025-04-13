@@ -54,7 +54,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/rentalcar/delete/{id}").permitAll()
 				.requestMatchers("/api/caravailability/add/{carId}/{managerId}").hasAuthority("Manager")
 				.requestMatchers("/api/Manager/getAll").hasAuthority("Manager")
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 			)
 			.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

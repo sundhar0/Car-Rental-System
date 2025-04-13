@@ -10,7 +10,6 @@ public class CarDocuments {
     private int documentId;
 
     @ManyToOne
-    @JoinColumn(name = "car_id")
     private Car car;
 
     private String documentType;
