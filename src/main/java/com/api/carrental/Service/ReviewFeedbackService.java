@@ -11,16 +11,12 @@ import com.api.carrental.model.ReviewFeedback;
 @Service
 public class ReviewFeedbackService {
 	
-<<<<<<< HEAD
 	@Autowired
 	private ReviewFeedbackRepository reviewFeedbackRepository;
 
 	public List<ReviewFeedback> getByReview(int cId) {
 		
-		return reviewFeedbackRepository.getByCustomerId(cId);
+		return reviewFeedbackRepository.findByCustomerId(cId);
 	}
-=======
->>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
-	
 
 }

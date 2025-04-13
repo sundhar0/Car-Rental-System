@@ -53,6 +53,8 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarSaleType carSaleType;
 
+	private User carOwner;
+
     
 
 	public Car() {

@@ -38,21 +38,21 @@ public class CarAvailabilityController {
 
     // Get car availability by ID
     @GetMapping("/one/{id}")
-    public ResponseEntity<?> getCarAvailabilityById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getCarAvailabilityById(@PathVariable("id") int id) {
         CarAvailability carAvailability = carAvailabilityService.getCarAvailabilityById(id);
         return carAvailability != null ? ResponseEntity.ok(carAvailability) : ResponseEntity.status(404).body("Car availability not found");
     }
 
     // Update car availability
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateCarAvailability(@PathVariable("id") Long id, @RequestBody CarAvailability carAvailability) {
+    public ResponseEntity<?> updateCarAvailability(@PathVariable("id") int id, @RequestBody CarAvailability carAvailability) {
         CarAvailability updatedCarAvailability = carAvailabilityService.updateCarAvailability(id, carAvailability);
         return ResponseEntity.ok(updatedCarAvailability);
     }
 
     // Delete car availability
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCarAvailability(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteCarAvailability(@PathVariable("id") int id) {
         carAvailabilityService.deleteCarAvailability(id);
         return ResponseEntity.ok("Car availability with ID " + id + " has been deleted.");
     }

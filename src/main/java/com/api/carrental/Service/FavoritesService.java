@@ -31,7 +31,7 @@ public class FavoritesService {
 
 	public Favorites addFavorites(Favorites favorites) {
 		int carId =favorites.getCar().getCarId();       // uses carId from Car entity
-	    Long customerId = favorites.getCustomer().getId();
+	    Long customerId = (long) favorites.getCustomer().getId();
 	    
 	    /*fetch the car entity from database using carid ensure the car exist if not throws exception*/	    
 	    Car car = carrentalRepository.findById(carId)
@@ -64,7 +64,7 @@ public class FavoritesService {
         }
 
         // Validate and fetch customer if provided
-        if (favorites.getCustomer() != null && favorites.getCustomer().getId() != null) {
+        if (favorites.getCustomer() != null && favorites.getCustomer().getId() != 0) {
             Customer customer = customerRepository.findById(favorites.getCustomer().getId())
                     .orElseThrow(() -> new RuntimeException("Customer with ID " + favorites.getCustomer().getId() + " not found"));
             favorites.setCustomer(customer);
