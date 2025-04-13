@@ -107,14 +107,8 @@ public class Booking {
 	public void setDriveMode(DriveMode driveMode) {
 		this.driveMode = driveMode;
 
-<<<<<<< HEAD
-	} 
-=======
 	}
 
 	
     
-    
-
->>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
 }
