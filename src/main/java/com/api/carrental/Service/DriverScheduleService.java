@@ -1,11 +1,11 @@
 package com.api.carrental.Service;
 
 import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.DriverNotAvailable;
@@ -14,7 +14,6 @@ import com.api.carrental.Repository.DriverScheduleRepository;
 import com.api.carrental.model.Driver;
 import com.api.carrental.model.DriverSchedule;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class DriverScheduleService {
@@ -65,4 +64,12 @@ public class DriverScheduleService {
 		Optional<DriverSchedule> opt = driverScheduleRepository.findByDriverUserUsername(username);
 		return opt.get();
 	}
+	
+	public void deleteDriverSchedule(int scheduleId) throws InvalidIDException {
+        Optional<DriverSchedule> optionalSchedule = driverScheduleRepository.findById(scheduleId);
+        if (optionalSchedule.isEmpty()) {
+            throw new InvalidIDException("Driver Schedule not found");
+        }
+        driverScheduleRepository.deleteById(scheduleId);
+    }
 }

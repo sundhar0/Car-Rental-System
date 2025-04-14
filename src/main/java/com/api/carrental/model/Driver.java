@@ -14,6 +14,8 @@ public class Driver {
     @ManyToOne
     private User user;
     
+    private String name;
+    
     @Enumerated(EnumType.STRING)
     private DriverAvailability driverAvailability;
 
@@ -73,6 +75,14 @@ public class Driver {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
     
 	

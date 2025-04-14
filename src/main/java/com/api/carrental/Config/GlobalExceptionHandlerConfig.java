@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
+import com.api.carrental.Exception.InvalidDateException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidFuelException;
 import com.api.carrental.Exception.InvalidModelException;
+import com.api.carrental.Exception.InvalidPaymentException;
 import com.api.carrental.Exception.InvalidUserNameException;
 import com.api.carrental.Exception.InvalidYearException;
 import com.api.carrental.Exception.LicenseNoAlreadyAssigned;
@@ -53,6 +55,16 @@ public class GlobalExceptionHandlerConfig {
 	
 	@ExceptionHandler(CarNotAvailable.class)
 	public ErrorResponse carNotAvailableException(CarNotAvailable e) {
+		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
+	}
+	
+	@ExceptionHandler(InvalidDateException.class)
+	public ErrorResponse invalidDateException(InvalidDateException e) {
+		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
+	}
+	
+	@ExceptionHandler(InvalidPaymentException.class)
+	public ErrorResponse invalidPaymentException(InvalidPaymentException e) {
 		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
 	}
 }

@@ -1,5 +1,7 @@
 package com.api.carrental.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +17,10 @@ public class DriverPayment {
 
     private double amount;
 
-    private String paymentDate;
+    private LocalDate paymentDate;
+    
+    @ManyToOne
+    private Manager updatedBy;
 
 	public int getPaymentId() {
 		return paymentId;
@@ -41,13 +46,25 @@ public class DriverPayment {
 		this.amount = amount;
 	}
 
-	public String getPaymentDate() {
+	public LocalDate getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(String paymentDate) {
-		this.paymentDate = paymentDate;
-	}	
+	public void setPaymentDate(LocalDate localDate) {
+		this.paymentDate = localDate;
+	}
+
+	public Manager getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Manager updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	
+
+	
     
     
 }	
