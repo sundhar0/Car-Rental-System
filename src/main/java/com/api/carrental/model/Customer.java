@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +24,9 @@ public class Customer {
     private String driversLicenseNumber;
     private String identityDocumentPath;
     private String profilePhotoPath;
+    
+    @OneToOne
+    private User user;
 
     public Customer() {
 		super();
@@ -105,6 +109,15 @@ public String getProfilePhotoPath() {
 public void setProfilePhotoPath(String profilePhotoPath) {
 	this.profilePhotoPath = profilePhotoPath;
 }
+
+public User getUser() {
+	return user;
+}
+
+public void setUser(User user) {
+	this.user = user;
+}
+
     
 
     

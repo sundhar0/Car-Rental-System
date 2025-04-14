@@ -50,9 +50,13 @@ public class CustomerService {
 
 
 	public Optional<Customer> getById(int ownId) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerRepository.findById(ownId);
 	}
 
+
+	
+
+
+	
 
 }
