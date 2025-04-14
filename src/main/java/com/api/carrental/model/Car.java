@@ -139,6 +139,22 @@ public class Car {
 		this.carStatus = carStatus;
 	}
 
+	public Car(int carId, String model, String year, double price, String brand, String fuelType, String transmission,
+			String mileage, Customer customer, CarStatus carStatus, CarSaleType carSaleType) {
+		super();
+		this.carId = carId;
+		this.model = model;
+		this.year = year;
+		this.price = price;
+		this.brand = brand;
+		this.fuelType = fuelType;
+		this.transmission = transmission;
+		this.mileage = mileage;
+		this.customer = customer;
+		this.carStatus = carStatus;
+		this.carSaleType = carSaleType;
+	}
+
 	
     
     
