@@ -8,6 +8,6 @@ import com.api.carrental.model.Car;
 
 public interface CarRepository extends JpaRepository<Car, Integer> {
 
-	List<Car> finbyCustomerId(Long cId);
+	List<Car> findByCustomerId(Long cId);
 
 }

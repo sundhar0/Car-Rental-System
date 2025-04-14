@@ -14,7 +14,8 @@ import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
-import com.api.carrental.model.ReviewFeedback;
+import com.api.carrental.model.Customer;
+//import com.api.carrental.model.ReviewFeedback;
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 
@@ -25,8 +26,10 @@ public class CarService {
 	private CarRepository carRepository;
 	@Autowired
 	private CarApprovalRepository carApprovalRepository;
+//	@Autowired
+//	private ReviewFeedbackService reviewFeedbackService;
 	@Autowired
-	private ReviewFeedbackService reviewFeedbackService;
+	private CustomerService customerService;
 	
 	
 	public Car add(Car car) {
@@ -54,21 +57,21 @@ public class CarService {
 	                            .toList();
 	}
 
-	public Object getReview(Long cId) throws InvalidIDException {
-		//this will be used to show the feedback about the customer
-		//after getting the customer id we are checking the details about the cutomer in the reviewfeedback table
-		List<ReviewFeedback> list=reviewFeedbackService.getByReview(cId);
-		if(list.isEmpty())
-			throw new InvalidIDException("Given Customer Id is Invalid...");
-		return list;
-	}
+//	public Object getReview(Long cId) throws InvalidIDException {
+//		//this will be used to show the feedback about the customer
+//		//after getting the customer id we are checking the details about the cutomer in the reviewfeedback table
+//		List<ReviewFeedback> list=reviewFeedbackService.getByReview(cId);
+//		if(list.isEmpty())
+//			throw new InvalidIDException("Given Customer Id is Invalid...");
+//		return list;
+//	}
 
 	public Object getHistory(Long cId) throws InvalidIDException {
 		//it will get the history by customer id
-		List<Car> customer=carRepository.finbyCustomerId(cId);
-		if(customer.isEmpty())
+		Customer customer=customerService.getSingleCustomer(cId);
+		if(customer==null)
 			throw new InvalidIDException("Given Customer Id is Inavlid...");
-		return customer;
+		return carRepository.findByCustomerId(cId);
 	}
 
 	

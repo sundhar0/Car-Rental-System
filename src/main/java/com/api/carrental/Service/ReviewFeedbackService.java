@@ -21,9 +21,10 @@ public class ReviewFeedbackService {
 	@Autowired
 	private CustomerService customerService;
 
-	public List<ReviewFeedback> getByReview(Long cId) {
+	public List<ReviewFeedback> getByReview(Long cId) throws InvalidIDException {
 		//this method will be used to show the feedback about the customer using the customer
-		return reviewFeedbackRepository.getByCustomerId(cId);
+		Customer customer=customerService.getSingleCustomer(cId);
+		return reviewFeedbackRepository.findByCustomerId(cId);
 	}
 
 	public Object addReview(int cId, Long cusId, ReviewFeedback reviewFeedback) throws InvalidIDException {

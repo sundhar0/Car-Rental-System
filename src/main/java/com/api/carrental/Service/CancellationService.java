@@ -44,7 +44,7 @@ public class CancellationService {
 
 	public Cancellation getCancellationByTestDriveId(int tdId) throws InvalidIDException {
 		TestDrive testDrive=testDriveService.findById(tdId);
-		Cancellation cancellation=cancellationRepository.finbyTestDrive(testDrive);
+		Cancellation cancellation=cancellationRepository.findByTestDrive(testDrive);
 		if(cancellation==null)
 			throw new InvalidIDException("Given TestDrive Id is Invalid...");
 		return cancellation;

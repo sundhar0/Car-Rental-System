@@ -38,10 +38,10 @@ public class CarController {
 		return carService.getAll();
 	}
 	
-	@GetMapping("/getReview/{cId}")
-	public Object SeeReview(@PathVariable Long cId) throws InvalidIDException {
-		return carService.getReview(cId);
-	}
+//	@GetMapping("/getReview/{cId}")
+//	public Object SeeReview(@PathVariable Long cId) throws InvalidIDException {
+//		return carService.getReview(cId);
+//	}
 	@GetMapping("/getHistory/{cId}")
 	public Object getHistory(@PathVariable Long cId) throws InvalidIDException {
 		return carService.getHistory(cId);

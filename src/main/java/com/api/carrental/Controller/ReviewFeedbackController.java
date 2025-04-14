@@ -18,6 +18,7 @@ import com.api.carrental.model.ReviewFeedback;
 @RestController
 @RequestMapping("/api/review")
 public class ReviewFeedbackController {
+
 	@Autowired
 	private ReviewFeedbackService reviewFeedBackService;
 	
@@ -30,6 +31,9 @@ public class ReviewFeedbackController {
 	public List<ReviewFeedback> ShowByRating(@PathVariable int rating) {
 		return reviewFeedBackService.getByRating(rating);
 	}
-	
+	@GetMapping("/getByCusId/{cId}")
+	public List<ReviewFeedback> ShowByCustomerId(@PathVariable Long cId) throws InvalidIDException {
+		return reviewFeedBackService.getByReview(cId);
+	}
 }
 

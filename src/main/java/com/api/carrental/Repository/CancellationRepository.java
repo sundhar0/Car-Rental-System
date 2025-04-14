@@ -13,7 +13,7 @@ public interface CancellationRepository extends JpaRepository<Cancellation,Integ
 
 	Optional<Cancellation> findByBooking(Booking booking);
 
-	Cancellation finbyTestDrive(TestDrive testDrive);
+	Cancellation findByTestDrive(TestDrive testDrive);
 
 
 

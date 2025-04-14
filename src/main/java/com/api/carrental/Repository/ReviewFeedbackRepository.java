@@ -8,8 +8,9 @@ import com.api.carrental.model.ReviewFeedback;
 
 public interface ReviewFeedbackRepository extends JpaRepository<ReviewFeedback, Integer> {
 
-	List<ReviewFeedback> getByCustomerId(Long cId);
 
 	List<ReviewFeedback> getByRating(int rating);
+
+	List<ReviewFeedback> findByCustomerId(Long cId);
 
 }
