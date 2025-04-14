@@ -1,6 +1,5 @@
 package com.api.carrental.Controller;
 
-<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Exception.InvalidIDException;
-=======
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
->>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
 import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Customer;
 
 @RestController
-<<<<<<< HEAD
 @RequestMapping("/api/customer")
 public class CustomerController {
 
@@ -54,7 +45,7 @@ public class CustomerController {
 
     //Get customer by id
     @GetMapping("/one/{id}") 
-    public ResponseEntity<?> getSingleCustomer(@PathVariable("id") int id) {
+    public ResponseEntity<?> getSingleCustomer(@PathVariable("id") Long id) {
         try {
             Customer customer = customerService.getSingleCustomer(id);
             return ResponseEntity.ok(customer); 
@@ -66,7 +57,7 @@ public class CustomerController {
 
     //Update customer
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateCustomer(@PathVariable("id") int id,
+    public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id,
                                             @RequestBody Customer newValue) {
         try {
             Customer customer = customerService.getSingleCustomer(id);
@@ -103,16 +94,5 @@ public class CustomerController {
             return ResponseEntity.status(400).body("Failed to delete customer: " + e.getMessage());
         }
     }
-
-=======
-public class CustomerController {
-	@Autowired
-	private CustomerService customerService;
-	
-	@PostMapping("/api/customer/add")
- 	public Customer addCustomer(@RequestBody Customer customer) {
- 		return customerService.addCustomer(customer);
- 	}
->>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
 
 }

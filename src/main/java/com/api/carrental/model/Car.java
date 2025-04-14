@@ -44,9 +44,6 @@ public class Car {
     @ManyToOne
     private Customer customer;
     
-    @ManyToOne
-    private CarDocuments carDocuments;
-    
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus;
 
@@ -133,14 +130,6 @@ public class Car {
 		this.customer = customer;
 	}
 	
-
-	public CarDocuments getCarDocuments() {
-		return carDocuments;
-	}
-
-	public void setCarDocuments(CarDocuments carDocuments) {
-		this.carDocuments = carDocuments;
-	}
 
 	public CarStatus getCarStatus() {
 		return carStatus;

@@ -1,13 +1,9 @@
 package com.api.carrental.Service;
 
-<<<<<<< HEAD
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.InvalidIDException;
@@ -20,15 +16,18 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     
     public Customer saveCustomer(Customer customer) {
+    	//it will get all the customer details and store it in the customer table
         return customerRepository.save(customer);
     }
 
     public List<Customer> getAllCustomers() {
+    	// it will be used to show all the customer details
         return customerRepository.findAll();
     }
 
 
-    public Customer getSingleCustomer(int id) throws InvalidIDException {
+    public Customer getSingleCustomer(Long id) throws InvalidIDException {
+    	//it will get all the customer details using customer id
         Optional<Customer> optionalCustomer = customerRepository.findById((long) id);
         if (optionalCustomer.isPresent()) {
             return optionalCustomer.get();
@@ -38,27 +37,15 @@ public class CustomerService {
     }
     
     public void deleteCustomer(Long id) {
+    	//it will delete the details of the customer using customer id
         customerRepository.deleteById(id);
     }
     
     public List<Customer> searchCustomersByName(String name) {
+    	// it will be used to show te details of the customer using the customer name
         return customerRepository.findByFullNameContainingIgnoreCase(name);
     }
 
-=======
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import com.api.carrental.Repository.CustomerRepository;
-import com.api.carrental.model.Customer;
-@Service
-public class CustomerService {
-	@Autowired
-	private CustomerRepository customerRepository;
-
-	public Customer addCustomer(Customer customer) {
-		return customerRepository.save(customer);
-	}
->>>>>>> dd77d92fd21284016937075bf41d3cac0b50ae04
 
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
@@ -22,7 +23,6 @@ public class CarService {
 	
 	@Autowired
 	private CarRepository carRepository;
-	
 	@Autowired
 	private CarApprovalRepository carApprovalRepository;
 	@Autowired
@@ -37,9 +37,11 @@ public class CarService {
 	    return carRepository.save(car);
 	}
 
-	public Car getById(int carId) {
+	public Car getById(int carId) throws InvalidIDException {
 		// this will be helpful to find the cars in a particular car id
 		Optional<Car> opt = carRepository.findById(carId);
+		if(opt.get()==null)
+			throw new InvalidIDException("Given Id is Invalid....");
 		return opt.get();
 	}
 
@@ -52,11 +54,23 @@ public class CarService {
 	                            .toList();
 	}
 
-	public Object getReview(int cId) {
+	public Object getReview(Long cId) throws InvalidIDException {
 		//this will be used to show the feedback about the customer
 		//after getting the customer id we are checking the details about the cutomer in the reviewfeedback table
 		List<ReviewFeedback> list=reviewFeedbackService.getByReview(cId);
+		if(list.isEmpty())
+			throw new InvalidIDException("Given Customer Id is Invalid...");
+		return list;
 	}
+
+	public Object getHistory(Long cId) throws InvalidIDException {
+		//it will get the history by customer id
+		List<Car> customer=carRepository.finbyCustomerId(cId);
+		if(customer.isEmpty())
+			throw new InvalidIDException("Given Customer Id is Inavlid...");
+		return customer;
+	}
+
 	
 	
 }
