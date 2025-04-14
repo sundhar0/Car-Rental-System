@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.api.carrental.model.CarAvailability;
 
 @Repository
-public interface CarAvailabilityRepository extends JpaRepository<CarAvailability, Long> {
+public interface CarAvailabilityRepository extends JpaRepository<CarAvailability, Integer> {
     
 }

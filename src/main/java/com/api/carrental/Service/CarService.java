@@ -45,6 +45,7 @@ public class CarService {
 		Optional<Car> opt = carRepository.findById(carId);
 		if(opt.get()==null)
 			throw new InvalidIDException("Given Id is Invalid....");
+
 		return opt.get();
 	}
 
@@ -56,6 +57,7 @@ public class CarService {
 	    						.map(ca->ca.getCar())
 	                            .toList();
 	}
+
 
 //	public Object getReview(Long cId) throws InvalidIDException {
 //		//this will be used to show the feedback about the customer
@@ -72,6 +74,7 @@ public class CarService {
 		if(customer==null)
 			throw new InvalidIDException("Given Customer Id is Inavlid...");
 		return carRepository.findByCustomerId(cId);
+
 	}
 
 	

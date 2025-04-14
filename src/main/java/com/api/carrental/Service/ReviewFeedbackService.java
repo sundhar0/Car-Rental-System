@@ -13,6 +13,7 @@ import com.api.carrental.model.ReviewFeedback;
 
 @Service
 public class ReviewFeedbackService {
+
 	@Autowired
 	private ReviewFeedbackRepository reviewFeedbackRepository;
 	
@@ -47,6 +48,5 @@ public class ReviewFeedbackService {
 		//this method is for showing by the level of rating
 		return reviewFeedbackRepository.getByRating(rating);
 	}
-	
 
 }

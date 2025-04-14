@@ -32,6 +32,22 @@ public class User implements UserDetails {
     
     private String role;
 
+    
+	
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(int userId, String username, String password, String address) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.address = address;
+	}
+
 	public String getRole() {
 		return role;
 	}

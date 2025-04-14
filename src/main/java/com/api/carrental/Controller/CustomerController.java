@@ -2,6 +2,7 @@ package com.api.carrental.Controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +34,7 @@ public class CustomerController {
     
     //Add customer 
     @PostMapping("/add")
-    public Customer addCustomer(@RequestBody Customer customer) {
+    public Customer addCustomer (@RequestBody Customer customer) {
         return customerService.saveCustomer(customer);
     }
 

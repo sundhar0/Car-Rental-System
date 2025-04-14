@@ -12,8 +12,15 @@ import com.api.carrental.model.Customer;
 
 @Service
 public class CustomerService {
-    @Autowired
-    private CustomerRepository customerRepository;
+	
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+
+	public Customer addCustomer(Customer customer) {
+		return customerRepository.save(customer);
+	}
+	
     
     public Customer saveCustomer(Customer customer) {
     	//it will get all the customer details and store it in the customer table

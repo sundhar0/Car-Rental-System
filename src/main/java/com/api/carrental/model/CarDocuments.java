@@ -9,6 +9,7 @@ public class CarDocuments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int documentId;
 
+
     private String documentType;
 
     private String documentUrl;

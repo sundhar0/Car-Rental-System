@@ -1,9 +1,11 @@
 package com.api.carrental.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
-public class RentalWithCar {
+public class RentalWithDriver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +23,9 @@ public class RentalWithCar {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String rentalStart;
+    private LocalDate rentalStart;
 
-    private String rentalEnd;
+    private LocalDate rentalEnd;
 
 	public int getId() {
 		return id;
@@ -57,21 +59,23 @@ public class RentalWithCar {
 		this.user = user;
 	}
 
-	public String getRentalStart() {
+	public LocalDate getRentalStart() {
 		return rentalStart;
 	}
 
-	public void setRentalStart(String rentalStart) {
+	public void setRentalStart(LocalDate rentalStart) {
 		this.rentalStart = rentalStart;
 	}
 
-	public String getRentalEnd() {
+	public LocalDate getRentalEnd() {
 		return rentalEnd;
 	}
 
-	public void setRentalEnd(String rentalEnd) {
+	public void setRentalEnd(LocalDate rentalEnd) {
 		this.rentalEnd = rentalEnd;
 	}
+
+	
     
     
 }

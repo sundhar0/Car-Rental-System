@@ -33,6 +33,7 @@ public class CarTransactionController {
 	@PostMapping("/buy/{sellerId}/{carId}/{buyerId}")
 	public CarTransaction buy(@RequestBody CarTransaction ct,
 			@PathVariable int carId, @PathVariable Long sellerId, @PathVariable Long buyerId) throws InvalidIDException {
+
 		
 		Car car = carService.getById(carId);
 		Customer seller = customerService.getSingleCustomer(sellerId);

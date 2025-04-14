@@ -50,7 +50,32 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarSaleType carSaleType;
 
-    public CarSaleType getCarSaleType() {
+	private User carOwner;
+
+    
+
+	public Car() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Car(int carId, String model, String year, double price, String brand, String fuelType, String transmission,
+			String mileage, User carOwner, CarStatus carStatus, CarSaleType carSaleType) {
+		super();
+		this.carId = carId;
+		this.model = model;
+		this.year = year;
+		this.price = price;
+		this.brand = brand;
+		this.fuelType = fuelType;
+		this.transmission = transmission;
+		this.mileage = mileage;
+		this.carOwner = carOwner;
+		this.carStatus = carStatus;
+		this.carSaleType = carSaleType;
+	}
+
+	public CarSaleType getCarSaleType() {
 		return carSaleType;
 	}
 
