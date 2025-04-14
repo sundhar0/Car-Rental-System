@@ -62,4 +62,11 @@ public class TestDriveService {
 		return customer.get();
 	}
 
+	public TestDrive findById(int tdId) throws InvalidIDException {
+		Optional<TestDrive> testDrive=testDriveRepository.findById(tdId);
+		if(testDrive.get()==null)
+			throw new InvalidIDException("Given TestDrive Id is Invalid...");
+		return testDrive.get();
+	}
+
 }

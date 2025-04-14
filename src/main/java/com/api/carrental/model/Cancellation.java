@@ -18,7 +18,10 @@ public class Cancellation {
 
     @OneToOne
     @JoinColumn(name = "booking_id")
-    private Booking booking; 
+    private Booking booking;
+    @OneToOne
+    @JoinColumn(name="TestDrive_id")
+    private TestDrive testDrive;
 
     private String reason;
 
@@ -38,6 +41,14 @@ public class Cancellation {
 
 	public void setBooking(Booking booking) {
 		this.booking = booking;
+	}
+
+	public TestDrive getTestDrive() {
+		return testDrive;
+	}
+
+	public void setTestDrive(TestDrive testDrive) {
+		this.testDrive = testDrive;
 	}
 
 	public String getReason() {

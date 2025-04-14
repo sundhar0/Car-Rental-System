@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.api.carrental.model.Booking;
 import com.api.carrental.model.Cancellation;
+import com.api.carrental.model.TestDrive;
 
 public interface CancellationRepository extends JpaRepository<Cancellation,Integer>{
 
 	Optional<Cancellation> findByBooking(Booking booking);
+
+	Cancellation finbyTestDrive(TestDrive testDrive);
 
 
 

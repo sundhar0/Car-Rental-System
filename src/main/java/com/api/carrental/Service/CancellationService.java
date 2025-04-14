@@ -12,6 +12,7 @@ import com.api.carrental.Repository.BookingRepository;
 import com.api.carrental.Repository.CancellationRepository;
 import com.api.carrental.model.Booking;
 import com.api.carrental.model.Cancellation;
+import com.api.carrental.model.TestDrive;
 
 
 @Service
@@ -20,7 +21,8 @@ public class CancellationService {
 	private CancellationRepository cancellationRepository;
 	@Autowired
 	private BookingRepository bookingRepository;
-	
+	@Autowired
+	private TestDriveService testDriveService;
 
 
     public Cancellation cancelBooking(Cancellation cancellation) {
@@ -39,5 +41,13 @@ public class CancellationService {
         return cancellationRepository.findByBooking(booking)
                 .orElseThrow(() -> new InvalidIDException("Cancellation not found for booking."));
     }
+
+	public Cancellation getCancellationByTestDriveId(int tdId) throws InvalidIDException {
+		TestDrive testDrive=testDriveService.findById(tdId);
+		Cancellation cancellation=cancellationRepository.finbyTestDrive(testDrive);
+		if(cancellation==null)
+			throw new InvalidIDException("Given TestDrive Id is Invalid...");
+		return cancellation;
+	}
 
 }

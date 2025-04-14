@@ -12,7 +12,6 @@ import com.api.carrental.Exception.InvalidPriceException;
 import com.api.carrental.Exception.InvalidYearException;
 import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.enums.CarSaleType;
-import com.api.carrental.model.Buyer;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
 
