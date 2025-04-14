@@ -1,5 +1,6 @@
 package com.api.carrental.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
+import com.api.carrental.Exception.InvalidDateException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.RentalWithDriverRepository;
 import com.api.carrental.enums.CarSaleType;
@@ -89,5 +91,27 @@ public class RentalWithDriverService {
 		return opt.get();
 	}
 
-	
+	public List<RentalWithDriver> getByDriverName(String name) throws DriverNotAvailable {
+		List<RentalWithDriver> list = rentalWithDriverRepository.findAllByDriverName(name);
+		if(list == null)
+			throw new DriverNotAvailable("Driver not found");
+		return list;
+	}
+
+	public List<RentalWithDriver> getByDate(LocalDate dateFrom, LocalDate dateTo) throws InvalidDateException {
+		List<RentalWithDriver> list = rentalWithDriverRepository
+				.findByRentalStartLessThanEqualAndRentalEndGreaterThanEqual(dateFrom,dateTo);
+		if(list == null)
+			throw new InvalidDateException("Date not found");
+		return list;
+		
+	}
+
+	public void deleteRentalWithDriver(int rentalId) throws InvalidIDException {
+        Optional<RentalWithDriver> optionalRental = rentalWithDriverRepository.findById(rentalId);
+        if (optionalRental.isEmpty()) {
+            throw new InvalidIDException("Rental With Driver not found");
+        }
+        rentalWithDriverRepository.deleteById(rentalId);
+    }
 }

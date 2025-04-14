@@ -1,9 +1,8 @@
 package com.api.carrental.Service;
 
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,8 @@ import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidUserNameException;
 import com.api.carrental.Exception.LicenseNoAlreadyAssigned;
 import com.api.carrental.Repository.DriverRepository;
-import com.api.carrental.Repository.DriverScheduleRepository;
 import com.api.carrental.enums.DriverAvailability;
 import com.api.carrental.model.Driver;
-import com.api.carrental.model.DriverSchedule;
 import com.api.carrental.model.User;
 
 @Service
@@ -70,6 +67,12 @@ public class DriverService {
 //		return "Driver Availability updated";
 	}
 
-	
+	public void deleteDriver(int driverId) throws InvalidIDException {
+        Optional<Driver> optionalDriver = driverRepository.findById(driverId);
+        if (optionalDriver.isEmpty()) {
+            throw new InvalidIDException("Driver not found");
+        }
+        driverRepository.deleteById(driverId);
+    }
 	
 }
