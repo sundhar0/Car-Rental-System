@@ -35,7 +35,10 @@ public class FavoriteController {
 	public Favorites addFavorite(@RequestBody Favorites favorites) {
 		return favoritesService.addFavorites(favorites);
 	}
-	
+	@PostMapping("/addForBuyer")
+	public Favorites addFavourites(@RequestBody Favorites favorites) throws InvalidIDException {
+		return favoritesService.addFavoritesforBuyer(favorites);
+	}
 	@PutMapping("/update/{id}")
     public ResponseEntity<?> updateFavorites(@PathVariable int id, @RequestBody Favorites newValue) {
         try {
@@ -67,6 +70,18 @@ public class FavoriteController {
         }
     }
 	
+	@PutMapping("/updatebyBuyer/{id}")
+	public ResponseEntity<?> updatebyBuyer(@PathVariable int id,@RequestBody Favorites newValue) throws InvalidIDException {
+		Favorites existingFavrites=favoritesService.getSingleFavorites(id);
+		if(newValue.getCar() !=null && newValue.getCar().getCarId()!=0) {
+			existingFavrites.setCar(newValue.getCar());
+		}
+		if(newValue.getCustomer()!=null && newValue.getCustomer().getId()!=0) {
+			existingFavrites.setCustomer(newValue.getCustomer());
+		}
+		Favorites updatedfavorites=favoritesService.updateByBuyer(existingFavrites);
+		return ResponseEntity.ok(updatedfavorites);
+	}
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> hardDeleteFavorites(@PathVariable int id) {
 	    try {

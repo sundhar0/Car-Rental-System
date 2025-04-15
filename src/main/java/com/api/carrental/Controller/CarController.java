@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Exception.InvalidIDException;
-import com.api.carrental.Service.AuthService;
+
 import com.api.carrental.Service.CarService;
 import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Car;
@@ -28,11 +28,10 @@ public class CarController {
 	@Autowired
 	private CustomerService customerService;
 	
-	@PostMapping("/add/{ownId}")
-	
-	public Car add(@PathVariable int ownId, @RequestBody Car car) {
-		Optional<Customer> customer = customerService.getById(ownId);
-		car.setCustomer(customer.get());
+	@PostMapping("/add/{ownId}")	
+	public Car add(@PathVariable Long ownId, @RequestBody Car car) throws InvalidIDException {
+		Customer customer = customerService.getSingleCustomer(ownId);
+		car.setCustomer(customer);
 		return carService.add(car);
 	}
 	
@@ -41,10 +40,12 @@ public class CarController {
 		return carService.getAll();
 	}
 	
-	@GetMapping("/getReview/{cId}")
-	public Object SeeReview(@PathVariable int cId) {
-		return carService.getReview(cId);
+//	@GetMapping("/getReview/{cId}")
+//	public Object SeeReview(@PathVariable Long cId) throws InvalidIDException {
+//		return carService.getReview(cId);
+//	}
+	@GetMapping("/getHistory/{cId}")
+	public Object getHistory(@PathVariable Long cId) throws InvalidIDException {
+		return carService.getHistory(cId);
 	}
-	
-	
 }

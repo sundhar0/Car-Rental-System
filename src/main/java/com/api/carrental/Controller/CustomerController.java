@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Exception.InvalidIDException;
-
 import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Customer;
 
@@ -47,7 +46,7 @@ public class CustomerController {
 
     //Get customer by id
     @GetMapping("/one/{id}") 
-    public ResponseEntity<?> getSingleCustomer(@PathVariable("id") int id) {
+    public ResponseEntity<?> getSingleCustomer(@PathVariable("id") Long id) {
         try {
             Customer customer = customerService.getSingleCustomer(id);
             return ResponseEntity.ok(customer); 
@@ -59,7 +58,7 @@ public class CustomerController {
 
     //Update customer
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateCustomer(@PathVariable("id") int id,
+    public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id,
                                             @RequestBody Customer newValue) {
         try {
             Customer customer = customerService.getSingleCustomer(id);
@@ -96,7 +95,5 @@ public class CustomerController {
             return ResponseEntity.status(400).body("Failed to delete customer: " + e.getMessage());
         }
     }
-
-
 
 }

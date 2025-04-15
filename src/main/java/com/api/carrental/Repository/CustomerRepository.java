@@ -9,11 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.api.carrental.model.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	 List<Customer> findByFullNameContainingIgnoreCase(String name);
 
-	void deleteById(Long id);
-
-	Optional<Customer> findById(long id);
+	Optional<Customer> findById(Long customerId);
 
 }

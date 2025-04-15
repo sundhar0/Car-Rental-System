@@ -44,9 +44,6 @@ public class Car {
     @ManyToOne
     private Customer customer;
     
-    @ManyToOne
-    private CarDocuments carDocuments;
-    
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus;
 
@@ -159,20 +156,28 @@ public class Car {
 	}
 	
 
-	public CarDocuments getCarDocuments() {
-		return carDocuments;
-	}
-
-	public void setCarDocuments(CarDocuments carDocuments) {
-		this.carDocuments = carDocuments;
-	}
-
 	public CarStatus getCarStatus() {
 		return carStatus;
 	}
 
 	public void setCarStatus(CarStatus carStatus) {
 		this.carStatus = carStatus;
+	}
+
+	public Car(int carId, String model, String year, double price, String brand, String fuelType, String transmission,
+			String mileage, Customer customer, CarStatus carStatus, CarSaleType carSaleType) {
+		super();
+		this.carId = carId;
+		this.model = model;
+		this.year = year;
+		this.price = price;
+		this.brand = brand;
+		this.fuelType = fuelType;
+		this.transmission = transmission;
+		this.mileage = mileage;
+		this.customer = customer;
+		this.carStatus = carStatus;
+		this.carSaleType = carSaleType;
 	}
 
 	

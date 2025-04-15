@@ -21,7 +21,6 @@ import com.api.carrental.Exception.InvalidDateException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.RentalWithDriverService;
 import com.api.carrental.model.RentalWithDriver;
-
 @RestController
 @RequestMapping("/api/rentWithDriver")
 public class RentalWithDriverController {

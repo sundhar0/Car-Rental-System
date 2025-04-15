@@ -1,4 +1,4 @@
-package com.api.carrental.service;
+package com.api.carrental.Service;
 
 import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidIDException;

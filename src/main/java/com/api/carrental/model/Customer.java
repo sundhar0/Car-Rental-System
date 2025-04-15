@@ -14,7 +14,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String fullName;
     private String email;
@@ -29,7 +29,7 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
-public Customer(int id, String fullName, String email, String phoneNumber, String address, String driversLicenseNumber,
+public Customer(Long id, String fullName, String email, String phoneNumber, String address, String driversLicenseNumber,
 		String identityDocumentPath, String profilePhotoPath) {
 	super();
 	this.id = id;
@@ -42,11 +42,11 @@ public Customer(int id, String fullName, String email, String phoneNumber, Strin
 	this.profilePhotoPath = profilePhotoPath;
 }
 
-public int getId() {
+public Long getId() {
 	return id;
 }
 
-public void setId(int id) {
+public void setId(Long id) {
 	this.id = id;
 }
 
