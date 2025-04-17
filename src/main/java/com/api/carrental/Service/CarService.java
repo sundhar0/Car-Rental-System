@@ -77,6 +77,14 @@ public class CarService {
 
 	}
 
+	public void DeleteCar(int cId) throws InvalidIDException {
+		Optional<Car> optional=carRepository.findById(cId);
+		if(optional==null)
+			throw new InvalidIDException("Given Car Id is Invalid!!");
+		carRepository.deleteById(cId);
+		
+	}
+
 	
 	
 }

@@ -1,9 +1,9 @@
 package com.api.carrental.Controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +47,9 @@ public class CarController {
 	@GetMapping("/getHistory/{cId}")
 	public Object getHistory(@PathVariable Long cId) throws InvalidIDException {
 		return carService.getHistory(cId);
+	}
+	@DeleteMapping("/delete/{cId}")
+	public void deleteCar(@PathVariable int cId) throws InvalidIDException {
+		carService.DeleteCar(cId);
 	}
 }
