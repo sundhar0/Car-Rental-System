@@ -52,7 +52,6 @@ public class CustomerService {
     	// it will be used to show te details of the customer using the customer name
         return customerRepository.findByFullNameContainingIgnoreCase(name);
     }
-
-
+	
 
 }
