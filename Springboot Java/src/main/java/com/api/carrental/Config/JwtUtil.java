@@ -12,10 +12,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
  
-/*
-* This class will have methods to create JWT token
-* */
- 
 @Component
 public class JwtUtil {
  
