@@ -25,8 +25,8 @@ public class Customer {
     private String identityDocumentPath;
     private String profilePhotoPath;
     
-    @OneToOne
-    private User user;
+//    @OneToOne
+//    private User user;
 
     public Customer() {
 		super();
@@ -110,13 +110,13 @@ public void setProfilePhotoPath(String profilePhotoPath) {
 	this.profilePhotoPath = profilePhotoPath;
 }
 
-public User getUser() {
-	return user;
-}
-
-public void setUser(User user) {
-	this.user = user;
-}
+//public User getUser() {
+//	return user;
+//}
+//
+//public void setUser(User user) {
+//	this.user = user;
+//}
 
     
 

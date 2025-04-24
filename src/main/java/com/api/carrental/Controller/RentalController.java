@@ -26,7 +26,7 @@ import com.api.carrental.model.Customer;
 import com.api.carrental.model.Rental;
 
 @RestController
-@RequestMapping("/api/rental-history")
+@RequestMapping("/api/rental")
 public class RentalController {
 	@Autowired
     private RentalService rentalService;
