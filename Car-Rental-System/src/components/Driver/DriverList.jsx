@@ -23,7 +23,7 @@ function DriverList() {
   return (
     <div
       className=""
-      style={{ backgroundColor: "#253343", minHeight: "100vh" }}
+      style={{minHeight: "100vh" }}
     >
       <nav
         className="navbar navbar-expand-lg mb-4 p-3"
@@ -73,13 +73,13 @@ function DriverList() {
         </div>
       </nav>
       <div className="container">
-        <h1 className="fw-500 p-4 text-white" style={{ fontSize: "1.5rem" }}>
+        <h1 className="fw-500 p-4 text-black" style={{ fontSize: "1.5rem" }}>
           Available Drivers
         </h1>
         <div className="row">
           {drivers.map((driv, index) => (
             <div className="col-md-4 mb-4" key={index}>
-              <div className="card text-center p-3 shadow-sm">
+              <div className="card text-center p-3 shadow-lg">
                 <img
                   src={driv.profilePic || "https://via.placeholder.com/100"}
                   alt="Profile"
@@ -93,6 +93,9 @@ function DriverList() {
                 <h6 className="fw-bold">{driv.name}</h6>
                 <p className="fw-light">
                   {driv.experienceYears} years experience
+                </p>
+                <p className="fw-bold">
+                &#8377;{driv.perDayCharge}/per day
                 </p>
                 <p className="fw-bold mt-2">⭐ {driv.rating}</p>
                 <Link

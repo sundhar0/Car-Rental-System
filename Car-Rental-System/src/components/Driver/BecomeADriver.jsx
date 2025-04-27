@@ -7,25 +7,55 @@ function BecomeADriver() {
   const [experience, setExperience] = useState(0);
   const [shortDescription, setShortDescription] = useState(null);
   const [licenceNo, setLicenceNo] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [msg, setMsg] = useState(null);
+
 
   const addDriver = async ($e) => {
     $e.preventDefault();
-    console.log(perDayCharge);
-    console.log(name);
-    console.log(experience);
-    console.log(shortDescription);
-    console.log(licenceNo);
+    if(name == null || name == ""){
+      return setMsg("Name cannot be empty")
+    }
+    else{
+      setMsg(null)
+    }
+    
+    if(licenceNo == null || licenceNo == ""){
+      return setMsg("Licence No cannot be empty")
+    }
+    else{
+      setMsg(null)
+    }
+    if(username == null || username == "" || username === undefined){
+      return setMsg("Username cannot be empty")
+    }
+    else{
+      setMsg(null)
+    }
+    if(password == null || password == "" || password == undefined){
+      return setMsg("Password cannot be empty")
+    }
+    else{
+      setMsg(null)
+    }
+
+
     let obj = {
       name: name,
       licenseNo: licenceNo,
       experienceYears: experience,
       shortDescription: shortDescription,
       perDayCharge: perDayCharge,
+      user: {
+        username: username,
+        password: password
+      }
     };
 
     try{
         let response = await axios.post(
-            `http://localhost:8080/api/driver/add/${1}`,
+            `http://localhost:8080/api/driver/add`,
             obj
           );
           console.log(response);
@@ -88,7 +118,7 @@ function BecomeADriver() {
             style={{ height: "85vh" }}
           >
             <div
-              className="card shadow-lg"
+              className="card shadow-lg mt-3"
               style={{ backgroundColor: "#1C2631", width: "25rem" }}
             >
               <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
@@ -96,11 +126,11 @@ function BecomeADriver() {
                   Become a <span style={{ color: "#00B86B" }}>Driver</span>
                 </h5>
                 <small
-                  className="fw-lighter"
+                  className="fw-lighter text-danger"
                   style={{ fontSize: "12px" }}
-                ></small>
+                >{msg}</small>
                 <div
-                  className="d-flex flex-column gap-3 mb-3"
+                  className="d-flex flex-column gap-2 mb-3"
                   style={{ fontSize: "12px" }}
                 >
                   <div className="input-groups">
@@ -172,6 +202,42 @@ function BecomeADriver() {
                       placeholder="Short Description"
                       onChange={($event) => {
                         setShortDescription($event.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="input-groups">
+                    <input
+                      type="text"
+                      name=""
+                      id=""
+                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                      style={{
+                        boxShadow: "none",
+                        outline: "none",
+                        backgroundColor: "#30445B",
+                        width: "20rem",
+                      }}
+                      placeholder="Username"
+                      onChange={($event) => {
+                        setUsername($event.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="input-groups">
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                      style={{
+                        boxShadow: "none",
+                        outline: "none",
+                        backgroundColor: "#30445B",
+                        width: "20rem",
+                      }}
+                      placeholder="Password"
+                      onChange={($event) => {
+                        setPassword($event.target.value);
                       }}
                     />
                   </div>
