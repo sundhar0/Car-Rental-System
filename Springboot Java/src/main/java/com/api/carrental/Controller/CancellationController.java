@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.BookingService;
 import com.api.carrental.Service.CancellationService;
+import com.api.carrental.Service.TestDriveService;
 import com.api.carrental.model.Booking;
 import com.api.carrental.model.Cancellation;
+import com.api.carrental.model.TestDrive;
 
 @RestController
 @RequestMapping("/api/cancel")
@@ -24,6 +26,8 @@ public class CancellationController {
 	private CancellationService cancellationService;
 	@Autowired
 	private BookingService bookingService;
+	@Autowired
+	private TestDriveService testDriveService;
 	
 	// Create a cancellation
     @PostMapping("/add/{bookingId}")
@@ -46,6 +50,19 @@ public class CancellationController {
         return cancellationService.getCancellationByBookingId(bookingId);
     }
 
+    //Create cancellation for Test Drive
+    @PostMapping("/add/{tdId}")
+    public Cancellation cancelTestDrive(@PathVariable int tdId,@RequestBody Cancellation cancellation) throws InvalidIDException {
+    	TestDrive testDrive=testDriveService.findById(tdId);
+    	cancellation.setTestDrive(testDrive);
+    	cancellation.setCancelledDate(LocalDateTime.now());
+    	return cancellationService.cancelBooking(cancellation);
+    }
+    //Get all cancellation by TestDrive Id
+    @GetMapping("/{tdId}")
+    public Cancellation getByTestDriveId(@PathVariable int tdId) throws InvalidIDException {
+    	return cancellationService.getCancellationByTestDriveId(tdId);
+    }
 	
 
 }

@@ -109,5 +109,4 @@ public class Booking {
 		this.driveMode = driveMode;
 
 	}
-    
 }

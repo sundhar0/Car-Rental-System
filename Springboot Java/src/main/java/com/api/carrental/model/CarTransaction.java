@@ -15,11 +15,11 @@ public class CarTransaction {
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
-    private User buyer;
+    private Customer buyer;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private User seller;
+    private Customer seller;
     
     
 
@@ -44,19 +44,21 @@ public class CarTransaction {
 		this.amount = car.getPrice();
 	}
 
-	public User getBuyer() {
+	
+
+	public Customer getBuyer() {
 		return buyer;
 	}
 
-	public void setBuyer(User buyer) {
+	public void setBuyer(Customer buyer) {
 		this.buyer = buyer;
 	}
 
-	public User getSeller() {
+	public Customer getSeller() {
 		return seller;
 	}
 
-	public void setSeller(User seller) {
+	public void setSeller(Customer seller) {
 		this.seller = seller;
 	}
 

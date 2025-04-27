@@ -1,5 +1,9 @@
 package com.api.carrental.Repository;
 
-public interface RentalRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.api.carrental.model.Rental;
+
+public interface RentalRepository extends JpaRepository<Rental,Integer>{
 
 }

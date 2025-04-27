@@ -27,7 +27,7 @@ public class Rental {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer coustomer;
+    private Customer customer;
     
     @OneToOne
     @JoinColumn(name = "booking_id")
@@ -66,12 +66,14 @@ public class Rental {
 		this.car = car;
 	}
 
-	public Customer getCoustomer() {
-		return coustomer;
+	
+
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCoustomer(Customer coustomer) {
-		this.coustomer = coustomer;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Booking getBooking() {
