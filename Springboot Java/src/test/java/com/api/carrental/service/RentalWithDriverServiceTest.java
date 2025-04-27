@@ -1,4 +1,4 @@
-package com.api.carrental.service;
+package com.api.carrental.Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +17,7 @@ import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.RentalWithDriverRepository;
-import com.api.carrental.Service.RentalWithDriverService;
+//import com.api.carrental.Service.RentalWithDriverService;
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 import com.api.carrental.enums.DriverAvailability;

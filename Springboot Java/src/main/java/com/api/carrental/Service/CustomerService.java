@@ -23,15 +23,18 @@ public class CustomerService {
 	
     
     public Customer saveCustomer(Customer customer) {
+    	//it will get all the customer details and store it in the customer table
         return customerRepository.save(customer);
     }
 
     public List<Customer> getAllCustomers() {
+    	// it will be used to show all the customer details
         return customerRepository.findAll();
     }
 
 
-    public Customer getSingleCustomer(int id) throws InvalidIDException {
+    public Customer getSingleCustomer(Long id) throws InvalidIDException {
+    	//it will get all the customer details using customer id
         Optional<Customer> optionalCustomer = customerRepository.findById((long) id);
         if (optionalCustomer.isPresent()) {
             return optionalCustomer.get();
@@ -41,18 +44,14 @@ public class CustomerService {
     }
     
     public void deleteCustomer(Long id) {
+    	//it will delete the details of the customer using customer id
         customerRepository.deleteById(id);
     }
     
     public List<Customer> searchCustomersByName(String name) {
+    	// it will be used to show te details of the customer using the customer name
         return customerRepository.findByFullNameContainingIgnoreCase(name);
     }
-
-
-	public Optional<Customer> getById(int ownId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 }

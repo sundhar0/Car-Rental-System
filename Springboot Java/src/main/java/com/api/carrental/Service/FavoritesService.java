@@ -23,6 +23,10 @@ public class FavoritesService {
     @Autowired
     private CarrentalRepository carrentalRepository;
 	
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private CustomerService customerService;
 
 	public List<Favorites> getAllFavorites() {
 		return favoriteRepository.findAll();
@@ -49,6 +53,15 @@ public class FavoritesService {
 		return favoriteRepository.save(favorites);
 	}
 
+	public Favorites addFavoritesforBuyer(Favorites favorites) throws InvalidIDException {
+		int carId=favorites.getCar().getCarId();
+		Long customerId=favorites.getCustomer().getId();
+		Car car=carService.getById(carId);
+		Customer customer=customerService.getSingleCustomer(customerId);
+		favorites.setCar(car);
+		favorites.setCustomer(customer);
+		return favoriteRepository.save(favorites);
+	}
 
 	public Favorites getSingleFavorites(int id) throws InvalidIDException {
 		return favoriteRepository.findById(id)
@@ -78,6 +91,18 @@ public class FavoritesService {
 		favoriteRepository.delete(favorites);
 		
 	}
+
+
+	public Favorites updateByBuyer(Favorites favorites) throws InvalidIDException {
+		Car car=carService.getById(favorites.getCar().getCarId());
+		Customer customer=customerService.getSingleCustomer(favorites.getCustomer().getId());
+		favorites.setCar(car);
+		favorites.setCustomer(customer);
+		return favoriteRepository.save(favorites);
+	}
+
+
+	
 
 
 	

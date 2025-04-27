@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import com.api.carrental.Exception.InvalidFuelException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidModelException;
-import com.api.carrental.Exception.InvalidPriceException;
 import com.api.carrental.Exception.InvalidYearException;
 import com.api.carrental.Repository.CarrentalRepository;
-import com.api.carrental.model.Booking;
 import com.api.carrental.model.Car;
 
 @Service
