@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import BuyerNavbar from "./LandingNavBar";
 
 function LandingPage() {
@@ -51,7 +51,9 @@ function LandingPage() {
                     <div className="col-md-4 mb-4">
                       <div className="p-4">
                         <div className="bg-info bg-opacity-10 rounded mb-3" style={{ height: "80px" }}></div>
-                        <h5 className="fw-bold">Buy a car</h5>
+                        {/* <h5 className="fw-bold">Buy a car</h5> */}
+                        <Link to="/BuyerDashboard" className="fw-bold">Buy a car</Link>
+                        
                       </div>
                     </div>
         

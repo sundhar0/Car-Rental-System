@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './CarDetails.css';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 function SellCarVerification() {
   const [brand, setBrand] = useState(null);
@@ -7,25 +9,30 @@ function SellCarVerification() {
   const [year, setYear] = useState(null);
   const [price, setPrice] = useState(null);
   const [description, setDescription] = useState(null);
-  const addcars = async ($e) => {
-    $e.preventDefault();
+  const navigate=useNavigate();
+  // const addcars = async ($e) => {
+  //   $e.preventDefault();
 
-    try {
-        const response = await axios.post('http://localhost:8081/api/customer/add',
-            {
-                "brand": brand,
-                "model": model,
-                "year":year,
-                "price":price,
-                "description":description
-            }
-        )
+    // try {
+    //     const response = await axios.post('http://localhost:8081/api/customer/add',
+    //         {
+    //             "brand": brand,
+    //             "model": model,
+    //             "year":year,
+    //             "price":price,
+    //             "description":description
+    //         }
+    //     )
 
-        console.log('Car added Successfully....')
-    }
-    catch (err) {
-        console.log(err)
-    }
+    //     console.log('Car added Successfully....')
+    // }
+    // catch (err) {
+    //     console.log(err)
+    // }
+    
+//}
+const carAdd=()=>{
+  navigate("/CarAdded")
 }
   return (
     <div className="registration-wrapper d-flex justify-content-center align-items-center vh-100">
@@ -65,7 +72,7 @@ function SellCarVerification() {
         </div>
 
         <div className="d-grid mb-5">
-          <button className="btn btn-primary">Submit for verification</button>
+          <button className="btn btn-primary" onClick={()=>carAdd()}>Submit for verification</button>
         </div>
 
         <h5 className="text-white mb-3">Required Documents</h5>

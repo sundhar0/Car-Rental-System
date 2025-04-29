@@ -1,4 +1,11 @@
+import { Navigate, useNavigate } from "react-router";
+
 function BuyerPage(){
+  const navigate=useNavigate();
+  const ShowSingleCar=()=>{
+    //console.log("called the function...")
+    navigate("/singleCar");
+  }
 
     return (    
           <div className="container-fluid bg-light min-vh-100 py-5">
@@ -52,8 +59,7 @@ function BuyerPage(){
               <div className="col-md-9">
                 <h3 className="fw-bold text-dark mb-4">Available Cars for Buy</h3>
                 <div className="row">
-                  {[...Array(6)].map((_, idx) => (
-                    <div className="col-md-4 mb-4" key={idx}>
+                    <div className="col-md-4 mb-4" >
                       <div className="card shadow-sm h-100">
                         <div className="card-body">
                           <h5 className="card-title fw-semibold">Jaguar XE L P250</h5>
@@ -66,14 +72,13 @@ function BuyerPage(){
                           </ul>
                           <div className="d-flex justify-content-between align-items-center mt-3">
                             <div>
-                              <span className="fw-bold text-dark">$1,800</span>
+                              <span className="fw-bold text-dark">$1,8000</span>
                             </div>
-                            <button className="btn btn-primary btn-sm">Buy Now →</button>
+                            <button type="button" className="btn btn-primary btn-sm" onClick={()=>{ShowSingleCar()}}>Buy Now →</button>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ))}
                 </div>
               </div>
             </div>

@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 function BuyerNavbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3">
@@ -9,12 +11,13 @@ function BuyerNavbar() {
             <ul className="navbar-nav">
               <li className="nav-item mx-2"><a className="nav-link" href="#">Become a renter</a></li>
               <li className="nav-item mx-2"><a className="nav-link" href="#">Become a driver</a></li>
-              <li className="nav-item mx-2"><a className="nav-link" href="#">Become a seller</a></li>
+              <Link to="/becomeaSeller" className="nav-link">Become a seller</Link>
               <li className="nav-item mx-2"><a className="nav-link" href="#">How it work</a></li>
             </ul>
             <div>
-              <a className="btn btn-outline-light me-2" href="#">Sign in</a>
-              <a className="btn btn-success" href="#">Sign up</a>
+              
+              <Link to="/login" className="btn btn-outline-light me-2">Sign in</Link>
+              <Link to="/signup" className="btn btn-success">Sign up</Link>
             </div>
           </div>
         </nav>
