@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import './LoginPage.css'; 
 import { Link } from 'react-router';
 
 function LoginPage() {
@@ -60,6 +60,7 @@ function LoginPage() {
         }
     })
     })
+
   }
   return (
     <div className="login-wrapper d-flex justify-content-center align-items-center vh-100">
@@ -86,7 +87,7 @@ function LoginPage() {
 
         <div className="text-start mb-4">
           <label className="form-label text-success small">Enter your password</label>
-          <input type="password" className="form-control custom-input" placeholder="Password" 
+          <input type="password" className="form-control custom-input" placeholder="*******" 
           onChange= {($event)=>{setPassword($event.target.value);setMsgPassword(null)}}/>
         </div>
 
