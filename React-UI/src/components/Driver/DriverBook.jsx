@@ -1,11 +1,31 @@
 import { Link, useParams } from "react-router-dom";
 import LeftSideImage from "../../assets/image.png";
+import { useState } from "react";
+import axios from "axios";
 
 function DriverBook() {
-  const { name } = useParams("name");
-  const { rating } = useParams("rating");
-  const { shortDescription } = useParams("shortDescription");
-  const { perDayCharge } = useParams("perDayCharge");
+  const { name, rating, shortDescription, perDayCharge } = useParams();
+  const [rentalStart, setRentalStart] = useState("2025-04-29");
+  const [rentalEnd, setRentalEnd] = useState("2025-05-29");
+
+  const bookTheRide = async ($event) => {
+    $event.preventDefault();
+    let obj = {
+      rentalStart: rentalStart,
+      rentalEnd: rentalEnd
+    };
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/rentWithDriver/rent/13/5/4`,
+        obj
+      );
+      console.log("Booking Successful:", response.data);
+    } catch (error) {
+      console.error("Booking Failed:", error);
+      alert("Booking Failed");
+    }
+  };
 
   return (
     <div>
@@ -51,6 +71,7 @@ function DriverBook() {
           </div>
         </div>
       </nav>
+
       <div
         style={{
           backgroundColor: "#253343",
@@ -63,7 +84,7 @@ function DriverBook() {
         <div className="col-md-10">
           <div className="d-flex rounded shadow-lg overflow-hidden">
             <div
-              className="col-md-6 card-left d-flex flex-column justify-content-between text-center "
+              className="col-md-6 card-left d-flex flex-column justify-content-between text-center"
               style={{ backgroundColor: "#00B86B" }}
             >
               <div className="text-white p-5 text-start">
@@ -101,7 +122,8 @@ function DriverBook() {
                 </div>
                 <div className="col-6">
                   <strong>Total Rides</strong>
-                  <br />2 Person
+                  <br />
+                  2 Person
                 </div>
                 <div className="col-6 mt-2">
                   <strong>Steering</strong>
@@ -119,12 +141,14 @@ function DriverBook() {
                     <del>&#8377;2000.00</del>
                   </span>
                 </div>
+                <form onSubmit={($event)=>bookTheRide($event)}>
                 <button
                   className="border p-2 btn btn-primary"
-                  style={{ backgroundColor: "#" }}
+                  type="submit"
                 >
                   Confirm
                 </button>
+                </form>
               </div>
             </div>
           </div>

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 function DriverListManager() {
   const [drivers, setDrivers] = useState([]);
+  const [experienceYears, setExperience] = useState(null)
+  const [perDayCharge, setPerDayCharge] = useState(null)
 
   const getAllDrivers = async () => {
     try {
@@ -20,23 +22,40 @@ function DriverListManager() {
     getAllDrivers();
   }, []);
 
-  const deleteDriver = (driverId)=>{
-    try{
-        const response = axios.delete(`http://localhost:8080/api/driver/delete/${driverId}`)
-        let temp = [...drivers]
-        temp = temp.filter(d => d.driverId != driverId)
-        setDrivers(temp)
+  const deleteDriver = (driverId) => {
+    try {
+      const response = axios.delete(
+        `http://localhost:8080/api/driver/delete/${driverId}`
+      );
+      let temp = [...drivers];
+      temp = temp.filter((d) => d.driverId != driverId);
+      setDrivers(temp);
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-        console.log(err)
+  };
+
+  const updateDriver = async ($e, driverId) => {
+    $e.preventDefault();
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/api/driver/update/${driverId}?experienceYears=${experienceYears}&perDayCharge=${perDayCharge}`
+      );
+  
+      const updatedDrivers = drivers.map((driver) =>
+        driver.driverId === driverId
+          ? { ...driver, experienceYears, perDayCharge }
+          : driver
+      );
+      setDrivers(updatedDrivers);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+  
 
   return (
-    <div
-      className=""
-      style={{minHeight: "100vh" }}
-    >
+    <div className="" style={{ minHeight: "100vh" }}>
       <nav
         className="navbar navbar-expand-lg mb-4 p-3"
         style={{ backgroundColor: "#1C2631" }}
@@ -63,11 +82,11 @@ function DriverListManager() {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-2 ms-auto">
               <li className="nav-item">
-              <Link
-                  to="/becomedriver"
+                <Link
+                  to="/driverApproval"
                   className="nav-link text-white text-decoration-none"
                 >
-                  Become a Driver
+                  Approvals
                 </Link>
               </li>
               <li className="nav-item">
@@ -106,13 +125,90 @@ function DriverListManager() {
                 <p className="fw-light">
                   {driv.experienceYears} years experience
                 </p>
-                <p className="fw-bold">
-                &#8377;{driv.perDayCharge}/per day
-                </p>
+                <p className="fw-bold">&#8377;{driv.perDayCharge}/per day</p>
                 <p className="fw-bold mt-2">⭐ {driv.rating}</p>
-                <div className="d-flex gap-2 align-items-center justify-content-center"> 
-                  <button className="btn btn-danger" onClick={()=>{deleteDriver(driv.driverId)}}>Delete</button>
-                  <button className="btn text-white" style={{backgroundColor:'#00B86B'}}>Update</button>
+                <div className="d-flex gap-2 align-items-center justify-content-center">
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      deleteDriver(driv.driverId);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn text-white"
+                    style={{ backgroundColor: "#00B86B" }}
+                    data-bs-toggle="modal"
+                    data-bs-target={`#update-${driv.driverId}`}
+                  >
+                    Update
+                  </button>
+                </div>
+                <div
+                  className="modal fade"
+                  id={`update-${driv.driverId}`}
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h4 className="modal-title" id="exampleModalLabel">
+                          Update the Driver Record
+                        </h4>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div className="modal-body">
+                        <form
+                          onSubmit={($e) => {
+                            updateDriver($e, driv.driverId);
+                          }}
+                        >
+                          <div className="mb-4 text-start">
+                            <label className="fs-4 mb-3">
+                              Enter the experience
+                            </label>
+                            <input
+                              type="text"
+                              placeholder={driv.experienceYears}
+                              className="form-control"
+                              onChange={($event) => {
+                                setExperience($event.target.value);
+                              }}
+                            />
+                          </div>
+                          <div className="mb-4 text-start">
+                            <label className="fs-5 mb-3">
+                              Change the per day charge
+                            </label>
+                            <input
+                              type="text"
+                              placeholder={driv.perDayCharge}
+                              className="form-control"
+                              onChange={($event) => {
+                                setPerDayCharge($event.target.value);
+                              }}
+                            />
+                          </div>
+                          <div className="mb-4">
+                            <input
+                              type="submit"
+                              value="Commit the changes"
+                              className="btn fw-bold text-white"
+                              style={{ backgroundColor: "#00B86B" }}
+                              data-bs-dismiss="modal"
+                            />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

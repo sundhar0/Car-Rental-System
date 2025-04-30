@@ -23,6 +23,44 @@ function LoginPage() {
     else{
         setMsgPassword(null)
     }
+
+    let body = {
+        username:username,
+        password:password
+    }
+
+
+    axios.post("http://localhost:8080/api/userLogin/token/generate",body).then(response => {
+        let token = response.data.token
+        localStorage.setItem('token', token)
+        localStorage.setItem('username', username)
+
+        axios.get("http://localhost:8080/api/userLogin/userDetails",
+        {
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        }
+    )
+    .then(resp => {
+        switch (resp.data.role) {
+            case 'MANAGER':
+                //navigate to customer dashboard
+                navigate("/driverlistformanager")
+                break;
+            case 'USER_DEFAULT':
+                //navigate to vendor dashboard
+                navigate("/driverlist")
+                break;
+            case 'Driver':
+              navigate("/driverdashboard")
+              break;
+            default:
+                break;
+        }
+    })
+    })
+
   }
   return (
     <div className="login-wrapper d-flex justify-content-center align-items-center vh-100">
@@ -42,8 +80,8 @@ function LoginPage() {
                         }
 
         <div className="text-start mb-3">
-          <label className="form-label text-success small">Enter Your Phone or Email</label>
-          <input type="email" className="form-control custom-input" placeholder="Enter your email" 
+          <label className="form-label text-success small">Enter Your Username</label>
+          <input type="email" className="form-control custom-input" placeholder="Username" 
           onChange= {($event)=>{setUsername($event.target.value);setMsgUsername(null)}}/>
         </div>
 
@@ -65,7 +103,7 @@ function LoginPage() {
           <span className="mx-2 text-secondary small">or</span>
           <hr className="flex-grow-1 text-secondary" />
         </div>
-        <Link to="/customer/signup" className="btn btn-outline-success w-100">Sign up</Link>
+        <Link to="/becomedriver" className="btn btn-outline-success w-100">Sign up</Link>
       </div>
     </div>
   );

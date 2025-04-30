@@ -7,6 +7,9 @@ import BuyerPage from "./components/Buyer/BuyerDashboard";
 import CarOverview from "./components/Buyer/singleCar";
 import SellCarVerification from "./components/Cars/uploadingCars";
 import LoginPage from "./components/Auth/Login";
+import DriverApprovels from "./components/Manager/DriverApprovels";
+import DriverDashBoard from "./components/Driver/DriverDashBoard";
+import "./index.css";
 import SignupPage from "./components/Auth/signup";
 import ScheduleTestDrive from "./components/Buyer/ScheduleTestDrive";
 import BookingSuccess from "./components/Buyer/BookingSuccess";
@@ -16,12 +19,18 @@ import DriverListManager from "./components/Manager/DriverListForManager";
 function App() {
   return (
     <Routes>
+      <Route path="" element={<LoginPage />} />
+      <Route path="driverlistformanager" element={<DriverListManager />} />
       <Route path="" element={<LandingPage/>} />
       <Route path="/driverlistformanager" element={<DriverListManager />} />
       <Route
         path="driverbook/:name/:rating/:shortDescription/:perDayCharge"
         element={<DriverBook />}
       />
+      <Route path="becomedriver" element={<BecomeADriver />} />
+      <Route path="driverApproval" element={<DriverApprovels />} />
+      <Route path="driverdashboard" element={<DriverDashBoard />} />
+      <Route path="driverlist" element={<DriverList/>}/>
       <Route path="driverlist" element={<DriverList/>}/>
       <Route path="becomeaSeller" element={<SellCarVerification/>}/>
       <Route path="login" element={<LoginPage/>}/>
