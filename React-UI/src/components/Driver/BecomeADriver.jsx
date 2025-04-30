@@ -119,18 +119,18 @@ function BecomeADriver() {
           >
             <div
               className="card shadow-lg mt-3"
-              style={{ backgroundColor: "#1C2631", width: "25rem" }}
+              style={{ backgroundColor: "#1C2631", width: "25rem" }}  
             >
               <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
                 <h5 className="card-title px-4 py-2 rounded">
                   Become a <span style={{ color: "#00B86B" }}>Driver</span>
                 </h5>
                 <small
-                  className="fw-lighter text-danger"
+                  className="fw-lighter text-danger"  
                   style={{ fontSize: "12px" }}
                 >{msg}</small>
                 <div
-                  className="d-flex flex-column gap-2 mb-3"
+                  className="d-flex flex-column justify-content-center align-items-center gap-2 mb-3"
                   style={{ fontSize: "12px" }}
                 >
                   <div className="input-groups">
