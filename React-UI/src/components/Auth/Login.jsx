@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import './LoginPage.css'; 
 import { Link } from 'react-router';
 
 function LoginPage() {
@@ -23,42 +23,6 @@ function LoginPage() {
     else{
         setMsgPassword(null)
     }
-
-    let body = {
-        username:username,
-        password:password
-    }
-
-
-    axios.post("http://localhost:8080/api/userLogin/token/generate",body).then(response => {
-        let token = response.data.token
-        localStorage.setItem('token', token)
-        localStorage.setItem('username', username)
-
-        axios.get("http://localhost:8080/api/userLogin/userDetails",
-        {
-            headers:{
-                'Authorization':`Bearer ${token}`
-            }
-        }
-    ).then(resp => {
-        switch (resp.data.role) {
-            case 'MANAGER':
-                //navigate to customer dashboard
-                navigate("/driverlistformanager")
-                break;
-            case 'VENDOR':
-                //navigate to vendor dashboard
-                navigate("/vendor")
-                break;
-            case 'ADMIN':
-                //navigate to executive dashboard
-                break;
-            default:
-                break;
-        }
-    })
-    })
   }
   return (
     <div className="login-wrapper d-flex justify-content-center align-items-center vh-100">
@@ -85,7 +49,7 @@ function LoginPage() {
 
         <div className="text-start mb-4">
           <label className="form-label text-success small">Enter your password</label>
-          <input type="password" className="form-control custom-input" placeholder="Password" 
+          <input type="password" className="form-control custom-input" placeholder="*******" 
           onChange= {($event)=>{setPassword($event.target.value);setMsgPassword(null)}}/>
         </div>
 
