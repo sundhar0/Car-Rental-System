@@ -38,9 +38,9 @@ public class CarApprovalController {
 		carApproval.setCar(car);
 		carApproval.setManager(manager);
 		if(carApproval.isApproved()) {
-			car.setCarStatus(CarStatus.APPROVED);
+			car.setStatus(CarStatus.APPROVED);
 		}else {
-			car.setCarStatus(CarStatus.REJECTED);
+			car.setStatus(CarStatus.REJECTED);
 		}
 		carApproval = carApprovalService.add(carApproval);
 		

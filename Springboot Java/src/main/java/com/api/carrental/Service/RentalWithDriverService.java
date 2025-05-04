@@ -43,8 +43,7 @@ public class RentalWithDriverService {
                                  int driverId, int carId, int userId) throws DriverNotAvailable, InvalidIDException, CarNotAvailable {
         User user = authService.getById(userId);
 
-        Car car = carService.getCarById(carId);
-        car.setCarOwner(user);
+        Car car = carService.getById(carId);
 
         Driver driver = driverService.getById(driverId);
         if (driver.getDriverAvailability() == DriverAvailability.UNAVAILABLE)

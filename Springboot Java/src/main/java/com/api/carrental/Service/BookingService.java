@@ -27,7 +27,7 @@ public class BookingService {
     }
 
 	public Booking createBooking(Booking booking) {
-	    int carId = booking.getCar().getCarId();       // uses carId from Car entity
+	    int carId = booking.getCar().getId();       // uses carId from Car entity
 	    Long customerId = booking.getCustomer().getId(); // uses id from Customer entity
 	    
 	    /*fetch the car entity from database using carid ensure the car exist if not throws exception*/	    
