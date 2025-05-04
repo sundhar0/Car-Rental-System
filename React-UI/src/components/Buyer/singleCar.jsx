@@ -11,11 +11,11 @@ function CarOverview() {
     <div className="registration-wrapper d-flex justify-content-center align-items-center vh-100">
       <div className="card p-5 registration-card w-75 overflow-auto" style={{ maxHeight: '90vh' }}>
         
-        <h3 className="mb-3 text-white">BMW 3 Series</h3>
-        <p className="text-white mb-1">2023 • 1,200 miles</p>
+        <h3 className="mb-3 text-primary">BMW 3 Series</h3>
+        <p className="text-primary mb-1">2023 • 1,200 miles</p>
         <h4 className="text-primary mb-4">$45,900</h4>
 
-        <div className="row text-white mb-5">
+        <div className="row text-primary mb-5">
           <div className="col-md-6 mb-3">
             <strong>Engine:</strong> 2.0L 4-cylinder
           </div>
@@ -36,14 +36,14 @@ function CarOverview() {
         </div>
 
         <div className="mb-5">
-          <h5 className="text-white">Description</h5>
-          <p className="text-white">
+          <h5 className="text-primary">Description</h5>
+          <p className="text-primary">
             This BMW 3 Series is in excellent condition with full service history. Features include leather seats, panoramic sunroof, navigation system, and premium sound.
           </p>
         </div>
 
         <div className="mb-5">
-          <h5 className="text-white mb-4">Reviews & Ratings</h5>
+          <h5 className="text-primary mb-4">Reviews & Ratings</h5>
           <div className="review-card p-3 mb-3">
             <h6 className="text-white mb-1">John Doe</h6>
             <div className="text-warning mb-2">
@@ -59,7 +59,7 @@ function CarOverview() {
         </div>
 
         <div className="mb-3">
-          <h5 className="text-white mb-4">Report & Support</h5>
+          <h5 className="text-primary mb-4">Report & Support</h5>
           <div className="row">
             <div className="col-md-6 mb-4">
               <div className="support-card p-3 h-100">
