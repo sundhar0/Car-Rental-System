@@ -11,7 +11,7 @@ function BuyerNavbar() {
             <ul className="navbar-nav">
               <li className="nav-item mx-2"><a className="nav-link" href="#">Become a renter</a></li>
               <li className="nav-item mx-2"><a className="nav-link" href="#">Become a driver</a></li>
-              <Link to="/becomeaSeller" className="nav-link">Become a seller</Link>
+              <Link to="/activeseller" className="nav-link">Become a seller</Link>
               <li className="nav-item mx-2"><a className="nav-link" href="#">How it work</a></li>
             </ul>
             <div>
