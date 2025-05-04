@@ -4,12 +4,12 @@ import { useState } from "react";
 import axios from "axios";
 
 function DriverBook() {
-  const { name, rating, shortDescription, perDayCharge } = useParams();
-  const [rentalStart, setRentalStart] = useState("2025-04-29");
-  const [rentalEnd, setRentalEnd] = useState("2025-05-29");
+  const { name, rating, shortDescription, perDayCharge,driverId } = useParams();
+  const [rentalStart, setRentalStart] = useState(`2025-04-29`);
+  const [rentalEnd, setRentalEnd] = useState(`2025-05-29`);
 
-  const bookTheRide = async ($event) => {
-    $event.preventDefault();
+
+  const bookTheRide = async() => {
     let obj = {
       rentalStart: rentalStart,
       rentalEnd: rentalEnd
@@ -17,7 +17,7 @@ function DriverBook() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/rentWithDriver/rent/13/5/4`,
+        `http://localhost:8080/api/rentWithDriver/rent/${driverId}/${3}/${4}`,
         obj
       );
       console.log("Booking Successful:", response.data);
@@ -141,14 +141,13 @@ function DriverBook() {
                     <del>&#8377;2000.00</del>
                   </span>
                 </div>
-                <form onSubmit={($event)=>bookTheRide($event)}>
                 <button
                   className="border p-2 btn btn-primary"
-                  type="submit"
+                  type="button"
+                  onClick={bookTheRide}
                 >
                   Confirm
                 </button>
-                </form>
               </div>
             </div>
           </div>
