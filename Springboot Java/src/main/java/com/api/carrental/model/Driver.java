@@ -14,17 +14,26 @@ public class Driver {
     @ManyToOne
     private User user;
     
+    private String profilePic;
+    
     private String name;
     
     @Enumerated(EnumType.STRING)
     private DriverAvailability driverAvailability;
 
-
+    private double totalEarnings;
+    
+    private int tripCompleted;
+    
     private String licenseNo;
     
     private double rating;
     
     private int experienceYears;
+    
+    private String shortDescription;
+    
+    private double perDayCharge;
 
 	public int getDriverId() {
 		return driverId;
@@ -83,6 +92,46 @@ public class Driver {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
+	public double getPerDayCharge() {
+		return perDayCharge;
+	}
+
+	public void setPerDayCharge(double perDayCharge) {
+		this.perDayCharge = perDayCharge;
+	}
+
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+
+	public double getTotalEarnings() {
+		return totalEarnings;
+	}
+
+	public void setTotalEarnings(double totalEarnings) {
+		this.totalEarnings = totalEarnings;
+	}
+
+	public int getTripCompleted() {
+		return tripCompleted;
+	}
+
+	public void setTripCompleted(int tripCompleted) {
+		this.tripCompleted = tripCompleted;
 	}
     
 	
