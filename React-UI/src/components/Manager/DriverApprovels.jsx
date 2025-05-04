@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 
 function DriverApprovels() {
   const [drivers, setDrivers] = useState([]);
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(8);
+  const [totalPages, setTotalPages] = useState(0);
 
   const getAllDrivers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/driver/available"
+        `http://localhost:8080/api/driver/getAll?page=${page}&size=${size}`
       );
-      setDrivers(response.data);
+      setDrivers(response.data.list);
+      setTotalPages(response.data.totalPages)
     } catch (err) {
       console.log(err);
     }
@@ -18,21 +22,22 @@ function DriverApprovels() {
 
   useEffect(() => {
     getAllDrivers();
-  }, []);
+  }, [page]);
 
-  const handleApproveReject = (driverId, availablility) => {
-    try{
-      const resp = axios.put(`http://localhost:8080/api/driver/updateAvailablility/${driverId}/${availablility}`)
-    }
-
-    catch(err){
-      console.log(err)
+  const handleApproveReject = async(driverId, availablility) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/api/driver/updateAvailablility/${driverId}/${availablility}`
+      );
+      setDrivers((prev) => prev.filter((d) => d.driverId !== driverId));
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const deleteStudents = (driverId) => {
+  const deleteStudents = async(driverId) => {
     try {
-      const resp = axios.delete(
+      const resp = await axios.delete(
         `http://localhost:8080/api/driver/delete/${driverId}`
       );
       let temp = [...drivers];
@@ -42,8 +47,6 @@ function DriverApprovels() {
       console.log(err);
     }
   };
-
-  
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
@@ -95,7 +98,7 @@ function DriverApprovels() {
         </div>
       </nav>
       <div className="container">
-        <div className="d-flex justify-content-between align-items-center ms-auto mb-5">
+        <div className="d-flex justify-content-between align-items-center ms-auto m-5">
           <h1>Approvals</h1>
           <div className="input-group w-auto mb-3">
             <input
@@ -113,7 +116,7 @@ function DriverApprovels() {
                 backgroundColor: "#00B86B",
               }}
             >
-              Button
+              <i className="bi bi-search"></i>
             </button>
           </div>
         </div>
@@ -123,6 +126,7 @@ function DriverApprovels() {
               <tr>
                 <th scope="col">DriverId</th>
                 <th scope="col">UserId</th>
+                <th scope="col">Name</th>
                 <th scope="col">Experience</th>
                 <th scope="col">Licence NO</th>
                 <th scope="col">Per Day Charge</th>
@@ -133,13 +137,13 @@ function DriverApprovels() {
             <tbody>
               {drivers
                 .filter(
-                  (unapprov) =>
-                    unapprov.driverAvailability == "UNAVAILABLE"
+                  (unapprov) => unapprov.driverAvailability == "UNAVAILABLE"
                 )
-                // .sort((a, b) => a.driverId - b.driverId)
+                .sort((a, b) => a.driverId - b.driverId)
                 .map((d, index) => (
                   <tr key={index}>
                     <th scope="row">{d.driverId}</th>
+                    <td>{d.name}</td>
                     <td>{d.user.userId}</td>
                     <td>{d.experienceYears}</td>
                     <td>{d.licenseNo}</td>
@@ -158,7 +162,7 @@ function DriverApprovels() {
                         <button
                           className="btn btn-danger"
                           onClick={() => {
-                            deleteStudents(d.driverId)
+                            deleteStudents(d.driverId);
                           }}
                         >
                           Reject
@@ -169,6 +173,39 @@ function DriverApprovels() {
                 ))}
             </tbody>
           </table>
+        </div>
+      </div>
+      <div className="d-flex justify-content-center mt-5">
+        <div className="">
+          <nav aria-label="Page navigation example">
+            <ul className="pagination" >
+              <li className="page-item" >
+                <a
+                  className="page-link"
+                  href="#"
+                  onClick={() => {
+                    page === 0 ? setPage(0) : setPage(page - 1);
+                  }}
+                  style={{color:'#00B86B'}}
+                >
+                  Previous
+                </a>
+              </li>
+
+              <li className="page-item">
+                <a
+                  className="page-link"
+                  href="#"
+                  onClick={() => {
+                    page === totalPages - 1 ? setPage(page) : setPage(page + 1);
+                  }}
+                  style={{color:'#00B86B'}}
+                >
+                  Next
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>

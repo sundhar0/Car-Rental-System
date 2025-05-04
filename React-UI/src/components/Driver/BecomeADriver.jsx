@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router";
 
 function BecomeADriver() {
   const [perDayCharge, setPerDayCharge] = useState(0);
@@ -10,36 +11,33 @@ function BecomeADriver() {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [msg, setMsg] = useState(null);
+  const [pImage, setPImage] = useState(null)
+  const [driver,setDriver] = useState([])
 
 
   const addDriver = async ($e) => {
     $e.preventDefault();
-    if(name == null || name == ""){
-      return setMsg("Name cannot be empty")
-    }
-    else{
-      setMsg(null)
-    }
-    
-    if(licenceNo == null || licenceNo == ""){
-      return setMsg("Licence No cannot be empty")
-    }
-    else{
-      setMsg(null)
-    }
-    if(username == null || username == "" || username === undefined){
-      return setMsg("Username cannot be empty")
-    }
-    else{
-      setMsg(null)
-    }
-    if(password == null || password == "" || password == undefined){
-      return setMsg("Password cannot be empty")
-    }
-    else{
-      setMsg(null)
+    if (name == null || name == "") {
+      return setMsg("Name cannot be empty");
+    } else {
+      setMsg(null);
     }
 
+    if (licenceNo == null || licenceNo == "") {
+      return setMsg("Licence No cannot be empty");
+    } else {
+      setMsg(null);
+    }
+    if (username == null || username == "" || username === undefined) {
+      return setMsg("Username cannot be empty");
+    } else {
+      setMsg(null);
+    }
+    if (password == null || password == "" || password == undefined) {
+      return setMsg("Password cannot be empty");
+    } else {
+      setMsg(null);
+    }
 
     let obj = {
       name: name,
@@ -49,21 +47,53 @@ function BecomeADriver() {
       perDayCharge: perDayCharge,
       user: {
         username: username,
-        password: password
-      }
+        password: password,
+      },
     };
 
-    try{
-        let response = await axios.post(
-            `http://localhost:8080/api/driver/add`,
-            obj
-          );
-          console.log(response);
-    }
-    catch(err){
-        console.log(err)
+    try {
+      let response = await axios.post(
+        `http://localhost:8080/api/driver/add`,
+        obj
+      );
+      setDriver(response.data)
+
+      await upload(response.data.driverId);
+
+    } catch (err) {
+      console.log(err);
     }
   };
+
+  const upload = async (driverId) => {
+    if (!pImage) {
+      alert('Image not selected');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("file", pImage);
+    let token = localStorage.getItem('token');
+  
+    try {
+      const resp = await axios.post(
+        `http://localhost:8080/api/driver/image/upload/${driverId}`,
+        formData,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+          },
+        }
+      );
+      console.log(resp);
+      alert("Image uploaded...");
+    } catch (err) {
+      console.error(err);
+      alert("Image upload failed.");
+    }
+  };
+  
 
   return (
     <div style={{ backgroundColor: "#253343", minHeight: "100vh" }}>
@@ -88,9 +118,13 @@ function BecomeADriver() {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-4 ms-auto">
               <li className="nav-item">
+                <Link to={"/driverlist"}>
                 <a href="#" className="nav-link text-white">
-                  Home
+                  Driver List
+
                 </a>
+                </Link>
+                
               </li>
               <li className="nav-item">
                 <a href="#" className="nav-link text-white">
@@ -118,19 +152,21 @@ function BecomeADriver() {
             style={{ height: "85vh" }}
           >
             <div
-              className="card shadow-lg mt-3"
-              style={{ backgroundColor: "#1C2631", width: "25rem" }}  
+              className="card shadow-lg mt-5"
+              style={{ backgroundColor: "#1C2631", width: "30rem" }}
             >
               <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
                 <h5 className="card-title px-4 py-2 rounded">
                   Become a <span style={{ color: "#00B86B" }}>Driver</span>
                 </h5>
                 <small
-                  className="fw-lighter text-danger"  
+                  className="fw-lighter text-danger"
                   style={{ fontSize: "12px" }}
-                >{msg}</small>
+                >
+                  {msg}
+                </small>
                 <div
-                  className="d-flex flex-column justify-content-center align-items-center gap-2 mb-3"
+                  className="d-flex flex-column justify-content-center align-items-center gap-4"
                   style={{ fontSize: "12px" }}
                 >
                   <div className="input-groups">
@@ -257,26 +293,33 @@ function BecomeADriver() {
                     }}
                     style={{ accentColor: "#00B86B" }}
                   />
-                  <div className="my-3">
-                    <label form="formFileMultiple" className="form-label fst-italic">
-                      Aadhaar Card/Driving Licence/AddressProof
-                    </label>
-                    <input
-                      className="form-control border-0"
-                      type="file"
-                      id="formFileMultiple"
-                      multiple
-                      style={{ background: "#00B86B" }}
-                    />
-                  </div>
+                  {
+                    <div className="my-3">
+                      <label
+                        form="form-label"
+                        className="form-label fst-italic"
+                      >
+                        Profile picture of your's
+                      </label>
+                      <input
+                        className="form-control border-0"
+                        type="file"
+                        id="formFileMultiple"
+                        multiple
+                        style={{ background: "#00B86B" }}
+                        onChange={(e)=>{setPImage(e.target.files[0])}}
+                      />
+                      <br />
+                      <button
+                        className="border-0 p-2 rounded px-3 text-white fw-bold"
+                        style={{ backgroundColor: "#00B86B" }}
+                        type="submit"
+                      >
+                        Continue
+                      </button>
+                    </div>
+                  }
                 </div>
-                <button
-                  className="border-0 p-2 rounded px-3 text-white fw-bold"
-                  style={{ backgroundColor: "#00B86B" }}
-                  type="submit"
-                >
-                  Continue
-                </button>
               </div>
             </div>
           </div>

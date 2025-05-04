@@ -1,21 +1,46 @@
-import flatpickr from "flatpickr";
-import { useState } from "react";
-import DatePicker from "react-datepicker";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
 
 function DriverDashBoard() {
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [driver, setDriver] = useState([]);
 
+  const showDriver = async () => {
+    const response = await axios.get(`http://localhost:8080/api/driver/name`, {
+      params: {
+        driverUsername: localStorage.getItem("username"),
+      },
+    });
+    setDriver(response.data);
+  };
 
-  const [startDate,setStartDate] = useState(null)
-  const [endDate,setEndDate] = useState(null)
+  useEffect(() => {
+    showDriver();
+  }, []);
 
-  const addSchedule = async($event) => {
-    $event.preventDefault();
-    
-
+  const setSchedule = async (driverId) => {
     let obj = {
-      'driver':driveId
-    }
-  }
+      availableFrom: startDate,
+      availableTo: endDate,
+    };
+
+    const response = await axios.post(
+      `http://localhost:8080/api/driverSchedule/addOrUpdate/${driverId}`,
+      obj,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(localStorage.getItem("token"));
+
+    console.log(response);
+  };
+
+ 
 
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
@@ -23,18 +48,14 @@ function DriverDashBoard() {
         <div
           className="text-white p-2 sidebar"
           id="sidebar"
-          style={{ backgroundColor: "#253343" }}
+          style={{ backgroundColor: "#1C2631" }}
         >
           <div className="text-center my-4">
             <span className="fs-4 fw-bold d-none d-md-inline">CarRent</span>
           </div>
-          <ul className="nav flex-column text-start gap-3">
-            <li className="nav-item">
-              <a href="#" className="nav-link text-white">
-                <i className="bi bi-house-door"></i>
-                <span className="ms-2 d-none d-md-inline">Home</span>
-              </a>
-            </li>
+          <ul className="nav flex-column gap-3 text-start">
+            
+
             <li className="nav-item">
               <a href="#" className="nav-link text-white">
                 <i className="bi bi-speedometer2"></i>
@@ -44,7 +65,7 @@ function DriverDashBoard() {
             <li className="nav-item">
               <a href="#" className="nav-link text-white">
                 <i className="bi bi-table"></i>
-                <span className="ms-2 d-none d-md-inline"></span>
+                <span className="ms-2 d-none d-md-inline">Rides</span>
               </a>
             </li>
           </ul>
@@ -53,9 +74,9 @@ function DriverDashBoard() {
 
       <div className="flex-grow-1 p-3">
         <div className="container mt-3">
-          <h1 className="fw-bold">DashBoard</h1>
+          <h1 className="fw-bold" style={{ color: "#253343" }}>DashBoard</h1>
           <div className="m-5">
-            <h3>Sundhar</h3>
+            <h3>{driver.name}</h3>
           </div>
           <div className="row gap-5 px-5">
             <div className="col-lg col-12 border p-5">
@@ -72,7 +93,7 @@ function DriverDashBoard() {
 
                 <div className="col-6 p-3">
                   <small className="fw-light">Ratings</small>
-                  <h4>4.6</h4>
+                  <h4>{driver.rating}</h4>
                 </div>
               </div>
             </div>
@@ -80,7 +101,7 @@ function DriverDashBoard() {
               <h4>Quick action</h4>
               <div className="d-flex flex-column gap-2">
                 <button className="btn btn-success w-100 p-3 mt-2 text-white">
-                  Set Available/Busy
+                  Set Unavailable/Busy
                 </button>
 
                 <button
@@ -90,16 +111,23 @@ function DriverDashBoard() {
                 >
                   Schedule
                 </button>
-                <div className="collapse mt-4" id="setAvailable">
-                  <form onSubmit={{}}>
+                <form
+                  onSubmit={($event) => {
+                    $event.preventDefault();
+                    setSchedule(driver.driverId);
+                  }}
+                >
+                  <div className="collapse mt-4" id="setAvailable">
                     <ul className="d-flex gap-4 align-items-center list-unstyled list-decoration-none">
                       <li>
-                        <label> Start date</label>
+                        <label>Start date</label>
                         <input
                           type="text"
                           className="form-control"
                           placeholder="yyyy-mm-dd"
-                          onChange={($event)=>{setStartDate($event.target.value)}}
+                          onChange={($event) => {
+                            setStartDate($event.target.value);
+                          }}
                         />
                       </li>
                       <li>
@@ -108,15 +136,19 @@ function DriverDashBoard() {
                           type="text"
                           className="form-control"
                           placeholder="yyyy-mm-dd"
-                          onChange={($event)=>{setEndDate($event.target.value)}}
+                          onChange={($event) => {
+                            setEndDate($event.target.value);
+                          }}
                         />
                       </li>
                       <li>
-                        <button className="btn btn-success px-4">Set</button>
+                        <button className="btn btn-success px-4" type="submit">
+                          Set
+                        </button>
                       </li>
                     </ul>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

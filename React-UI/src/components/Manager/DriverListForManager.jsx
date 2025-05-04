@@ -4,15 +4,19 @@ import { Link } from "react-router-dom";
 
 function DriverListManager() {
   const [drivers, setDrivers] = useState([]);
-  const [experienceYears, setExperience] = useState(null)
-  const [perDayCharge, setPerDayCharge] = useState(null)
+  const [experienceYears, setExperience] = useState(null);
+  const [perDayCharge, setPerDayCharge] = useState(null);
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(8);
+  const [totalPages, setTotalPages] = useState(0);
 
   const getAllDrivers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/driver/available"
+        `http://localhost:8080/api/driver/getAll?page=${page}&size=${size}`
       );
-      setDrivers(response.data);
+      setDrivers(response.data.list);
+      setTotalPages(response.data.totalPages)
     } catch (err) {
       console.log(err);
     }
@@ -20,11 +24,11 @@ function DriverListManager() {
 
   useEffect(() => {
     getAllDrivers();
-  }, []);
+  }, [page]);
 
-  const deleteDriver = (driverId) => {
+  const deleteDriver = async(driverId) => {
     try {
-      const response = axios.delete(
+      const response = await axios.delete(
         `http://localhost:8080/api/driver/delete/${driverId}`
       );
       let temp = [...drivers];
@@ -41,7 +45,7 @@ function DriverListManager() {
       const response = await axios.put(
         `http://localhost:8080/api/driver/update/${driverId}?experienceYears=${experienceYears}&perDayCharge=${perDayCharge}`
       );
-  
+
       const updatedDrivers = drivers.map((driver) =>
         driver.driverId === driverId
           ? { ...driver, experienceYears, perDayCharge }
@@ -52,7 +56,6 @@ function DriverListManager() {
       console.log(err);
     }
   };
-  
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
@@ -64,7 +67,6 @@ function DriverListManager() {
           <a href="#" className="navbar-brand">
             <h3 className="text-white">CarRent</h3>
           </a>
-
           <button
             className="navbar-toggler"
             style={{
@@ -80,7 +82,22 @@ function DriverListManager() {
           </button>
 
           <div className="collapse navbar-collapse" id="navmenu">
-            <ul className="navbar-nav d-flex align-items-center gap-2 ms-auto">
+            <ul className="navbar-nav d-flex align-items-center gap-5 ms-auto">
+              <div className="input-group" style={{ width: "250px" }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button
+                  className="btn text-white"
+                  type="button"
+                  style={{ backgroundColor: "#00B86B" }}
+                >
+                  <i className="bi bi-search"></i>
+                </button>
+              </div>
               <li className="nav-item">
                 <Link
                   to="/driverApproval"
@@ -105,11 +122,11 @@ function DriverListManager() {
       </nav>
       <div className="container">
         <h1 className="fw-500 p-4 text-black" style={{ fontSize: "1.5rem" }}>
-          Available Drivers
+          Drivers
         </h1>
         <div className="row">
-          {drivers.map((driv, index) => (
-            <div className="col-md-4 mb-4" key={index}>
+          {drivers.filter(d=>d.driverAvailability == "AVAILABLE").map((driv, index) => (
+            <div className="col-md-3 mb-4" key={index}>
               <div className="card text-center p-3 shadow-lg">
                 <img
                   src={driv.profilePic || "https://via.placeholder.com/100"}
@@ -213,6 +230,39 @@ function DriverListManager() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+      <div className="d-flex justify-content-center mt-5">
+        <div className="">
+          <nav aria-label="Page navigation example">
+            <ul className="pagination" >
+              <li className="page-item" >
+                <a
+                  className="page-link"
+                  href="#"
+                  onClick={() => {
+                    page === 0 ? setPage(0) : setPage(page - 1);
+                  }}
+                  style={{color:'#00B86B'}}
+                >
+                  Previous
+                </a>
+              </li>
+
+              <li className="page-item">
+                <a
+                  className="page-link"
+                  href="#"
+                  onClick={() => {
+                    page === totalPages - 1 ? setPage(page) : setPage(page + 1);
+                  }}
+                  style={{color:'#00B86B'}}
+                >
+                  Next
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
