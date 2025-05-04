@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,8 @@ public class DriverScheduleService {
 
 	@Autowired
 	private DriverScheduleRepository scheduleRepository;
-
+	Logger logger=LoggerFactory.getLogger("DriverScheduleService");
+	
 	public DriverSchedule addOrUpdateByDriverId(int driverId, DriverSchedule driverSchedule) {
 	    DriverSchedule existingSchedule = driverScheduleRepository.findByDriver_driverId(driverId);
 	    
@@ -31,11 +34,13 @@ public class DriverScheduleService {
 	        existingSchedule.setAvailableFrom(driverSchedule.getAvailableFrom());
 	        existingSchedule.setAvailableTo(driverSchedule.getAvailableTo());
 	        existingSchedule.setDriver(driverSchedule.getDriver());
-
+	        logger.info("Driver Scheduled updated");
 	        return driverScheduleRepository.save(existingSchedule);
 	    } else {
+	    	logger.info("Driver Schedule Added");
 	        return driverScheduleRepository.save(driverSchedule);
 	    }
+	   
 	}
 	
 	public List<Driver> getAvailableDriversOn(LocalDate dateFrom, LocalDate dateTo) throws DriverNotAvailable {
@@ -70,6 +75,7 @@ public class DriverScheduleService {
         if (optionalSchedule.isEmpty()) {
             throw new InvalidIDException("Driver Schedule not found");
         }
+        logger.info("Driver Schedule Deleted...");
         driverScheduleRepository.deleteById(scheduleId);
     }
 }
