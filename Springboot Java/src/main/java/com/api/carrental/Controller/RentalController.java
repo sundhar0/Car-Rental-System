@@ -43,7 +43,7 @@ public class RentalController {
  // Create Rental
     @PostMapping("/add")
     public Rental createRental(@RequestBody Rental rental) throws InvalidIDException {
-        Car car = carService.getById(rental.getCar().getCarId());
+        Car car = carService.getById(rental.getCar().getId());
         Customer customer = customerService.getSingleCustomer(rental.getCustomer().getId());
         Booking booking = bookingService.getBookingById(rental.getBooking().getId());
 

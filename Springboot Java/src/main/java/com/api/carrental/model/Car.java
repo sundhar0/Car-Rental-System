@@ -34,6 +34,7 @@ public class Car {
 	public void setCarSaleType(CarSaleType carSaleType) {
 		this.carSaleType = carSaleType;
 	}
+	
 	@Column(nullable = false)
     private double price;
 
@@ -50,7 +51,8 @@ public class Car {
     private String mileage;
     
     @ManyToOne
-    private User carOwner;
+    private Customer carOwner;
+    
     
     public String getModel() {
 		return model;
@@ -109,10 +111,10 @@ public class Car {
 		this.status = string;
 	}
 	
-	public User getCarOwner() {
+	public Customer getCarOwner() {
 		return carOwner;
 	}
-	public void setCarOwner(User carOwner) {
+	public void setCarOwner(Customer carOwner) {
 		this.carOwner = carOwner;
 	}
 	public double getPrice() {
@@ -148,6 +150,7 @@ public class Car {
 	public CarSaleType getCarSaleType() {
 		return carSaleType;
 	}
+
 	
 	
 	

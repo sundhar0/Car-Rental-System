@@ -31,7 +31,7 @@ public class CarController {
 	@PostMapping("/add/{ownId}")	
 	public Car add(@PathVariable Long ownId, @RequestBody Car car) throws InvalidIDException {
 		Customer customer = customerService.getSingleCustomer(ownId);
-		car.setCustomer(customer);
+		car.setCarOwner(customer);
 		return carService.add(car);
 	}
 	

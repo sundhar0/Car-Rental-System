@@ -34,7 +34,7 @@ public class FavoritesService {
 
 
 	public Favorites addFavorites(Favorites favorites) {
-		int carId =favorites.getCar().getCarId();       // uses carId from Car entity
+		int carId =favorites.getCar().getId();       // uses carId from Car entity
 	    Long customerId = (long) favorites.getCustomer().getId();
 	    
 	    /*fetch the car entity from database using carid ensure the car exist if not throws exception*/	    
@@ -54,7 +54,7 @@ public class FavoritesService {
 	}
 
 	public Favorites addFavoritesforBuyer(Favorites favorites) throws InvalidIDException {
-		int carId=favorites.getCar().getCarId();
+		int carId=favorites.getCar().getId();
 		Long customerId=favorites.getCustomer().getId();
 		Car car=carService.getById(carId);
 		Customer customer=customerService.getSingleCustomer(customerId);
@@ -70,9 +70,9 @@ public class FavoritesService {
 	
 	public Favorites updateFavorites(Favorites favorites) {
         // Validate and fetch car if provided
-        if (favorites.getCar() != null && favorites.getCar().getCarId() != 0) {
-            Car car = carrentalRepository.findById(favorites.getCar().getCarId())
-                    .orElseThrow(() -> new RuntimeException("Car with ID " + favorites.getCar().getCarId() + " not found"));
+        if (favorites.getCar() != null && favorites.getCar().getId() != 0) {
+            Car car = carrentalRepository.findById(favorites.getCar().getId())
+                    .orElseThrow(() -> new RuntimeException("Car with ID " + favorites.getCar().getId() + " not found"));
             favorites.setCar(car);
         }
 
@@ -94,19 +94,11 @@ public class FavoritesService {
 
 
 	public Favorites updateByBuyer(Favorites favorites) throws InvalidIDException {
-		Car car=carService.getById(favorites.getCar().getCarId());
+		Car car=carService.getById(favorites.getCar().getId());
 		Customer customer=customerService.getSingleCustomer(favorites.getCustomer().getId());
 		favorites.setCar(car);
 		favorites.setCustomer(customer);
 		return favoriteRepository.save(favorites);
 	}
-
-
-	
-
-
-	
-	
-	
 
 }
