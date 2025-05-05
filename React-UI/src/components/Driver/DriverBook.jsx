@@ -1,29 +1,46 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import LeftSideImage from "../../assets/image.png";
 import { useState } from "react";
 import axios from "axios";
 
 function DriverBook() {
-  const { name, rating, shortDescription, perDayCharge,driverId } = useParams();
+  const { name, rating, shortDescription, perDayCharge, driverId } =
+    useParams();
+  const navigate = useNavigate();
   const [rentalStart, setRentalStart] = useState(`2025-04-29`);
   const [rentalEnd, setRentalEnd] = useState(`2025-05-29`);
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
-
-  const bookTheRide = async() => {
+  const bookTheRide = async () => {
+    setIsBooking(true);
     let obj = {
       rentalStart: rentalStart,
-      rentalEnd: rentalEnd
+      rentalEnd: rentalEnd,
     };
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/rentWithDriver/rent/${driverId}/${3}/${4}`,
-        obj
+        `http://localhost:8080/api/rentWithDriver/rent/${driverId}/${3}/${30}`,
+        obj,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       console.log("Booking Successful:", response.data);
+      setBookingSuccess(true);
+
+      setTimeout(() => {
+        navigate("/customerdashboard");
+      }, 2000);
+
     } catch (error) {
       console.error("Booking Failed:", error);
-      alert("Booking Failed");
+      alert("Booking Failed. Please try again.");
+    } finally {
+      setIsBooking(false);
     }
   };
 
@@ -81,77 +98,84 @@ function DriverBook() {
           alignItems: "center",
         }}
       >
-        <div className="col-md-10">
-          <div className="d-flex rounded shadow-lg overflow-hidden">
-            <div
-              className="col-md-6 card-left d-flex flex-column justify-content-between text-center"
-              style={{ backgroundColor: "#00B86B" }}
-            >
-              <div className="text-white p-5 text-start">
-                <h4>Assigning a driver of your preference</h4>
-                <p>We believe in people's preference.</p>
-              </div>
-              <div>
-                <img
-                  src={LeftSideImage}
-                  alt="driver illustration"
-                  className="img-fluid mt-5"
-                />
-              </div>
-            </div>
-
-            <div className="col-md-6 card-right bg-white">
-              <div className="d-flex justify-content-between align-items-start p-3">
+        {bookingSuccess ? (
+          <div className="alert alert-success p-5 text-center">
+            <h4>Booking Successful!</h4>
+            <p>You will be redirected to your dashboard shortly...</p>
+          </div>
+        ) : (
+          <div className="col-md-10">
+            <div className="d-flex rounded shadow-lg overflow-hidden">
+              <div
+                className="col-md-6 card-left d-flex flex-column justify-content-between text-center"
+                style={{ backgroundColor: "#00B86B" }}
+              >
+                <div className="text-white p-5 text-start">
+                  <h4>Assigning a driver of your preference</h4>
+                  <p>We believe in people's preference.</p>
+                </div>
                 <div>
-                  <h5>
-                    <strong>{name}</strong>
-                  </h5>
+                  <img
+                    src={LeftSideImage}
+                    alt="driver illustration"
+                    className="img-fluid mt-5"
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-6 card-right bg-white">
+                <div className="d-flex justify-content-between align-items-start p-3">
                   <div>
-                    ⭐ <small className="text-muted">{rating}</small>
+                    <h5>
+                      <strong>{name}</strong>
+                    </h5>
+                    <div>
+                      ⭐ <small className="text-muted">{rating}</small>
+                    </div>
+                  </div>
+                  <div>❤️</div>
+                </div>
+                <p className="mt-3 text-muted px-3">{shortDescription}</p>
+
+                <div className="row mt-3 p-3">
+                  <div className="col-6">
+                    <strong>Type Car</strong>
+                    <br />
+                    Sport
+                  </div>
+                  <div className="col-6">
+                    <strong>Total Rides</strong>
+                    <br />2 Person
+                  </div>
+                  <div className="col-6 mt-2">
+                    <strong>Steering</strong>
+                    <br />
+                    Manual
                   </div>
                 </div>
-                <div>❤️</div>
-              </div>
-              <p className="mt-3 text-muted px-3">{shortDescription}</p>
 
-              <div className="row mt-3 p-3">
-                <div className="col-6">
-                  <strong>Type Car</strong>
-                  <br />
-                  Sport
+                <div className="mt-4 d-flex justify-content-between align-items-center p-4">
+                  <div>
+                    <span className="fw-bold">&#8377;{perDayCharge}</span>
+                    <span className="text-muted"> / days</span>
+                    <br />
+                    <span className="text-muted">
+                      <del>&#8377;2000.00</del>
+                    </span>
+                  </div>
+                  <button
+                    className="border p-2 btn btn-primary"
+                    type="button"
+                    onClick={bookTheRide}
+                    disabled={isBooking}
+                  >
+                    {isBooking ? "Booking..." : "Confirm"}
+                  </button>
                 </div>
-                <div className="col-6">
-                  <strong>Total Rides</strong>
-                  <br />
-                  2 Person
-                </div>
-                <div className="col-6 mt-2">
-                  <strong>Steering</strong>
-                  <br />
-                  Manual
-                </div>
-              </div>
-
-              <div className="mt-4 d-flex justify-content-between align-items-center p-4">
-                <div>
-                  <span className="fw-bold">&#8377;{perDayCharge}</span>
-                  <span className="text-muted"> / days</span>
-                  <br />
-                  <span className="text-muted">
-                    <del>&#8377;2000.00</del>
-                  </span>
-                </div>
-                <button
-                  className="border p-2 btn btn-primary"
-                  type="button"
-                  onClick={bookTheRide}
-                >
-                  Confirm
-                </button>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

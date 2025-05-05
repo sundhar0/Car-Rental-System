@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.CarNotAvailable;
@@ -61,8 +63,7 @@ public class RentalWithDriverService {
                 car.getCarSaleType() == CarSaleType.SELL)
             throw new CarNotAvailable("Sorry, this car is not available");
 
-        driverSchedueService.getAvailableDriversOn(rentalWithDriver.getRentalStart(),
-                rentalWithDriver.getRentalEnd());
+
 
         driver.setDriverAvailability(DriverAvailability.UNAVAILABLE);
 
@@ -131,5 +132,9 @@ public class RentalWithDriverService {
         rental.setRideStatus(rideStatus);
         logger.info("Updated rental with driver...");
         rentalWithDriverRepository.save(rental);
+    }
+
+    public Page<RentalWithDriver> getRidesForDriver(Integer driverId, Pageable pageable) {
+        return rentalWithDriverRepository.findByDriverDriverId(driverId, pageable);
     }
 }

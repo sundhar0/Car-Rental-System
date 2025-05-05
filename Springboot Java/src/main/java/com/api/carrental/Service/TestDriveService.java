@@ -7,66 +7,78 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.InvalidIDException;
+import com.api.carrental.Repository.AuthRepository;
 import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.Repository.CustomerRepository;
 import com.api.carrental.Repository.TestDriveRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.Customer;
 import com.api.carrental.model.TestDrive;
+import com.api.carrental.model.User;
 
 @Service
 public class TestDriveService {
+    
+    
+    
+    @Autowired
+    private TestDriveRepository testDriveRepository;
+    
+    @Autowired
+    private CarRepository carRepository;
+    
+    
+    @Autowired
+    private AuthRepository userRepository;
+
+    public TestDrive addBooking(int carId, int userId, TestDrive testDrive) throws InvalidIDException {
+        // Get user with proper error handling
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new InvalidIDException("User with ID " + userId + " not found"));
+        
+        // Get car with proper error handling
+        Car car = carRepository.findById(carId)
+            .orElseThrow(() -> new InvalidIDException("Car with ID " + carId + " not found"));
+        
+        // Set relationships
+        testDrive.setCar(car);
+        testDrive.setUser(user);
+        
+        // Save the test drive booking
+        return testDriveRepository.save(testDrive);
+    }
+
+    public List<TestDrive> getAllBookings() {
+        return testDriveRepository.findAll();
+    }
+
+    public Optional<TestDrive> getBookingsByCarId(int carId) throws InvalidIDException {
+        // Verify car exists first
+        if (!carRepository.existsById(carId)) {
+            throw new InvalidIDException("Car with ID " + carId + " not found");
+        }
+        return testDriveRepository.findById(carId);
+    }
+
+    public Optional<TestDrive> getBookingsByUserId(int userId) throws InvalidIDException {
+        // Verify user exists first
+        if (!userRepository.existsById(userId)) {
+            throw new InvalidIDException("User with ID " + userId + " not found");
+        }
+        return testDriveRepository.findById(userId);
+    }
+
+    public TestDrive getBookingById(int tdId) throws InvalidIDException {
+        return testDriveRepository.findById(tdId)
+            .orElseThrow(() -> new InvalidIDException("TestDrive with ID " + tdId + " not found"));
+    }
+
+	public TestDrive findById(int tdId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
-	@Autowired
-	private CustomerService customerService;
-	@Autowired
-	private CarService carService;
-	@Autowired
-	private TestDriveRepository testDriveRepository;
-	@Autowired
-	private CarRepository carRepository;
-	@Autowired
-	private CustomerRepository customerRepository;
 
-	//this will be used to store the review from getting the car id and customer id
-	public Object addBooking(int carId, Long cusId, TestDrive testDrive) throws InvalidIDException {
-		//it will get the details from customer id
-		Customer customer=customerService.getSingleCustomer(cusId);
-		//it will get the details from car id
-		Car car=carService.getById(carId);
-		//setting the values in test drive
-		testDrive.setCar(car);
-		testDrive.setCustomer(customer);
-		//added the values in table
-		return testDriveRepository.save(testDrive);
-	}
-
-	public List<TestDrive> getAllBooking() {
-		//this function will be used to view all the booking 
-		return testDriveRepository.findAll();
-	}
-
-	public Object getByCarId(int carId) throws InvalidIDException {
-		//this will be used to see all the bookings from car id
-		Optional<Car> car=carRepository.findById(carId);
-		if(car.get()==null)
-			throw new InvalidIDException("Given Car id is Invalid");
-		return car.get();
-	}
 	
-	public Object getByCustomerId(Long cusId) throws InvalidIDException {
-		// this will be used to show the values by customer id
-		Optional<Customer> customer=customerRepository.findById(cusId);
-		if(customer.get()==null)
-			throw new InvalidIDException("Given Customer Id is Invalid");
-		return customer.get();
-	}
-
-	public TestDrive findById(int tdId) throws InvalidIDException {
-		Optional<TestDrive> testDrive=testDriveRepository.findById(tdId);
-		if(testDrive.get()==null)
-			throw new InvalidIDException("Given TestDrive Id is Invalid...");
-		return testDrive.get();
-	}
-
 }

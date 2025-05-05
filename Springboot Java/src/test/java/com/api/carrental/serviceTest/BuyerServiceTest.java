@@ -1,4 +1,8 @@
+<<<<<<< HEAD:Springboot Java/src/test/java/com/api/carrental/serviceTest/BuyerServiceTest.java
 package com.api.carrental.serviceTest;
+=======
+package com.api.carrental.service;
+>>>>>>> 2db287561ed8e71849303628524350bca9284dec:Springboot Java/src/test/java/com/api/carrental/service/BuyerServiceTest.java
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,6 +26,8 @@ import com.api.carrental.Exception.InvalidModelException;
 import com.api.carrental.Exception.InvalidPriceException;
 import com.api.carrental.Exception.InvalidYearException;
 import com.api.carrental.Repository.CarApprovalRepository;
+import com.api.carrental.Service.BuyerService;
+import com.api.carrental.Service.CarService;
 //import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.model.Car;
@@ -46,7 +52,7 @@ public class BuyerServiceTest {
     @BeforeEach
     public void setUp() {
         car1 = new Car();
-        car1.setCarId(1);
+        car1.setId(1);
         car1.setModel("Honda");
         car1.setYear("2020");
         car1.setFuelType("Petrol");
@@ -54,7 +60,7 @@ public class BuyerServiceTest {
         car1.setCarSaleType(CarSaleType.SELL);
 
         car2 = new Car();
-        car2.setCarId(2);
+        car2.setId(2);
         car2.setModel("Toyota");
         car2.setYear("2019");
         car2.setFuelType("Diesel");
@@ -162,7 +168,7 @@ public class BuyerServiceTest {
       //fetching the cars in given id
         Car result = (Car) buyerService.getbyCarId(1);
         //checking the asserts 
-        assertEquals(1, result.getCarId());
+        assertEquals(1, result.getId());
     }
 
   //testing for invalid id
