@@ -1,4 +1,4 @@
-package com.api.carrental.service;
+package com.api.carrental.serviceTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -76,6 +76,7 @@ public class CustomerCareServiceTest {
         when(customerCareRepository.findById(1)).thenReturn(Optional.of(customerCare));
         CustomerCare result = customerCareService.getCustomerCareById(1);
         assertEquals("Technical", result.getIssueType());
+        assertEquals("System not working", result.getMessage());
     }
 
     @Test
@@ -89,5 +90,6 @@ public class CustomerCareServiceTest {
         when(customerCareRepository.findAll()).thenReturn(Arrays.asList(customerCare));
         List<CustomerCare> list = customerCareService.getAllCustomerCare();
         assertEquals(1, list.size());
+        assertEquals("Technical", list.get(0).getIssueType());
     }
 }

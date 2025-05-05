@@ -1,4 +1,4 @@
-package com.api.carrental.service;
+package com.api.carrental.serviceTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,11 +38,16 @@ public class ComplaintServiceTest {
     private User user;
 
     @BeforeEach
-    public void init() {
-        user = new User(1, "user1", "password", "Address");
+    public void setUp() {
+        user = new User();
+        user.setUserId(1);
+        user.setUserName("user1");
+        user.setPassword("password");
+        user.setAddress("Some Address");
+
         complaint = new Complaint();
         complaint.setComplaintId(1);
-        complaint.setIssue("Damaged Car");
+        complaint.setIssue("Engine Issue");
         complaint.setStatus("Pending");
     }
 
@@ -53,30 +58,28 @@ public class ComplaintServiceTest {
 
         Complaint result = complaintService.addComplaint(complaint, 1);
         assertNotNull(result);
-        assertEquals("Damaged Car", result.getIssue());
+        assertEquals("Engine Issue", result.getIssue());
         verify(complaintRepository, times(1)).save(complaint);
     }
 
     @Test
-    public void testAddComplaintInvalidUser() throws InvalidIDException {
+    public void testAddComplaintInvalidUserId() throws InvalidIDException {
         when(authService.getById(1)).thenReturn(null);
-
         assertThrows(InvalidIDException.class, () -> complaintService.addComplaint(complaint, 1));
     }
 
     @Test
     public void testUpdateComplaintSuccess() throws InvalidIDException {
         when(complaintRepository.findById(1)).thenReturn(Optional.of(complaint));
-        complaint.setIssue("Car was dirty");
-        complaint.setStatus("Resolved");
-        when(complaintRepository.save(complaint)).thenReturn(complaint);
 
         Complaint updatedComplaint = new Complaint();
-        updatedComplaint.setIssue("Car was dirty");
+        updatedComplaint.setIssue("Window Broken");
         updatedComplaint.setStatus("Resolved");
 
+        when(complaintRepository.save(any(Complaint.class))).thenReturn(updatedComplaint);
+
         Complaint result = complaintService.updateComplaint(1, updatedComplaint);
-        assertEquals("Car was dirty", result.getIssue());
+        assertEquals("Window Broken", result.getIssue());
         assertEquals("Resolved", result.getStatus());
     }
 
@@ -103,7 +106,7 @@ public class ComplaintServiceTest {
     public void testGetComplaintByIdSuccess() throws InvalidIDException {
         when(complaintRepository.findById(1)).thenReturn(Optional.of(complaint));
         Complaint result = complaintService.getComplaintById(1);
-        assertEquals("Damaged Car", result.getIssue());
+        assertEquals("Engine Issue", result.getIssue());
     }
 
     @Test

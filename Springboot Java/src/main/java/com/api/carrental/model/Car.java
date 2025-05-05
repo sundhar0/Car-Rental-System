@@ -26,7 +26,7 @@
 	    private CarSaleType carSaleType;
 	    
 	    public Car(int i, String string, String string2, double d, String string3, String string4, String string5,
-				String string6, Customer customer, CarStatus available, CarSaleType rent) {
+				String string6, User user, CarStatus available, CarSaleType rent) {
 			// TODO Auto-generated constructor stub
 		}
 	    
