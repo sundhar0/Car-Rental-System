@@ -3,6 +3,8 @@ package com.api.carrental.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +20,14 @@ import com.api.carrental.model.User;
 
 @Service
 public class TestDriveService {
-    
-    
-    
     @Autowired
     private TestDriveRepository testDriveRepository;
-    
     @Autowired
     private CarRepository carRepository;
-    
-    
     @Autowired
     private AuthRepository userRepository;
-
+    Logger logger=LoggerFactory.getLogger("TestDriveService");
+    
     public TestDrive addBooking(int carId, int userId, TestDrive testDrive) throws InvalidIDException {
         // Get user with proper error handling
         User user = userRepository.findById(userId)
@@ -45,6 +42,7 @@ public class TestDriveService {
         testDrive.setUser(user);
         
         // Save the test drive booking
+        logger.info("Test Drive Booked...");
         return testDriveRepository.save(testDrive);
     }
 

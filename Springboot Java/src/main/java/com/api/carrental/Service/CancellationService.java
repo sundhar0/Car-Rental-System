@@ -4,6 +4,8 @@ package com.api.carrental.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,11 @@ public class CancellationService {
 	@Autowired
 	private TestDriveService testDriveService;
 
-
+	Logger logger=LoggerFactory.getLogger("CancellationService");
+	
     public Cancellation cancelBooking(Cancellation cancellation) {
     	cancellation.setCancelledDate(LocalDateTime.now());
+    	logger.info("Booking Cancelled...");
         return cancellationRepository.save(cancellation);
     }
 
@@ -41,7 +45,8 @@ public class CancellationService {
         return cancellationRepository.findByBooking(booking)
                 .orElseThrow(() -> new InvalidIDException("Cancellation not found for booking."));
     }
-
+    //cancelling the testdrive
+    //fetching the details of the testdrive and cancelling it
 	public Cancellation getCancellationByTestDriveId(int tdId) throws InvalidIDException {
 		TestDrive testDrive=testDriveService.findById(tdId);
 		Cancellation cancellation=cancellationRepository.findByTestDrive(testDrive);
