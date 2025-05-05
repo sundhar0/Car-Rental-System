@@ -17,6 +17,7 @@ import AddingSuccess from "./components/Cars/SuccessPage";
 import DriverListManager from "./components/Manager/DriverListForManager";
 import CustomerDashboard from "./components/Customer/CustomerDashboard";
 import CustomerCareDashboard from "./components/CustomerCare/CustomerCareDashboard";
+import DriverRides from "./components/Driver/DriverRides";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
       />
       <Route path="customerdashboard" element={<CustomerDashboard/>} />
       <Route path="customercaredashboard" element={<CustomerCareDashboard/>} />
-
+      <Route path="driverrides" element={<DriverRides/>}/>
       <Route path="becomedriver" element={<BecomeADriver />} />
       <Route path="driverApproval" element={<DriverApprovels />} />
       <Route path="driverdashboard" element={<DriverDashBoard />} />
