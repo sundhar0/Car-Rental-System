@@ -39,7 +39,7 @@ public class CarTransactionController {
 		Customer seller = customerService.getSingleCustomer(sellerId);
 		Customer buyer = customerService.getSingleCustomer(buyerId);
 		car.setCarSaleType(CarSaleType.SOLD);
-		car.setCarStatus(CarStatus.NOT_AVAILABLE);
+		car.setStatus(CarStatus.NOT_AVAILABLE);
 		ct.setCar(car);
 		ct.setSeller(seller);
 		ct.setBuyer(buyer);

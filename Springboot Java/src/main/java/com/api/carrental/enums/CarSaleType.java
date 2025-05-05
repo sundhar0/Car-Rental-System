@@ -1,5 +1,5 @@
 package com.api.carrental.enums;
 
 public enum CarSaleType {
-	RENT, SELL,SOLD
+	RENT, SELL, SOLD
 }

@@ -1,4 +1,4 @@
-package com.api.carrental.Service;
+package com.api.carrental.serviceTest;
 
 import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidIDException;
@@ -64,11 +64,12 @@ public class DriverScheduleServiceTest {
         existing.setAvailableTo(LocalDate.of(2025, 4, 5));
 
         when(driverScheduleRepository.findByDriver_driverId(1)).thenReturn(existing);
-        when(driverScheduleRepository.save(any())).thenReturn(schedule);
+        when(driverScheduleRepository.save(existing)).thenReturn(existing);
 
         DriverSchedule updated = driverScheduleService.addOrUpdateByDriverId(1, schedule);
 
         assertEquals(schedule.getAvailableFrom(), updated.getAvailableFrom());
+        assertEquals(schedule.getAvailableTo(), updated.getAvailableTo());
         verify(driverScheduleRepository, times(1)).save(existing);
     }
 

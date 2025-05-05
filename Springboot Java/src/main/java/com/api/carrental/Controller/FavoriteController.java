@@ -46,7 +46,7 @@ public class FavoriteController {
             Favorites existingFavorites = favoritesService.getSingleFavorites(id);
 
             // Update car if provided in request body
-            if (newValue.getCar() != null && newValue.getCar().getCarId() != 0) {
+            if (newValue.getCar() != null && newValue.getCar().getId() != 0) {
                 existingFavorites.setCar(newValue.getCar());
             }
 
@@ -73,7 +73,7 @@ public class FavoriteController {
 	@PutMapping("/updatebyBuyer/{id}")
 	public ResponseEntity<?> updatebyBuyer(@PathVariable int id,@RequestBody Favorites newValue) throws InvalidIDException {
 		Favorites existingFavrites=favoritesService.getSingleFavorites(id);
-		if(newValue.getCar() !=null && newValue.getCar().getCarId()!=0) {
+		if(newValue.getCar() !=null && newValue.getCar().getId()!=0) {
 			existingFavrites.setCar(newValue.getCar());
 		}
 		if(newValue.getCustomer()!=null && newValue.getCustomer().getId()!=0) {

@@ -2,10 +2,16 @@ package com.api.carrental.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.type.EnumType;
+
+import com.api.carrental.enums.RideStatus;
+
 import jakarta.persistence.*;
 
 @Entity
 public class RentalWithDriver {
+	
+	
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +32,19 @@ public class RentalWithDriver {
     private LocalDate rentalStart;
 
     private LocalDate rentalEnd;
+    
+    
+    public RideStatus getRideStatus() {
+		return rideStatus;
+	}
+
+	public void setRideStatus(RideStatus rideStatus) {
+		this.rideStatus = rideStatus;
+	}
+
+	private RideStatus rideStatus;
+    
+    public RentalWithDriver() {}
 
 	public int getId() {
 		return id;

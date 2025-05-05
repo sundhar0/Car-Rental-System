@@ -35,7 +35,7 @@ public class CarService {
 	public Car add(Car car) {
 		//this method will store the car status will defaultly in pending
 		// after the manager given the approval it changes to approved
-		car.setCarStatus(CarStatus.PENDING);
+		car.setStatus(CarStatus.PENDING);
 		//it will save the cars in the car table
 	    return carRepository.save(car);
 	}
