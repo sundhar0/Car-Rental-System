@@ -24,8 +24,16 @@
 	    private String carColor;
 	    private CarStatus status;
 	    private CarSaleType carSaleType;
-	    
-	    public Car(int i, String string, String string2, double d, String string3, String string4, String string5,
+	    private String carImage;
+	    public String getCarImage() {
+			return carImage;
+		}
+
+		public void setCarImage(String carImage) {
+			this.carImage = carImage;
+		}
+
+		public Car(int i, String string, String string2, double d, String string3, String string4, String string5,
 				String string6, User user, CarStatus available, CarSaleType rent) {
 			// TODO Auto-generated constructor stub
 		}
@@ -154,6 +162,8 @@
 		public CarSaleType getCarSaleType() {
 			return carSaleType;
 		}
+
+		
 	
 		
 		
