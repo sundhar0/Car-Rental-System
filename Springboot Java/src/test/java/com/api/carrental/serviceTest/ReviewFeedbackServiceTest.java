@@ -18,6 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.ReviewFeedbackRepository;
+import com.api.carrental.Service.CarService;
+import com.api.carrental.Service.CustomerService;
+import com.api.carrental.Service.ReviewFeedbackService;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.Customer;
 import com.api.carrental.model.ReviewFeedback;
@@ -49,7 +52,7 @@ public class ReviewFeedbackServiceTest {
         customer.setFullName("Test Customer");
 
         car = new Car();
-        car.setCarId(101);
+        car.setId(101);
         car.setModel("Test Model");
 
         feedback = new ReviewFeedback();
@@ -112,7 +115,6 @@ public class ReviewFeedbackServiceTest {
         assertEquals(5, list.get(0).getRating());
     }
 }
-=======
 //package com.api.carrental.Service;
 //
 //import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -227,4 +229,3 @@ public class ReviewFeedbackServiceTest {
 //        assertEquals(5, list.get(0).getRating());
 //    }
 //}
->>>>>>> 2db287561ed8e71849303628524350bca9284dec:Springboot Java/src/test/java/com/api/carrental/service/ReviewFeedbackServiceTest.java

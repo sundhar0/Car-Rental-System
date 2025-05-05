@@ -1,8 +1,4 @@
-<<<<<<< HEAD:Springboot Java/src/test/java/com/api/carrental/serviceTest/BuyerServiceTest.java
 package com.api.carrental.serviceTest;
-=======
-package com.api.carrental.service;
->>>>>>> 2db287561ed8e71849303628524350bca9284dec:Springboot Java/src/test/java/com/api/carrental/service/BuyerServiceTest.java
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
