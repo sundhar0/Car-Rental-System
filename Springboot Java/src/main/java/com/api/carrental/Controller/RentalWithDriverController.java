@@ -1,9 +1,13 @@
 package com.api.carrental.Controller;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +16,23 @@ import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidDateException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.RentalWithDriverService;
+import com.api.carrental.dto.RentalWithDriverDto;
 import com.api.carrental.model.RentalWithDriver;
 import com.api.carrental.enums.RideStatus;
 
 @RestController
 @RequestMapping("/api/rentWithDriver")
-@CrossOrigin(origins = {"http://localhost:5173"})
+@CrossOrigin(origins = {"http://localhost:5173/"})
 public class RentalWithDriverController {
 
     @Autowired
     private RentalWithDriverService rentalWithDriverService;
+    
+    @Autowired
+    private RentalWithDriverDto dto;
 
     @PostMapping("/rent/{driverId}/{userId}/{carId}")
-    public ResponseEntity<String> addRent(
+    public ResponseEntity<String> addRent(	
             @RequestBody RentalWithDriver rentalWithDriver,
             @PathVariable int driverId,
             @PathVariable int userId,
@@ -71,10 +79,27 @@ public class RentalWithDriverController {
         return ResponseEntity.ok("Rental with driver deleted successfully");
     }
 
-    @PutMapping("/updateStatus/{rentalId}")
+    @PutMapping("/updateStatus/{rentalId}/{rideStatus}")
     public ResponseEntity<String> updateRideStatus(@PathVariable int rentalId,
-                                                   @RequestParam RideStatus rideStatus) throws InvalidIDException {
+                                                   @PathVariable RideStatus rideStatus) throws InvalidIDException {
         rentalWithDriverService.updateRideStatus(rentalId, rideStatus);
         return ResponseEntity.ok("Ride status updated successfully");
+    }
+    
+    @GetMapping("/driver/{driverId}")
+    public RentalWithDriverDto getRidesForDriver(
+            @PathVariable Integer driverId,
+            @RequestParam Integer page, 
+            @RequestParam Integer size) {
+        
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RentalWithDriver> rentalPage = rentalWithDriverService.getRidesForDriver(driverId, pageable);
+        
+        dto.setList(rentalPage.getContent());
+        dto.setCurrentPage(page);
+        dto.setSize(size);
+        dto.setTotalElements((int) rentalPage.getTotalElements());
+        dto.setTotalPages(rentalPage.getTotalPages());
+        return dto;
     }
 }

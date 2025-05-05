@@ -15,6 +15,7 @@ import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
 import com.api.carrental.model.Customer;
+import com.api.carrental.model.User;
 //import com.api.carrental.model.ReviewFeedback;
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
@@ -29,7 +30,7 @@ public class CarService {
 //	@Autowired
 //	private ReviewFeedbackService reviewFeedbackService;
 	@Autowired
-	private CustomerService customerService;
+	private AuthService authService;
 	
 	
 	public Car add(Car car) {
@@ -68,12 +69,12 @@ public class CarService {
 //		return list;
 //	}
 
-	public Object getHistory(Long cId) throws InvalidIDException {
+	public Object getHistory(int cId) throws InvalidIDException {
 		//it will get the history by customer id
-		Customer customer=customerService.getSingleCustomer(cId);
-		if(customer==null)
+		User user = authService.getById(cId);
+		if(user==null)
 			throw new InvalidIDException("Given Customer Id is Inavlid...");
-		return carRepository.findByCustomerId(cId);
+		return carRepository.findByCarOwnerUserId(cId);
 
 	}
 

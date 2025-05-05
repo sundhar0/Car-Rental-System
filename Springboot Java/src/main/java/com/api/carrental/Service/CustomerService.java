@@ -33,13 +33,13 @@ public class CustomerService {
     }
 
 
-    public Customer getSingleCustomer(Long id) throws InvalidIDException {
+    public Customer getSingleCustomer(Long cId) throws InvalidIDException {
     	//it will get all the customer details using customer id
-        Optional<Customer> optionalCustomer = customerRepository.findById((long) id);
+        Optional<Customer> optionalCustomer = customerRepository.findById((long) cId);
         if (optionalCustomer.isPresent()) {
             return optionalCustomer.get();
         } else {
-            throw new InvalidIDException("Customer with ID " + id + " not found.");
+            throw new InvalidIDException("Customer with ID " + cId + " not found.");
         }
     }
     

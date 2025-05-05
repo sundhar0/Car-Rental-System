@@ -1,4 +1,4 @@
-package com.api.carrental.Service;
+package com.api.carrental.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

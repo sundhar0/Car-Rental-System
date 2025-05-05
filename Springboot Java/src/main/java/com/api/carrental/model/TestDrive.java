@@ -1,5 +1,7 @@
 package com.api.carrental.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,15 +18,36 @@ public class TestDrive {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="customer_id")
-	private Customer customer;
+	private User user;
 	
 	@ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
 
     @Column(nullable = false)
-    private String bookingDate;
+    private LocalDate bookingDate;
+    
+    private String time;
+    
+    
+    
+    public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	private String location;
 
 	public int getId() {
 		return id;
@@ -34,12 +57,12 @@ public class TestDrive {
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Car getCar() {
@@ -50,13 +73,14 @@ public class TestDrive {
 		this.car = car;
 	}
 
-	public String getBookingDate() {
+	public LocalDate getBookingDate() {
 		return bookingDate;
 	}
 
-	public void setBookingDate(String bookingDate) {
+	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
 	}
+
     
     
 }
