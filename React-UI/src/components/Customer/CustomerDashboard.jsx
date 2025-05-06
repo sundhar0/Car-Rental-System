@@ -7,15 +7,18 @@ function CustomerDashboard() {
   const [complaints, setComplaints] = useState([]);
   const [newComplaint, setNewComplaint] = useState({
     issue: "",
-    status: "PENDING" // Default status
+    description: "",
+    status: "PENDING"
   });
-  const [editingComplaint, setEditingComplaint] = useState(null);
   const [showComplaintModal, setShowComplaintModal] = useState(false);
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [customerResponse, setCustomerResponse] = useState("");
 
   const fetchCustomer = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/userLogin/userDetails`,
+        
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -31,7 +34,7 @@ function CustomerDashboard() {
   const fetchComplaints = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/complaints/user/2`,
+        `http://localhost:8080/api/complaints/getByUser/${customer.userId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,7 +60,7 @@ function CustomerDashboard() {
   const handleAddComplaint = async () => {
     try {
       await axios.post(
-        `http://localhost:8080/api/complaints/1`,
+        `http://localhost:8080/api/complaints/${customer.userId}`,
         newComplaint,
         {
           headers: {
@@ -65,226 +68,238 @@ function CustomerDashboard() {
           },
         }
       );
-      setNewComplaint({ issue: "", status: "PENDING" });
       fetchComplaints();
     } catch (error) {
       console.error("Error adding complaint:", error);
     }
   };
 
-  const handleUpdateComplaint = async () => {
+  const handleAddResponse = async () => {
     try {
       await axios.put(
-        `http://localhost:8080/api/complaints/${editingComplaint.complaintId}`,
-        editingComplaint,
+        `http://localhost:8080/api/complaints/${selectedComplaint.complaintId}`,
+        {
+          response: customerResponse,
+          isCustomerResponse: true
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      setShowComplaintModal(false);
-      setEditingComplaint(null);
+ 
       fetchComplaints();
     } catch (error) {
-      console.error("Error updating complaint:", error);
+      console.error("Error adding response:", error);
     }
   };
 
-  const handleDeleteComplaint = async (complaintId) => {
-    try {
-      await axios.delete(
-        `http://localhost:8080/api/complaints/${complaintId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      fetchComplaints();
-    } catch (error) {
-      console.error("Error deleting complaint:", error);
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "RESOLVED": return "bg-success";
+      case "IN_PROGRESS": return "bg-warning";
+      case "PENDING": return "bg-secondary";
+      default: return "bg-info";
     }
-  };
-
-  const openEditModal = (complaint) => {
-    setEditingComplaint({ ...complaint });
-    setShowComplaintModal(true);
   };
 
   return (
-    <div className="d-flex" style={{ minHeight: "100vh" }}>
-      <div className="d-flex" id="wrapper">
-        <div
-          className="text-white p-2 sidebar"
-          id="sidebar"
-          style={{ backgroundColor: "#253343" }}
-        >
-          <div className="text-center my-4">
-            <span className="fs-4 fw-bold d-none d-md-inline">CarRent</span>
+    <div className="" style={{ minHeight: "100vh" }}>
+      <nav className="navbar navbar-expand-lg mb-4 p-3" style={{ backgroundColor: "#1C2631" }}>
+        <div className="container">
+          <Link to="/" className="navbar-brand">
+            <h3 className="text-white">CarRent</h3>
+          </Link>
+          <button className="navbar-toggler" style={{ boxShadow: "none", outline: "none", border: "none" }} type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <i className="bi bi-list fs-2" style={{ color: "#00B86B" }}></i>
+          </button>
+          <div className="collapse navbar-collapse" id="navmenu">
+            <ul className="navbar-nav d-flex align-items-center gap-2 ms-auto">
+              <li className="nav-item">
+                <Link to="/customerdashboard" className="nav-link text-white text-decoration-none active">Dashboard</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/my-bookings" className="nav-link text-white text-decoration-none">My Bookings</Link>
+              </li>
+            </ul>
           </div>
-          <ul className="nav flex-column gap-3 text-center">
-            <li className="nav-item">
-              <Link
-                to="/landingpage"
-                className="text-white text-decoration-none"
-              >
-                <i className="bi bi-house-door"></i>
-                <span className="ms-2 d-none d-md-inline">Home</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link text-white">
-                <i className="bi bi-speedometer2"></i>
-                <span className="ms-2 d-none d-md-inline">Dashboard</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <Link to="/my-bookings" className="nav-link text-white">
-                <i className="bi bi-table"></i>
-                <span className="ms-2 d-none d-md-inline">My Bookings</span>
-              </Link>
-            </li>
-          </ul>
         </div>
-      </div>
+      </nav>
 
-      <div className="flex-grow-1 p-3">
-        <div className="container mt-3">
-          <h1 className="fw-bold" style={{ color: "#253343" }}>Customer Dashboard</h1>
-          <div className="m-5">
-            <h3>Welcome, {customer.name}</h3>
+      <div className="container">
+        <div className="d-flex justify-content-between align-items-center m-5">
+          <div>
+            <h1 className="fw-bold" style={{ color: "#253343" }}>Customer Dashboard</h1>
+            <h3 className="text-muted">Welcome back, {customer.name}</h3>
           </div>
+          <div className="d-flex gap-3">
+            <div className="bg-white p-3 rounded shadow-sm text-center" style={{ minWidth: "120px" }}>
+              <small className="text-muted">Active Complaints</small>
+              <h5 className="mb-0">{complaints.filter(c => c.status !== "RESOLVED").length}</h5>
+            </div>
+          </div>
+        </div>
 
-          <div className="row gap-5 px-5">
-            <div className="col-12 border p-5">
-              <h4>My Complaints</h4>
-              <div className="mb-4">
-                <div className="input-group mb-3">
+        <div className="row g-4 mb-5">
+          <div className="col-lg-8">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h4 className="card-title mb-0">New Complaint</h4>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Issue Title</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter complaint issue..."
+                    placeholder="Brief title of your issue"
                     value={newComplaint.issue}
-                    onChange={(e) => 
-                      setNewComplaint({ ...newComplaint, issue: e.target.value })
-                    }
+                    onChange={(e) => setNewComplaint({...newComplaint, issue: e.target.value})}
                   />
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleAddComplaint}
-                    disabled={!newComplaint.issue}
-                    style={{ backgroundColor: "#00B86B" }}
-                  >
-                    Add Complaint
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Description</label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    placeholder="Detailed description of your issue"
+                    value={newComplaint.description}
+                    onChange={(e) => setNewComplaint({...newComplaint, description: e.target.value})}
+                  ></textarea>
+                </div>
+                <button
+                  className="btn text-white w-100"
+                  style={{ backgroundColor: "#00B86B" }}
+                  onClick={handleAddComplaint}
+                  disabled={!newComplaint.issue || !newComplaint.description}
+                >
+                  Submit Complaint
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-4">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h4 className="card-title mb-0">Quick Actions</h4>
+                </div>
+                <div className="d-grid gap-3">
+                  <Link to="/my-bookings" className="btn btn-lg text-white" style={{ backgroundColor: "#00B86B" }}>
+                    <i className="bi bi-calendar-check me-2"></i> View Bookings
+                  </Link>
+                  <button className="btn btn-lg btn-outline-primary">
+                    <i className="bi bi-question-circle me-2"></i> Help Center
                   </button>
                 </div>
               </div>
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Issue</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {complaints.map((complaint) => (
+            </div>
+          </div>
+        </div>
+
+        <div className="card border-0 shadow-sm mb-5">
+          <div className="card-body">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h4 className="card-title mb-0">My Complaints</h4>
+            </div>
+            <div className="table-responsive">
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Issue</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                    <th>Response</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {complaints.length > 0 ? (
+                    complaints.map((complaint) => (
                       <tr key={complaint.complaintId}>
                         <td>{complaint.issue}</td>
                         <td>
-                          <span className={`badge ${
-                            complaint.status === "RESOLVED" ? "bg-success" :
-                            complaint.status === "IN_PROGRESS" ? "bg-warning" : "bg-secondary"
-                          }`}>
-                            {complaint.status}
+                          <span className={`badge ${getStatusBadge(complaint.status)}`}>
+                            {(complaint.status ?? "N/A").replace("_", " ")}
                           </span>
                         </td>
+                        <td>{new Date(complaint.updatedAt).toLocaleString()}</td>
+                        <td>{complaint.response}</td>
                         <td>
                           <button
-                            className="btn btn-sm btn-info me-2"
-                            onClick={() => openEditModal(complaint)}
+                            className="btn btn-sm text-white"
+                            style={{ backgroundColor: "#00B86B" }}
+                            onClick={() => {
+                              setSelectedComplaint(complaint);
+                              setCustomerResponse("");
+                            }}
                           >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleDeleteComplaint(complaint.complaintId)}
-                          >
-                            Delete
+                            <i className="bi bi-chat-left-text"></i> View/Reply
                           </button>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" className="text-center py-4">No complaints found</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Complaint Edit Modal */}
-      {showComplaintModal && (
+      {selectedComplaint && (
         <div className="modal show" style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog">
+          <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Edit Complaint</h5>
-                <button 
-                  type="button" 
-                  className="btn-close" 
-                  onClick={() => setShowComplaintModal(false)}
-                ></button>
+                <h5 className="modal-title">Complaint: {selectedComplaint.issue}</h5>
+                <button type="button" className="btn-close" onClick={() => setSelectedComplaint(null)}></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <label className="form-label">Issue</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={editingComplaint.issue}
-                    onChange={(e) =>
-                      setEditingComplaint({
-                        ...editingComplaint,
-                        issue: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="mb-3">
                   <label className="form-label">Status</label>
-                  <select
-                    className="form-select"
-                    value={editingComplaint.status}
-                    onChange={(e) =>
-                      setEditingComplaint({
-                        ...editingComplaint,
-                        status: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="PENDING">Pending</option>
-                    <option value="IN_PROGRESS">In Progress</option>
-                    <option value="RESOLVED">Resolved</option>
-                  </select>
+                  <input type="text" className="form-control" value={selectedComplaint.status} readOnly />
+                </div>
+                
+                <div className="mb-3">
+                  <label className="form-label">Your Initial Complaint</label>
+                  <textarea className="form-control" rows="3" value={selectedComplaint.description} readOnly />
+                </div>
+                
+                {selectedComplaint.response && (
+                  <div className="mb-3">
+                    <label className="form-label">Customer Care Response</label>
+                    <textarea className="form-control" rows="3" value={selectedComplaint.response} readOnly />
+                  </div>
+                )}
+                
+                <div className="mb-3">
+                  <label className="form-label">Your Response</label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    placeholder="Type your response here..."
+                    value={customerResponse}
+                    onChange={(e) => setCustomerResponse(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={() => setSelectedComplaint(null)}>Close</button>
                 <button
                   type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowComplaintModal(false)}
+                  className="btn text-white"
+                  style={{ backgroundColor: "#00B86B" }}
+                  onClick={handleAddResponse}
+                  disabled={!customerResponse}
                 >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleUpdateComplaint}
-                >
-                  Save Changes
+                  Send Response
                 </button>
               </div>
             </div>

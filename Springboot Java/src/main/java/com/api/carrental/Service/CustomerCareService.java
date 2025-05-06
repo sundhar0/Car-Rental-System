@@ -31,7 +31,6 @@ public class CustomerCareService {
         if (optionalCustomerCare.isEmpty()) {
             throw new InvalidIDException("Customer Care request not found");
         }
-        updatedCustomerCare.setSupportId(supportId);
         logger.info("Details updated..");
         customerCareRepository.save(updatedCustomerCare);
     }

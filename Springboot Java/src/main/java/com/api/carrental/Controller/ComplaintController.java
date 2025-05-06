@@ -11,9 +11,8 @@ import com.api.carrental.Exception.InvalidIDException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/complaints")
-@CrossOrigin(origins = "http://localhost:5173")
-
+@RequestMapping("/api/complaints")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class ComplaintController {
 
     @Autowired
@@ -59,13 +58,13 @@ public class ComplaintController {
         }
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/getByUser/{userId}")
     public ResponseEntity<List<Complaint>> getComplaintsByUserId(@PathVariable int userId) {
         List<Complaint> complaints = complaintService.getComplaintsByUserId(userId);
         return ResponseEntity.ok(complaints);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<Complaint>> getAllComplaints() {
         List<Complaint> complaints = complaintService.getAllComplaints();
         return ResponseEntity.ok(complaints);

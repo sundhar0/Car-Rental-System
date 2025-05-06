@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,7 +58,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/caravailability/add").permitAll()
 				.requestMatchers("/api/caravailability/all").permitAll()
 				.requestMatchers("/api/caravailability/one/{id}").permitAll()
-				.requestMatchers("/api/caravailability/update/{id}").permitAll()
+				.requestMatchers("/api/carav+ailability/update/{id}").permitAll()
 				.requestMatchers("/api/caravailability/delete/{id}").permitAll()
 				.requestMatchers("/api/rentalcar/add").permitAll()
 				.requestMatchers("/api/rentalcar/all").permitAll()
@@ -75,6 +80,16 @@ public class SecurityConfig {
 		return http.build();
 	}
 	
+	@Bean
+	UrlBasedCorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+	    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+	    configuration.setAllowedHeaders(List.of("*"));
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
+	}
 	
 	@Bean
  	UrlBasedCorsConfigurationSource corsConfigurationSource() {

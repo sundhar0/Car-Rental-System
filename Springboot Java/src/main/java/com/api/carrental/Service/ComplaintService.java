@@ -40,6 +40,7 @@ public class ComplaintService {
                 .orElseThrow(() -> new InvalidIDException("Complaint not found"));
         existing.setIssue(updatedComplaint.getIssue());
         existing.setStatus(updatedComplaint.getStatus());
+        
         logger.info("Values Updated..");
         return complaintRepository.save(existing);
     }
