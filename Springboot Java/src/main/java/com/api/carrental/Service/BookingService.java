@@ -28,10 +28,10 @@ public class BookingService {
     }
 
 	public Booking createBooking(Booking booking) {
-<<<<<<< HEAD:src/main/java/com/api/carrental/Service/BookingService.java
+
 		// Set initial status
 	    booking.setStatus(BookingStatus.PENDING);
-=======
+
 	    int carId = booking.getCar().getId();       // uses carId from Car entity
 	    Long customerId = booking.getCustomer().getId(); // uses id from Customer entity
 	    
@@ -48,7 +48,7 @@ public class BookingService {
 	    booking.setCar(car);
 	    booking.setCustomer(customer);
 
->>>>>>> 1a6859e55dacab412dbafd30a213695588396b9d:Springboot Java/src/main/java/com/api/carrental/Service/BookingService.java
+
 	    return bookingRepository.save(booking);
 	}
 

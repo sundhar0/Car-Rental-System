@@ -33,22 +33,22 @@ public class CustomerService {
 	}
 	
     
-<<<<<<< HEAD:src/main/java/com/api/carrental/Service/CustomerService.java
-	public Customer saveCustomer(Customer customer, int userId) {
-	    Optional<User> optionalUser = userRepository.findById(userId);
+
+	public Customer saveCustomer(Customer customer, Long id) {
+	    Optional<User> optionalUser = userRepository.findById(id);
 	    if (optionalUser.isPresent()) {
 	        customer.setUser(optionalUser.get()); // ✅ link user to customer
 	        return customerRepository.save(customer);
 	    } else {
-	        throw new RuntimeException("User not found with ID: " + userId);
+	        throw new RuntimeException("User not found with ID: " + id);
 	    }
 	}
-=======
+
     public Customer saveCustomer(Customer customer) {
     	//it will get all the customer details and store it in the customer table
         return customerRepository.save(customer);
     }
->>>>>>> 1a6859e55dacab412dbafd30a213695588396b9d:Springboot Java/src/main/java/com/api/carrental/Service/CustomerService.java
+
 
     public List<Customer> getAllCustomers() {
     	// it will be used to show all the customer details
@@ -75,7 +75,7 @@ public class CustomerService {
     	// it will be used to show te details of the customer using the customer name
         return customerRepository.findByFullNameContainingIgnoreCase(name);
     }
-<<<<<<< HEAD:src/main/java/com/api/carrental/Service/CustomerService.java
+
 
 
 	public Optional<Customer> getById(int ownId) {
@@ -117,11 +117,5 @@ public class CustomerService {
 
 	
 
-	
-
-
-=======
->>>>>>> 1a6859e55dacab412dbafd30a213695588396b9d:Springboot Java/src/main/java/com/api/carrental/Service/CustomerService.java
-	
 
 }

@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.BookingService;
 import com.api.carrental.Service.CancellationService;
-<<<<<<< HEAD:src/main/java/com/api/carrental/Controller/CancellationController.java
 import com.api.carrental.enums.BookingStatus;
-=======
+
 import com.api.carrental.Service.TestDriveService;
->>>>>>> 1a6859e55dacab412dbafd30a213695588396b9d:Springboot Java/src/main/java/com/api/carrental/Controller/CancellationController.java
+
 import com.api.carrental.model.Booking;
 import com.api.carrental.model.Cancellation;
 import com.api.carrental.model.TestDrive;

@@ -3,14 +3,14 @@ package com.api.carrental.Service;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD:src/main/java/com/api/carrental/Service/ManagerService.java
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-=======
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.*;
->>>>>>> 1a6859e55dacab412dbafd30a213695588396b9d:Springboot Java/src/main/java/com/api/carrental/Service/ManagerService.java
+
 import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.InvalidIDException;
