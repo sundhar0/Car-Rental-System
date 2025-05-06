@@ -7,17 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Exception.InvalidFuelException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidModelException;
-import com.api.carrental.Exception.InvalidPriceException;
 import com.api.carrental.Exception.InvalidYearException;
 import com.api.carrental.Service.CarrentalService;
 import com.api.carrental.dto.MessageResponseDto;
-import com.api.carrental.model.Booking;
 import com.api.carrental.model.Car;
 
 @RestController
@@ -56,6 +53,7 @@ public class CarrentalController {
 	        messageDto.setStatusCode(400);
 	        return ResponseEntity.status(400).body(messageDto);
 	    }
+	    
 	}
 
 	
@@ -84,6 +82,21 @@ public class CarrentalController {
 			
 		}
 	}
+	
+	// Search Car by Brand
+	@GetMapping("/brand/{brand}")
+	public ResponseEntity<?> getCarByBrand(@PathVariable String brand) {
+	    try {
+	        List<Car> list = carrentalService.getCarByBrand(brand);
+	        return ResponseEntity.ok(list);
+	    } catch (Exception e) {
+	        messageDto.setBody(e.getMessage());
+	        messageDto.setStatusCode(400);
+	        return ResponseEntity.status(400).body(messageDto);
+	    }
+	}
+
+
 
 
 }

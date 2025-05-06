@@ -18,7 +18,7 @@ import com.api.carrental.Service.BookingService;
 import com.api.carrental.dto.MessageResponseDto;
 import com.api.carrental.model.Booking;
 
-
+//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/book/")
 public class BookingController {
@@ -32,23 +32,19 @@ public class BookingController {
 	}
 	
 	@PostMapping("/create")
-	public Booking createBooking(@RequestBody Booking booking) {
+	public Booking createBooking(@RequestBody Booking booking) throws InvalidIDException {
 		return bookingService.createBooking(booking);
 	}
 	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateBooking(@PathVariable int id, @RequestBody Booking newValue) {
+	@PutMapping("/updatestatus/{id}/{status}")
+	public ResponseEntity<?> updateBookingStatus(@PathVariable int id, @PathVariable String status) {
 	    try {
-	        Booking updatedBooking = bookingService.updateBooking(id, newValue);
+	        Booking updatedBooking = bookingService.updateStatus(id, status.toUpperCase());
 	        return ResponseEntity.ok(updatedBooking);
-	    } catch (InvalidIDException e) {
+	    } catch (Exception e) {
 	        messageDto.setBody(e.getMessage());
 	        messageDto.setStatusCode(400);
 	        return ResponseEntity.status(400).body(messageDto);
-	    } catch (Exception e) {
-	        messageDto.setBody("An unexpected error occurred: " + e.getMessage());
-	        messageDto.setStatusCode(500);
-	        return ResponseEntity.status(500).body(messageDto);
 	    }
 	}
 

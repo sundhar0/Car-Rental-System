@@ -1,10 +1,11 @@
 package com.api.carrental.Controller;
 
+import java.io.IOException;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.api.carrental.Exception.InvalidIDException;
-
 import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Customer;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/customer")
 public class CustomerController {
 
@@ -34,9 +36,9 @@ public class CustomerController {
     }
     
     //Add customer 
-    @PostMapping("/add")
-    public Customer addCustomer (@RequestBody Customer customer) {
-        return customerService.saveCustomer(customer);
+    @PostMapping("/add/{userId}")
+    public Customer addCustomer (@PathVariable int userId,@RequestBody Customer customer) {
+        return customerService.saveCustomer(customer,userId);
     }
 
     //Get all customers
@@ -70,7 +72,7 @@ public class CustomerController {
             if (newValue.getAddress() != null)
                 customer.setAddress(newValue.getAddress());
 
-            customer = customerService.saveCustomer(customer);
+            customer = customerService.saveCustomer(customer, id);
             return ResponseEntity.ok(customer);
 
         } catch (InvalidIDException e) {
@@ -96,6 +98,13 @@ public class CustomerController {
             return ResponseEntity.status(400).body("Failed to delete customer: " + e.getMessage());
         }
     }
+    
+    @PostMapping("/upload/{cid}")
+    public Customer uploadCustomerPic(@PathVariable int cid, @RequestParam MultipartFile file)
+            throws IOException, InvalidIDException {
+        return customerService.uploadImage(file, cid);
+    }
+
 
 
 

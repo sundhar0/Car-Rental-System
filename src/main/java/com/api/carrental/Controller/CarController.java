@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.carrental.Exception.InvalidIDException;
-import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.CarService;
 import com.api.carrental.Service.CustomerService;
 import com.api.carrental.model.Car;
@@ -22,6 +20,7 @@ import com.api.carrental.model.Customer;
 
 @RestController
 @RequestMapping("/api/car")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CarController {
 	
 	@Autowired
@@ -43,10 +42,10 @@ public class CarController {
 		return carService.getAll();
 	}
 	
-	@GetMapping("/getReview/{cId}")
-	public Object SeeReview(@PathVariable int cId) {
-		return carService.getReview(cId);
-	}
-	
+//	@GetMapping("/getReview/{cId}")
+//	public Object SeeReview(@PathVariable int cId) {
+//		return carService.getReview(cId);
+//	}
+//	
 	
 }

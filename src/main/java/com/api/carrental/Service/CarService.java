@@ -49,17 +49,13 @@ public class CarService {
 		
 		List<CarApproval> approvedApprovals = carApprovalRepository.findByApprovedTrue();
 	    return approvedApprovals.stream()
-	    						.filter(ca->ca.getCar().getCarSaleType() == CarSaleType.SELL)
+	    						.filter(ca->ca.getCar().getCarSaleType() == CarSaleType.RENT)
 	    						.map(ca->ca.getCar())
 	                            .toList();
 	}
 
-	public Object getReview(int cId) {
-		//this will be used to show the feedback about the customer
-		//after getting the customer id we are checking the details about the cutomer in the reviewfeedback table
-		List<ReviewFeedback> list=reviewFeedbackService.getByReview(cId);
-		return list;
-	}
+	
+
 	
 	
 }

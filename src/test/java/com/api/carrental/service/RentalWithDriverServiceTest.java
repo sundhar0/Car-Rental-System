@@ -1,14 +1,13 @@
 package com.api.carrental.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,9 +16,8 @@ import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.RentalWithDriverRepository;
+import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.RentalWithDriverService;
-import com.api.carrental.enums.CarSaleType;
-import com.api.carrental.enums.CarStatus;
 import com.api.carrental.enums.DriverAvailability;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.Driver;
@@ -28,6 +26,9 @@ import com.api.carrental.model.User;
 
 @ExtendWith(MockitoExtension.class)
 public class RentalWithDriverServiceTest {
+	@Mock
+	private AuthService authService;
+
 
 	@Mock
     private RentalWithDriverRepository rentalWithDriverRepository;
@@ -42,7 +43,7 @@ public class RentalWithDriverServiceTest {
         User user = new User(1, "user1", "password", "Address");
         user.setRole("CUSTOMER");
 
-        Car car = new Car(1, "Model S", "2022", 75000.0, "Tesla", "Electric", "Automatic", "300mi", user, CarStatus.AVAILABLE, CarSaleType.RENT);
+        Car car = new Car();
 
         Driver driver = new Driver();
         driver.setDriverId(1);
