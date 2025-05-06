@@ -1,5 +1,7 @@
 package com.api.carrental.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,20 @@ public class Complaint {
     private String issue;
 
     private String status;
+    
+    private LocalDate updatedAt;
+    
+    private String description;
+
+    
+    
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public int getComplaintId() {
 		return complaintId;

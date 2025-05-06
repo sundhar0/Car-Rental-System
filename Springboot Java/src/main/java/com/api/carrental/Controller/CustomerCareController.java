@@ -11,9 +11,8 @@ import com.api.carrental.Exception.InvalidIDException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customer-care")
-@CrossOrigin(origins = "http://localhost:5173")
-
+@RequestMapping("/api/customer-care")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class CustomerCareController {
 
     @Autowired

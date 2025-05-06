@@ -1,6 +1,11 @@
 package com.api.carrental.Config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.api.carrental.Service.MyUserService;
 
@@ -29,6 +36,7 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+		.cors(withDefaults())
 		.csrf(csrf->csrf.disable())
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/api/userLogin/signup").permitAll()
@@ -45,7 +53,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/caravailability/add").permitAll()
 				.requestMatchers("/api/caravailability/all").permitAll()
 				.requestMatchers("/api/caravailability/one/{id}").permitAll()
-				.requestMatchers("/api/caravailability/update/{id}").permitAll()
+				.requestMatchers("/api/carav+ailability/update/{id}").permitAll()
 				.requestMatchers("/api/caravailability/delete/{id}").permitAll()
 				.requestMatchers("/api/rentalcar/add").permitAll()
 				.requestMatchers("/api/rentalcar/all").permitAll()
@@ -54,6 +62,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/rentalcar/delete/{id}").permitAll()
 				.requestMatchers("/api/caravailability/add/{carId}/{managerId}").hasAuthority("Manager")
 				.requestMatchers("/api/Manager/getAll").hasAuthority("Manager")
+				.requestMatchers("/swagger-ui/**").permitAll()
 				.anyRequest().permitAll()
 			)
 			.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -62,6 +71,18 @@ public class SecurityConfig {
 
 		return http.build();
 	}
+	
+	@Bean
+	UrlBasedCorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+	    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+	    configuration.setAllowedHeaders(List.of("*"));
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
+	}
+	
 	@Bean
 	AuthenticationProvider getAuth() {
 		DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
