@@ -54,6 +54,7 @@ public class CarrentalController {
 	        messageDto.setStatusCode(400);
 	        return ResponseEntity.status(400).body(messageDto);
 	    }
+	    
 	}
 
 	
@@ -82,6 +83,21 @@ public class CarrentalController {
 			
 		}
 	}
+	
+	// Search Car by Brand
+	@GetMapping("/brand/{brand}")
+	public ResponseEntity<?> getCarByBrand(@PathVariable String brand) {
+	    try {
+	        List<Car> list = carrentalService.getCarByBrand(brand);
+	        return ResponseEntity.ok(list);
+	    } catch (Exception e) {
+	        messageDto.setBody(e.getMessage());
+	        messageDto.setStatusCode(400);
+	        return ResponseEntity.status(400).body(messageDto);
+	    }
+	}
+
+
 
 
 }

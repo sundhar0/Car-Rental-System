@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.RentalHistoryRepository;
@@ -13,10 +15,14 @@ public class RentalHistoryService {
 	
 	@Autowired
     private RentalHistoryRepository rentalHistoryRepository;
-
+	@Autowired
+	private CustomerService customerService;
+	
 	public RentalHistory addRentalHistory(RentalHistory rentalHistory) {
-		return rentalHistoryRepository.save(rentalHistory);
+	    // Here, the customer should already be saved, so we can directly save rental history
+	    return rentalHistoryRepository.save(rentalHistory);
 	}
+
 	
 	public List<RentalHistory> getAllRentalHistories() {
         return rentalHistoryRepository.findAll();

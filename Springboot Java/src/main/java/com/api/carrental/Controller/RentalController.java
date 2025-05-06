@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,8 @@ import com.api.carrental.model.Customer;
 import com.api.carrental.model.Rental;
 
 @RestController
-@RequestMapping("/api/rental-history")
+@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api/rental")
 public class RentalController {
 	@Autowired
     private RentalService rentalService;
@@ -53,7 +55,8 @@ public class RentalController {
         rental.setStatus(RentalStatus.RUNNING);
         return rentalService.saveRental(rental);
     }
- // Update Rental Status
+
+    // Update Rental Status
     @PutMapping("/{rentalId}/status")
     public ResponseEntity<Rental> updateRentalStatus(@PathVariable int rentalId,
                                                      @RequestBody Map<String, String> request) throws InvalidIDException {
@@ -61,19 +64,31 @@ public class RentalController {
         return ResponseEntity.ok(rentalService.updateRentalStatus(rentalId, status));
     }
 
-    
- // Return Rental
+    // Return Rental (Updated to calculate and set late fee)
     @PutMapping("/{rentalId}/return")
     public Rental returnRental(@PathVariable int rentalId, @RequestParam String returnDate) throws InvalidIDException {
-        return rentalService.returnRental(rentalId, returnDate);
+        Rental rental = rentalService.returnRental(rentalId, returnDate);
+        double lateFee = rentalService.calculateLateFee(rentalId);
+        rental.setLateFee(lateFee);
+        rental.setStatus(RentalStatus.RETURNED);
+        return rentalService.saveRental(rental);
     }
-    
- // Calculate Late Fee
+
+    // Calculate Late Fee
     @GetMapping("/{rentalId}/late-fee")
     public double calculateLateFee(@PathVariable int rentalId) throws InvalidIDException {
         return rentalService.calculateLateFee(rentalId);
     }
-	
+    
+ // Get booking by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Booking> getBookingById(@PathVariable int id) throws InvalidIDException {
+        Booking booking = bookingService.getBookingById(id);
+        if (booking == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(booking);
+    }
 	
 
 }
