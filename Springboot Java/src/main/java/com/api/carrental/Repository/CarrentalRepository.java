@@ -15,9 +15,6 @@ public interface CarrentalRepository extends JpaRepository<Car,Integer>{
 
 	List<Car> findCarsByFuelType(String fuelType);
 
-	List<Car> findCarsByBrand(String brand);
-
-
 	
 
 	
