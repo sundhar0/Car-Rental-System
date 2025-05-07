@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import RentalHistory from "./RentalHistory";
+import TestSchedule from "./TestSchedule";
+import SellHistory from "./SellHistory";
+
 
 function UserDashboard() {
   const [activeTab, setActiveTab] = useState("rentals");
@@ -17,10 +20,10 @@ function UserDashboard() {
     switch (activeTab) {
       case "rentals":
         return <div><RentalHistory/></div>;
-      case "buying":
-        return <div>Buying content</div>;
+      case "Test drive":
+        return <div><TestSchedule/></div>;
       case "selling":
-        return <div>Selling content</div>;
+        return <div><SellHistory/></div>;
       case "given":
         return <div>Given content</div>;
       default:
@@ -64,7 +67,7 @@ function UserDashboard() {
         <div className="card border-0 shadow-sm">
           <div className="card-body">
             <ul className="nav nav-tabs mb-4">
-              {["rentals", "buying", "selling", "given"].map((tab) => (
+              {["rentals", "Test drive", "selling", "given"].map((tab) => (
                 <li className="nav-item" key={tab}>
                   <button
                     className={`nav-link ${activeTab === tab ? "active fw-bold" : ""}`}

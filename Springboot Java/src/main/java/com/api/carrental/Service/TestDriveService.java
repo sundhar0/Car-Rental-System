@@ -48,8 +48,8 @@ public class TestDriveService {
         return testDriveRepository.save(testDrive);
     }
 
-    public List<TestDrive> getAllBookings() {
-        return testDriveRepository.findAll();
+    public List<TestDrive> getAllBookings(int id) {
+        return testDriveRepository.findAllById(id);
     }
 
     public Optional<TestDrive> getBookingsByCarId(int carId) throws InvalidIDException {
@@ -78,7 +78,9 @@ public class TestDriveService {
 		return null;
 	}
 
-	
+	public String deleteByCarID(int carId) {
+		return testDriveRepository.deleteByCarId(carId);
+	}
 
 	
 }

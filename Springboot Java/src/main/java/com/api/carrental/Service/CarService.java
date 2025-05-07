@@ -11,7 +11,8 @@ import java.util.List;
 
 import java.util.Optional;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +26,9 @@ import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
 import com.api.carrental.model.User;
+
+import jakarta.transaction.Transactional;
+
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 
@@ -40,6 +44,11 @@ public class CarService {
 	@Autowired
 	private AuthService authService;
 	
+	@Autowired
+	private TestDriveService testDriveService;
+	
+	Logger logger=LoggerFactory.getLogger("CarService");
+
 	
 	public Car add(Car car) {
 		//this method will store the car status will defaultly in pending
@@ -96,12 +105,14 @@ public class CarService {
 
 	}
 
-	public void DeleteCar(int cId) throws InvalidIDException {
-		Optional<Car> optional=carRepository.findById(cId);
-		if(optional==null)
-			throw new InvalidIDException("Given Car Id is Invalid!!");
-		carRepository.deleteById(cId);
-		
+	@Transactional
+	public void deleteCar(int cId) throws InvalidIDException {
+	    Optional<Car> optional = carRepository.findById(cId);
+	    if (optional.isEmpty())
+	        throw new InvalidIDException("Given Car Id is Invalid!!");
+	    
+	    testDriveService.deleteByCarID(cId); 
+	    carRepository.deleteById(cId);       
 	}
 
 	public Car uploadImage(MultipartFile file,int cid) throws IOException, InvalidIDException {
@@ -128,6 +139,42 @@ public class CarService {
 		/*Save this path in Db */
 		car.setCarImage(path.toString());
 		return carRepository.save(car);
+	}
+
+	public Page<Car> getAllCarsById(int id, Pageable pageable) {
+		// First get approved cars that are for sale
+	    List<CarApproval> approvedApprovals = carApprovalRepository.findByApprovedTrueAndId(id);
+	    List<Car> approvedCars = approvedApprovals.stream()
+	            .filter(ca -> ca.getCar().getCarSaleType() == CarSaleType.SELL)
+	            .map(CarApproval::getCar)
+	            .toList();
+	    
+	    // Convert to page
+	    int start = (int) pageable.getOffset();
+	    int end = Math.min((start + pageable.getPageSize()), approvedCars.size());
+	    
+	    return new PageImpl<>(
+	            approvedCars.subList(start, end),
+	            pageable,
+	            approvedCars.size()
+	    );
+	}
+	
+	public Object updateCar(int cId, Car newValue) throws InvalidIDException {
+		Optional<Car> optional=carRepository.findById(cId);
+		if(optional==null) {
+			throw new InvalidIDException("Given Id is Invalid");
+		}
+		Car newCar=optional.get();
+		newCar.setCarModel(newValue.getCarModel());
+		newCar.setCarMake(newValue.getCarMake());
+		newCar.setYear(newValue.getYear());
+		newCar.setLicensePlateNumber(newValue.getLicensePlateNumber());
+		newCar.setVehicleRegistrationNumber(newValue.getVehicleRegistrationNumber());
+		newCar.setCarColor(newValue.getCarColor());
+		logger.info("Car Value Updated..");
+		logger.info("Car Details updated...");
+		return carRepository.save(newCar);
 	}
 	
 }
