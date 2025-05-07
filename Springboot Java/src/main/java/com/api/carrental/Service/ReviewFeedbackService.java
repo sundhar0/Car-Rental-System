@@ -2,6 +2,8 @@ package com.api.carrental.Service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,10 @@ public class ReviewFeedbackService {
 	private CarService carService;
 	@Autowired
 	private CustomerService customerService;
-
+	Logger logger=LoggerFactory.getLogger("ReviewFeedbackService");
 	public List<ReviewFeedback> getByReview(int cId) throws InvalidIDException {
 		//this method will be used to show the feedback about the customer using the customer
-		Customer customer=customerService.getSingleCustomer(cId);
+		customerService.getSingleCustomer(cId);
 		return reviewFeedbackRepository.findByCustomerId(cId);
 	}
 
@@ -41,6 +43,7 @@ public class ReviewFeedbackService {
 		reviewFeedback.setCar(car);
 		//setting the values
 		reviewFeedback.setCustomer(customer);
+		logger.info("Review Added...");
 		return reviewFeedbackRepository.save(reviewFeedback);
 	}
 

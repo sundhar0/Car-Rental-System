@@ -8,6 +8,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,7 +38,7 @@ public class CarService {
 //	private ReviewFeedbackService reviewFeedbackService;
 	@Autowired
 	private AuthService authService;
-	
+	Logger logger=LoggerFactory.getLogger("CarService");
 	
 	public Car add(Car car) {
 		//this method will store the car status will defaultly in pending
@@ -132,9 +135,14 @@ public class CarService {
 			throw new InvalidIDException("Given Id is Invalid");
 		}
 		Car newCar=optional.get();
-		newCar.setModel(newValue.getModel());
-		newCar.
-		return null;
+		newCar.setCarModel(newValue.getCarModel());
+		newCar.setCarMake(newValue.getCarMake());
+		newCar.setYear(newValue.getYear());
+		newCar.setLicensePlateNumber(newValue.getLicensePlateNumber());
+		newCar.setVehicleRegistrationNumber(newValue.getVehicleRegistrationNumber());
+		newCar.setCarColor(newValue.getCarColor());
+		logger.info("Car Value Updated..");
+		return carRepository.save(newCar);
 	}
 	
 }

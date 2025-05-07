@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.RentalHistoryService;
-import com.api.carrental.dto.DriverDto;
 import com.api.carrental.dto.RentalHistoryDto;
-import com.api.carrental.model.Driver;
 import com.api.carrental.model.RentalHistory;
 
 @RestController

@@ -38,9 +38,6 @@ public class RentalWithDriverService {
     private DriverService driverService;
 
     @Autowired
-    private DriverScheduleService driverSchedueService;
-
-    @Autowired
     private RentalWithDriverRepository rentalWithDriverRepository;
     Logger logger=LoggerFactory.getLogger("RentalWithDriverService");
     //assigning the rental with driver
