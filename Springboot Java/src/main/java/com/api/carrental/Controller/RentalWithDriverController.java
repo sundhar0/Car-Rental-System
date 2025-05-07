@@ -88,9 +88,9 @@ public class RentalWithDriverController {
     
     @GetMapping("/driver/{driverId}")
     public RentalWithDriverDto getRidesForDriver(
-            @PathVariable Integer driverId,
-            @RequestParam Integer page, 
-            @RequestParam Integer size) {
+            @PathVariable int driverId,
+            @RequestParam int page, 
+            @RequestParam int size) {
         
         Pageable pageable = PageRequest.of(page, size);
         Page<RentalWithDriver> rentalPage = rentalWithDriverService.getRidesForDriver(driverId, pageable);
