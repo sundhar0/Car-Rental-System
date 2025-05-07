@@ -1,8 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState("rentals");
+  const [customer, setCustomer] = useState({});
+  const fetchCustomer=()=>{
+    try{
+      const response=axios.get(`http://localhost:8080/api/userLogin/userDetails`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setCustomer(response.data);
+    }
+    catch(err){
+      console.error("Error fetching customer:",err)
+    }
+  };
+  useEffect(()=>{
+    fetchCustomer();
+  },[])
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -35,10 +53,12 @@ const UserDashboard = () => {
         className="container py-5"
         style={{ maxWidth: "1000px" }}
       >
-        <div className="mb-5">
-          <h2 className="fw-bold" style={{ color: "#253343" }}>Customer Dashboard</h2>
-          <p className="text-muted">Welcome back, John Doe</p>
-        </div>
+        <div className="flex-grow-1 p-3">
+        <div className="container mt-3">
+          <h1 className="fw-bold" style={{ color: "#253343" }}>Customer Dashboard</h1>
+          <div className="m-5">
+            <h3>Welcome, {customer.name}</h3>
+          </div>
 
         <div className="row g-4 mb-4">
           <div className="col-md-4">
@@ -59,6 +79,8 @@ const UserDashboard = () => {
               <h6 className="mt-2">Jan 2024</h6>
             </div>
           </div>
+        </div>
+        </div>
         </div>
 
         <div className="card border-0 shadow-sm">
