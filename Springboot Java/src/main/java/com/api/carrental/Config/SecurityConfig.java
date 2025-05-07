@@ -1,10 +1,5 @@
 package com.api.carrental.Config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -67,15 +62,12 @@ public class SecurityConfig {
 				.requestMatchers("/api/rentalcar/delete/{id}").permitAll()
 				.requestMatchers("/api/caravailability/add/{carId}/{managerId}").hasAuthority("Manager")
 				.requestMatchers("/api/Manager/getAll").hasAuthority("Manager")
-				.requestMatchers("api/book/crete").hasAuthority("RENTER")
 				.requestMatchers("/swagger-ui/**").permitAll()
 				.anyRequest().permitAll()
 			)
 			.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 			;
-		
-		
 
 		return http.build();
 	}
@@ -92,27 +84,12 @@ public class SecurityConfig {
 	}
 	
 	@Bean
- 	UrlBasedCorsConfigurationSource corsConfigurationSource() {
- 	    CorsConfiguration configuration = new CorsConfiguration();
- 	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
- 	    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
- 	    configuration.setAllowedHeaders(List.of("*"));
- 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
- 	    source.registerCorsConfiguration("/**", configuration);
- 	    return source;
- 	}
-	
-	@Bean
 	AuthenticationProvider getAuth() {
 		DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
 		dao.setPasswordEncoder(passEncoder());
 		dao.setUserDetailsService(myUserService);	
 		return dao;
 	}
-	
-	
-	
-	
 	@Bean
 	BCryptPasswordEncoder passEncoder() {
 		return new BCryptPasswordEncoder();
