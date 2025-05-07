@@ -29,9 +29,9 @@ public class TestDriveController {
 	}
 	
 	//showing all the booking
-	@GetMapping("/showAll")
-	public List<TestDrive> showAll() {
-		return testDriveService.getAllBookings();
+	@GetMapping("/showAll/{id}")
+	public List<TestDrive> showAll(@PathVariable int id) {
+		return testDriveService.getAllBookings(id);
 	}
 	
 	//get the booking details by the car id

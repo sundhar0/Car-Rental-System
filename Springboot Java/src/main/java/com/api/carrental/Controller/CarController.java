@@ -59,6 +59,24 @@ public class CarController {
 	    return dto;
 	}
 	
+	@GetMapping("/getAllCarsById/{id}")
+	public CarDto getAllCarsById(@PathVariable int id,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
+	    
+	    Pageable pageable = PageRequest.of(page, size);
+	    Page<Car> carPage = carService.getAllCarsById(id,pageable);
+	    
+	    CarDto dto = new CarDto();
+	    dto.setList(carPage.getContent());
+	    dto.setCurrentPage(page);
+	    dto.setSize(size);
+	    dto.setTotalElements((int) carPage.getTotalElements());
+	    dto.setTotalPages(carPage.getTotalPages());
+	    
+	    return dto;
+	}
+	
 	@GetMapping("/getById/{carId}")
 	public Car getById(@PathVariable int carId) throws InvalidIDException {
 		return carService.getById(carId);
@@ -74,7 +92,7 @@ public class CarController {
 	}
 	@DeleteMapping("/delete/{cId}")
 	public void deleteCar(@PathVariable int cId) throws InvalidIDException {
-		carService.DeleteCar(cId);
+		carService.deleteCar(cId);
 	}
 	@PutMapping("/updateCar/{cId}")
 	public Object updateCar(@PathVariable int cId,@RequestBody Car newValue) throws InvalidIDException {

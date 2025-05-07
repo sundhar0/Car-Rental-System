@@ -24,6 +24,7 @@ import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
 import com.api.carrental.model.User;
+import jakarta.transaction.Transactional;
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 
@@ -38,6 +39,10 @@ public class CarService {
 //	private ReviewFeedbackService reviewFeedbackService;
 	@Autowired
 	private AuthService authService;
+	
+	@Autowired
+	private TestDriveService testDriveService;
+	
 	Logger logger=LoggerFactory.getLogger("CarService");
 	
 	public Car add(Car car) {
@@ -86,8 +91,7 @@ public class CarService {
 //			throw new InvalidIDException("Given Customer Id is Invalid...");
 //		return list;
 //	}
-
-	public Object getHistory(int cId) throws InvalidIDException {
+	public List<Car> getHistory(int cId) throws InvalidIDException {
 		//it will get the history by customer id
 		User user = authService.getById(cId);
 		if(user==null)
@@ -95,14 +99,14 @@ public class CarService {
 		return carRepository.findByCarOwnerUserId(cId);
 
 	}
-
-	public void DeleteCar(int cId) throws InvalidIDException {
-		Optional<Car> optional=carRepository.findById(cId);
-		if(optional==null)
-			throw new InvalidIDException("Given Car Id is Invalid!!");
-		logger.info("Car Deleted...");
-		carRepository.deleteById(cId);
-		
+	@Transactional
+	public void deleteCar(int cId) throws InvalidIDException {
+	    Optional<Car> optional = carRepository.findById(cId);
+	    if (optional.isEmpty())
+	        throw new InvalidIDException("Given Car Id is Invalid!!");
+	    
+	    testDriveService.deleteByCarID(cId); 
+	    carRepository.deleteById(cId); 
 	}
 
 	public Car uploadImage(MultipartFile file,int cid) throws IOException, InvalidIDException {
@@ -132,6 +136,24 @@ public class CarService {
 		return carRepository.save(car);
 	}
 
+	public Page<Car> getAllCarsById(int id, Pageable pageable) {
+		// First get approved cars that are for sale
+	    List<CarApproval> approvedApprovals = carApprovalRepository.findByApprovedTrueAndId(id);
+	    List<Car> approvedCars = approvedApprovals.stream()
+	            .filter(ca -> ca.getCar().getCarSaleType() == CarSaleType.SELL)
+	            .map(CarApproval::getCar)
+	            .toList();
+	    
+	    // Convert to page
+	    int start = (int) pageable.getOffset();
+	    int end = Math.min((start + pageable.getPageSize()), approvedCars.size());
+	    
+	    return new PageImpl<>(
+	            approvedCars.subList(start, end),
+	            pageable,
+	            approvedCars.size()
+	    );
+	}
 	public Object updateCar(int cId, Car newValue) throws InvalidIDException {
 		Optional<Car> optional=carRepository.findById(cId);
 		if(optional==null) {

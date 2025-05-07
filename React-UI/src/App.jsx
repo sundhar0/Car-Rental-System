@@ -20,8 +20,17 @@ import DriverRides from "./components/Driver/DriverRides";
 import ComplaintList from "./components/CustomerCare/ComplaintList";
 import DriverDocumentUpload from "./components/Driver/DriverDocumentUpload";
 import UserDashboard from "./components/Customer/User";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import fetchAllCar from "./components/Store/CarStore/actions/AllCarActions";
+import fetchDriverAll from "./components/Store/DriverStore/action/driverAllActions";
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchDriverAll())
+    dispatch(fetchAllCar())
+  }, [])
   return (
     <Routes>
       <Route path="" element={<LandingPage />} />

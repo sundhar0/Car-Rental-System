@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import profile from "../../assets/image.png";
+import { useSelector } from "react-redux";
+
 
 function DriverList() {
   const [drivers, setDrivers] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
+  
+
+  const driverAll = useSelector(state => state.driverAll.driverAll)
 
   const getAllDrivers = async () => {
     try {
@@ -23,6 +28,7 @@ function DriverList() {
 
   useEffect(() => {
     getAllDrivers();
+    console.log(driverAll)
   }, []);
 
   return (
@@ -111,7 +117,7 @@ function DriverList() {
           Available Drivers
         </h1>
         <div className="row">
-          {drivers
+          {driverAll
             .filter((d) => d.driverAvailability == "AVAILABLE")
             .map((driv, index) => (
               <div className="col-lg-3 mb-4" key={index}>

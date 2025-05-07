@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import profile from "../../assets/image.png";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
 
 function BuyerPage() {
   const navigate = useNavigate();
-
+  
+  const allCar = useSelector(state => state.allCar.allCar)
   const [cars, setCars] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(9);
@@ -289,8 +291,8 @@ function BuyerPage() {
             {/* Car Listings */}
             <div className="col-md-9">
               <div className="row">
-                {filteredCars.length > 0 ? (
-                  filteredCars.map((car) => (
+                {allCar.length > 0 ? (
+                  allCar.map((car) => (
                     <div className="col-md-4 mb-4" key={car.id}>
                       <div className="card shadow-lg h-100">
                         <img
