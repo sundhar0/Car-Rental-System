@@ -58,7 +58,8 @@ public class RentalHistoryController {
 		dto.setSize(size);
 		dto.setTotalElements((int) driverP.getTotalElements());
 		dto.setTotalPages(driverP.getTotalPages());
-		return dto;     }
+		return dto;     
+	}
     
 
 }

@@ -48,7 +48,7 @@ public class ReviewFeedbackServiceTest {
     @BeforeEach
     public void setUp() {
         customer = new Customer();
-        customer.setId(1L);
+        customer.setId(1);
         customer.setFullName("Test Customer");
 
         car = new Car();
@@ -65,10 +65,10 @@ public class ReviewFeedbackServiceTest {
 
     @Test
     public void testGetByReview() throws InvalidIDException {
-        when(customerService.getSingleCustomer(1L)).thenReturn(customer);
-        when(reviewFeedbackRepository.findByCustomerId(1L)).thenReturn(Arrays.asList(feedback));
+        when(customerService.getSingleCustomer(1)).thenReturn(customer);
+        when(reviewFeedbackRepository.findByCustomerId(1)).thenReturn(Arrays.asList(feedback));
 
-        List<ReviewFeedback> list = reviewFeedbackService.getByReview(1L);
+        List<ReviewFeedback> list = reviewFeedbackService.getByReview(1);
         assertEquals(1, list.size());
         assertEquals("Excellent", list.get(0).getReview());
     }
@@ -76,10 +76,10 @@ public class ReviewFeedbackServiceTest {
     @Test
     public void testAddReview_Success() throws InvalidIDException {
         when(carService.getById(101)).thenReturn(car);
-        when(customerService.getSingleCustomer(1L)).thenReturn(customer);
+        when(customerService.getSingleCustomer(1)).thenReturn(customer);
         when(reviewFeedbackRepository.save(any(ReviewFeedback.class))).thenReturn(feedback);
 
-        Object savedFeedback = reviewFeedbackService.addReview(101, 1L, feedback);
+        Object savedFeedback = reviewFeedbackService.addReview(101, 1, feedback);
         assertEquals(feedback, savedFeedback);
     }
 
@@ -88,7 +88,7 @@ public class ReviewFeedbackServiceTest {
         when(carService.getById(999)).thenReturn(null);
 
         InvalidIDException exception = assertThrows(InvalidIDException.class, () -> {
-            reviewFeedbackService.addReview(999, 1L, feedback);
+            reviewFeedbackService.addReview(999, 1, feedback);
         });
 
         assertEquals("Given Car id is Invalid...", exception.getMessage());
@@ -97,10 +97,10 @@ public class ReviewFeedbackServiceTest {
     @Test
     public void testAddReview_InvalidCustomerId() throws InvalidIDException {
         when(carService.getById(101)).thenReturn(car);
-        when(customerService.getSingleCustomer(99L)).thenReturn(null);
+        when(customerService.getSingleCustomer(99)).thenReturn(null);
 
         InvalidIDException exception = assertThrows(InvalidIDException.class, () -> {
-            reviewFeedbackService.addReview(101, 99L, feedback);
+            reviewFeedbackService.addReview(101, 99, feedback);
         });
 
         assertEquals("Given Customer Id is Invalid...", exception.getMessage());
