@@ -34,15 +34,9 @@ public class Booking {
 
     @Column(nullable = false)
     private String returnDate;
-    
-    @Column(nullable = false)
-    private double pricePerDay;  // Daily rate at booking time
 
     @Column(nullable = false)
-    private double totalCost;    // pricePerDay × days
-
-    @Column(nullable = false)
-    private double initialFee;
+    private double initialCost;
     
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -90,30 +84,13 @@ public class Booking {
 	public void setReturnDate(String returnDate) {
 		this.returnDate = returnDate;
 	}
-	
 
-	public double getInitialFee() {
-		return initialFee;
+	public double getInitialCost() {
+		return initialCost;
 	}
 
-	public void setInitialFee(double initialFee) {
-		this.initialFee = initialFee;
-	}
-
-	public double getPricePerDay() {
-		return pricePerDay;
-	}
-
-	public void setPricePerDay(double pricePerDay) {
-		this.pricePerDay = pricePerDay;
-	}
-
-	public double getTotalCost() {
-		return totalCost;
-	}
-
-	public void setTotalCost(double totalCost) {
-		this.totalCost = totalCost;
+	public void setInitialCost(double initialCost) {
+		this.initialCost = initialCost;
 	}
 
 	public BookingStatus getStatus() {
