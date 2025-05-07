@@ -11,14 +11,6 @@ import com.api.carrental.model.Car;
 public interface CarRepository extends JpaRepository<Car, Integer> {
 
 
-	List<Car> findByStatus(String string);
-
-	
-
-
-
-
 	List<Car> findByCarOwnerUserId(int userId);
 
 }
-
