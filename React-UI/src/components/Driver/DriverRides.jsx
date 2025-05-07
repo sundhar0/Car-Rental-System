@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 
 function DriverRides() {
   const [rides, setRides] = useState([]);
+  const [filteredRides, setFilteredRides] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
   const [driver, setDriver] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getDriverRides = async () => {
     try {
@@ -24,10 +26,10 @@ function DriverRides() {
 
       // Then get rides for this driver
       const ridesResponse = await axios.get(
-        `http://localhost:8080/api/rentWithDriver/driver/${driverResponse.data.driverId}?page=${page}&size=${size}`,
-        
+        `http://localhost:8080/api/rentWithDriver/driver/${driverResponse.data.driverId}?page=${page}&size=${size}`
       );
       setRides(ridesResponse.data.list);
+      setFilteredRides(ridesResponse.data.list); // Initialize filtered rides
       setTotalPages(ridesResponse.data.totalPages);
     } catch (err) {
       console.log(err);
@@ -38,15 +40,36 @@ function DriverRides() {
     getDriverRides();
   }, [page]);
 
+  // Search functionality
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setFilteredRides(rides);
+    } else {
+      const filtered = rides.filter((ride) => {
+        const searchLower = searchTerm.toLowerCase();
+        return (
+          (ride.id?.toString().toLowerCase().includes(searchLower)) ||
+          (ride.user?.username?.toLowerCase().includes(searchLower)) ||
+          (ride.car?.model?.toLowerCase().includes(searchLower)) ||
+          (ride.rideStatus?.toLowerCase().includes(searchLower)) ||
+          (new Date(ride.rentalStart).toLocaleDateString().toLowerCase().includes(searchLower)) ||
+          (new Date(ride.rentalEnd).toLocaleDateString().toLowerCase().includes(searchLower))
+        );
+      });
+      setFilteredRides(filtered);
+    }
+  }, [searchTerm, rides]);
+
   const handleConfirmRide = async (rideId, status) => {
     try {
       await axios.put(
         `http://localhost:8080/api/rentWithDriver/updateStatus/${rideId}/${status}`,
+        null, // Add null as the body since we're not sending any data
         {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       // Refresh the rides list
       getDriverRides();
@@ -90,14 +113,6 @@ function DriverRides() {
                   Dashboard
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link
-                  to="/driverrides"
-                  className="nav-link text-white text-decoration-none"
-                >
-                  My Rides
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -113,6 +128,8 @@ function DriverRides() {
                 placeholder="Search"
                 aria-label="Search"
                 aria-describedby="button"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button
                 className="btn fw-bold text-white"
@@ -141,54 +158,62 @@ function DriverRides() {
               </tr>
             </thead>
             <tbody>
-              {rides.map((ride, index) => (
-                <tr key={index}>
-                  <th scope="row">{ride.id}</th>
-                  <td>{ride.user.username || "N/A"}</td>
-                  <td>{ride.car.model || "N/A"}</td>
-                  <td>{new Date(ride.rentalStart).toLocaleDateString()}</td>
-                  <td>{new Date(ride.rentalEnd).toLocaleDateString()}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        ride.rideStatus === "CONFIRMED"
-                          ? "bg-success"
-                          : ride.rideStatus === "WAITING_FOR_DRIVER"
-                          ? "bg-warning"
-                          : "bg-danger"
-                      }`}
-                    >
-                      {ride.rideStatus}
-                    </span>
-                  </td>
-                  <td>
-                    {ride.rideStatus === "WAITING_FOR_DRIVER" && (
-                      <div className="d-flex justify-content-center gap-1">
-                        <button
-                          className="btn text-white border-0"
-                          style={{ backgroundColor: "#00B86B" }}
-                          onClick={() => {
-                            handleConfirmRide(ride.id, "CONFIRMED");
-                          }}
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            handleConfirmRide(ride.id, "REJECTED");
-                          }}
-                        >
-                          Reject
-                        </button>
-                      </div>
-                    )}
-                    {ride.rideStatus !== "WAITING_FOR_DRIVER" && (
-                      <span className="text-muted">No actions available</span>
-                    )}
+              {filteredRides.length > 0 ? (
+                filteredRides.map((ride, index) => (
+                  <tr key={index}>
+                    <th scope="row">{ride.id}</th>
+                    <td>{ride.user.username || "N/A"}</td>
+                    <td>{ride.car.model || "N/A"}</td>
+                    <td>{new Date(ride.rentalStart).toLocaleDateString()}</td>
+                    <td>{new Date(ride.rentalEnd).toLocaleDateString()}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          ride.rideStatus === "CONFIRMED"
+                            ? "bg-success"
+                            : ride.rideStatus === "WAITING_FOR_DRIVER"
+                            ? "bg-warning"
+                            : "bg-danger"
+                        }`}
+                      >
+                        {ride.rideStatus}
+                      </span>
+                    </td>
+                    <td>
+                      {ride.rideStatus === "WAITING_FOR_DRIVER" && (
+                        <div className="d-flex justify-content-center gap-1">
+                          <button
+                            className="btn text-white border-0"
+                            style={{ backgroundColor: "#00B86B" }}
+                            onClick={() => {
+                              handleConfirmRide(ride.id, "CONFIRMED");
+                            }}
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              handleConfirmRide(ride.id, "REJECTED");
+                            }}
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      )}
+                      {ride.rideStatus !== "WAITING_FOR_DRIVER" && (
+                        <span className="text-muted">No actions available</span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center py-4">
+                    {searchTerm ? "No matching rides found" : "No rides found"}
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

@@ -13,12 +13,12 @@ function BecomeADriver() {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [pImage, setPImage] = useState(null);
-  
+
   // Document states
   const [licenceDoc, setLicenceDoc] = useState(null);
   const [aadhaarDoc, setAadhaarDoc] = useState(null);
   const [addressProofDoc, setAddressProofDoc] = useState(null);
-  
+
   // UI control states
   const [step, setStep] = useState(1); // 1: Driver info, 2: Documents
   const [driverId, setDriverId] = useState(null);
@@ -128,7 +128,7 @@ function BecomeADriver() {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -166,9 +166,7 @@ function BecomeADriver() {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-4 ms-auto">
               <li className="nav-item">
-                <Link to={"/driverlist"}>
-                    Driver List
-                </Link>
+                <Link to={"/driverlist"}>Driver List</Link>
               </li>
               <li className="nav-item">
                 <a href="#" className="nav-link text-white">
@@ -319,7 +317,7 @@ function BecomeADriver() {
                       onChange={(e) => setPerDayCharge(e.target.value)}
                       style={{ accentColor: "#00B86B" }}
                     />
-                    
+
                     <div className="my-3">
                       <label className="form-label fst-italic">
                         Profile picture
@@ -336,7 +334,13 @@ function BecomeADriver() {
                         style={{ backgroundColor: "#00B86B" }}
                         type="submit"
                       >
-                        Continue
+                        <Link
+                          to="/driverdashboard"
+                          className="nav-link text-white text-decoration-none"
+                        >
+                          Continue
+                        </Link>
+                        
                       </button>
                     </div>
                   </div>
@@ -378,7 +382,7 @@ function BecomeADriver() {
                         required
                       />
                     </div>
-                    
+
                     <div className="input-groups w-75">
                       <label>Aadhaar Card:</label>
                       <input
@@ -388,7 +392,7 @@ function BecomeADriver() {
                         required
                       />
                     </div>
-                    
+
                     <div className="input-groups w-75">
                       <label>Address Proof:</label>
                       <input
@@ -398,7 +402,7 @@ function BecomeADriver() {
                         required
                       />
                     </div>
-                    
+
                     <div className="d-flex gap-3">
                       <button
                         type="button"

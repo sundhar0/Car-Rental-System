@@ -294,8 +294,8 @@ function BuyerPage() {
             {/* Car Listings */}
             <div className="col-md-9">
               <div className="row">
-                {allCar.length > 0 ? (
-                  allCar.map((car) => (
+                {cars.length > 0 ? (
+                  cars.map((car) => (
                     <div className="col-md-4 mb-4" key={car.id}>
                       <div className="card shadow-lg h-100">
                         <img

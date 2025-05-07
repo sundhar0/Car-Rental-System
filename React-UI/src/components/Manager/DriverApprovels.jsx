@@ -1,29 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function DriverApprovels() {
-  const [drivers, setDrivers] = useState([]);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(8);
-  const [totalPages, setTotalPages] = useState(0);
   const [selectedDocs, setSelectedDocs] = useState([]);
 
-  const getAllDrivers = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/driver/getAll?page=${page}&size=${size}`
-      );
-      setDrivers(response.data.list);
-      setTotalPages(response.data.totalPages);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  useEffect(() => {
-    getAllDrivers();
-  }, [page]);
+  const driverAll = useSelector((state) => state.driverAll.driverAll);
 
   const handleApproveReject = async (driverId, availablility) => {
     try {
@@ -64,7 +50,10 @@ function DriverApprovels() {
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
-      <nav className="navbar navbar-expand-lg mb-4 p-3" style={{ backgroundColor: "#1C2631" }}>
+      <nav
+        className="navbar navbar-expand-lg mb-4 p-3"
+        style={{ backgroundColor: "#1C2631" }}
+      >
         <div className="container">
           <a href="#" className="navbar-brand">
             <h3 className="text-white">CarRent</h3>
@@ -86,16 +75,20 @@ function DriverApprovels() {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-2 ms-auto">
               <li className="nav-item">
-                <Link to="/driverlistformanager" className="nav-link text-white text-decoration-none">
+                <Link
+                  to="/driverlistformanager"
+                  className="nav-link text-white text-decoration-none"
+                >
                   Driver List
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="#" className="nav-link">
-                  <button className="btn text-white fw-bold" style={{ backgroundColor: "#00B86B" }}>
-                    Sell/Buy
-                  </button>
-                </a>
+                <Link
+                  to="/complaintlist"
+                  className="nav-link text-white text-decoration-none"
+                >
+                  Complaints
+                </Link>
               </li>
             </ul>
           </div>
@@ -113,7 +106,12 @@ function DriverApprovels() {
               aria-label="Search"
               aria-describedby="button"
             />
-            <button className="btn fw-bold text-white" type="button" id="button" style={{ backgroundColor: "#00B86B" }}>
+            <button
+              className="btn fw-bold text-white"
+              type="button"
+              id="button"
+              style={{ backgroundColor: "#00B86B" }}
+            >
               <i className="bi bi-search"></i>
             </button>
           </div>
@@ -134,8 +132,10 @@ function DriverApprovels() {
               </tr>
             </thead>
             <tbody>
-              {drivers
-                .filter((unapprov) => unapprov.driverAvailability === "UNAVAILABLE")
+              {driverAll
+                .filter(
+                  (unapprov) => unapprov.driverAvailability === "UNAVAILABLE"
+                )
                 .sort((a, b) => a.driverId - b.driverId)
                 .map((d, index) => (
                   <tr key={index}>
@@ -150,17 +150,25 @@ function DriverApprovels() {
                         <button
                           className="btn text-white border-0"
                           style={{ backgroundColor: "#00B86B" }}
-                          onClick={() => handleApproveReject(d.driverId, "AVAILABLE")}
+                          onClick={() =>
+                            handleApproveReject(d.driverId, "AVAILABLE")
+                          }
                         >
                           Approve
                         </button>
-                        <button className="btn btn-danger" onClick={() => deleteStudents(d.driverId)}>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => deleteStudents(d.driverId)}
+                        >
                           Reject
                         </button>
                       </div>
                     </td>
                     <td>
-                      <button className="btn btn-link" onClick={() => getDriverDocument(d.driverId)}>
+                      <button
+                        className="btn btn-link"
+                        onClick={() => getDriverDocument(d.driverId)}
+                      >
                         View Documents
                       </button>
                     </td>
@@ -204,12 +212,21 @@ function DriverApprovels() {
 
       {/* Modal to show documents as an album */}
       {selectedDocs.length > 0 && (
-        <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          role="dialog"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Driver Documents</h5>
-                <button type="button" className="close btn" onClick={() => setSelectedDocs([])}>
+                <button
+                  type="button"
+                  className="close btn"
+                  onClick={() => setSelectedDocs([])}
+                >
                   <span>&times;</span>
                 </button>
               </div>
@@ -219,7 +236,11 @@ function DriverApprovels() {
                     key={i}
                     src={`${docUrl}`}
                     alt={`Document ${i + 1}`}
-                    style={{ width: "200px", height: "auto", borderRadius: "10px" }}
+                    style={{
+                      width: "200px",
+                      height: "auto",
+                      borderRadius: "10px",
+                    }}
                   />
                 ))}
               </div>

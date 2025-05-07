@@ -53,7 +53,7 @@ function LoginPage() {
                 //navigate to vendor dashboard
                 navigate("/driverlist");
                 break;
-              case "admin":
+              case "DRIVER":
                 navigate("/driverdashboard");
                 break;
               default:

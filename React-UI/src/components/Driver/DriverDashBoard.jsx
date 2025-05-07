@@ -119,14 +119,7 @@ function DriverDashBoard() {
 
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-2 ms-auto">
-              <li className="nav-item">
-                <Link
-                  to="/driverdashboard"
-                  className="nav-link text-white text-decoration-none active"
-                >
-                  Dashboard
-                </Link>
-              </li>
+              
               <li className="nav-item">
                 <Link
                   to="/driverrides"
