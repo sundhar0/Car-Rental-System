@@ -134,7 +134,7 @@ public class RentalWithDriverService {
         rentalWithDriverRepository.save(rental);
     }
 
-    public Page<RentalWithDriver> getRidesForDriver(Integer driverId, Pageable pageable) {
+    public Page<RentalWithDriver> getRidesForDriver(int driverId, Pageable pageable) {
         return rentalWithDriverRepository.findByDriverDriverId(driverId, pageable);
     }
 }

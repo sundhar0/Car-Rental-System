@@ -3,6 +3,8 @@ package com.api.carrental.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.carrental.Exception.InvalidIDException;
@@ -31,6 +33,10 @@ public class RentalHistoryService {
 	private RentalHistory getRentalHistoryById(int id) throws InvalidIDException {
 		 return rentalHistoryRepository.findById(id)
 		            .orElseThrow(() -> new InvalidIDException("RentalHistory with ID " + id + " not found"));
+	}
+
+	public Page<RentalHistory> getAllRentalHistoriesById(int customerId, Pageable pageable) {
+		return rentalHistoryRepository.findByCustomerId(customerId,pageable);
 	}
 
 }

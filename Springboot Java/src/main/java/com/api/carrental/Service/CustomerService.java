@@ -33,17 +33,17 @@ public class CustomerService {
     }
 
 
-    public Customer getSingleCustomer(Long cId) throws InvalidIDException {
+    public Customer getSingleCustomer(int i) throws InvalidIDException {
     	//it will get all the customer details using customer id
-        Optional<Customer> optionalCustomer = customerRepository.findById((long) cId);
+        Optional<Customer> optionalCustomer = customerRepository.findById( i);
         if (optionalCustomer.isPresent()) {
             return optionalCustomer.get();
         } else {
-            throw new InvalidIDException("Customer with ID " + cId + " not found.");
+            throw new InvalidIDException("Customer with ID " + i + " not found.");
         }
     }
     
-    public void deleteCustomer(Long id) {
+    public void deleteCustomer(int id) {
     	//it will delete the details of the customer using customer id
         customerRepository.deleteById(id);
     }

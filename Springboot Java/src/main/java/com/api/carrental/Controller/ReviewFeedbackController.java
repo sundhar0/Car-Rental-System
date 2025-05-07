@@ -23,7 +23,7 @@ public class ReviewFeedbackController {
 	private ReviewFeedbackService reviewFeedBackService;
 	
 	@PostMapping("/add/{cId}/{cusId}")
-	public Object addReview(@PathVariable int cId,@PathVariable Long cusId,@RequestBody ReviewFeedback reviewFeedback) throws InvalidIDException {
+	public Object addReview(@PathVariable int cId,@PathVariable int cusId,@RequestBody ReviewFeedback reviewFeedback) throws InvalidIDException {
 		return reviewFeedBackService.addReview(cId,cusId,reviewFeedback);
 	}
 	
@@ -32,7 +32,7 @@ public class ReviewFeedbackController {
 		return reviewFeedBackService.getByRating(rating);
 	}
 	@GetMapping("/getByCusId/{cId}")
-	public List<ReviewFeedback> ShowByCustomerId(@PathVariable Long cId) throws InvalidIDException {
+	public List<ReviewFeedback> ShowByCustomerId(@PathVariable int cId) throws InvalidIDException {
 		return reviewFeedBackService.getByReview(cId);
 	}
 }

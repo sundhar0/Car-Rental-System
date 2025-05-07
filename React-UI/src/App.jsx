@@ -19,6 +19,7 @@ import CustomerDashboard from "./components/Customer/CustomerDashboard";
 import DriverRides from "./components/Driver/DriverRides";
 import ComplaintList from "./components/CustomerCare/ComplaintList";
 import DriverDocumentUpload from "./components/Driver/DriverDocumentUpload";
+import UserDashboard from "./components/Customer/User";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
       <Route path="becomedriver" element={<BecomeADriver />} />
       <Route path="complaintlist" element={<ComplaintList/>}/>
       <Route path="driverdocument/:driverId" element={<DriverDocumentUpload/>}/>
+      <Route path="userdashboard" element={<UserDashboard/>}/>
     </Routes>
   );
 }

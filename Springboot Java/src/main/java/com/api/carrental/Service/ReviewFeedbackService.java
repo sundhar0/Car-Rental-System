@@ -22,13 +22,13 @@ public class ReviewFeedbackService {
 	@Autowired
 	private CustomerService customerService;
 
-	public List<ReviewFeedback> getByReview(Long cId) throws InvalidIDException {
+	public List<ReviewFeedback> getByReview(int cId) throws InvalidIDException {
 		//this method will be used to show the feedback about the customer using the customer
 		Customer customer=customerService.getSingleCustomer(cId);
 		return reviewFeedbackRepository.findByCustomerId(cId);
 	}
 
-	public Object addReview(int cId, Long cusId, ReviewFeedback reviewFeedback) throws InvalidIDException {
+	public Object addReview(int cId, int cusId, ReviewFeedback reviewFeedback) throws InvalidIDException {
 		//this method is for adding the feedback about the customer and the car
 		Car car=carService.getById(cId);
 		if(car==null)

@@ -47,7 +47,7 @@ public class DriverController {
 	}
 	
 	@GetMapping("/getAll")
-	public DriverDto getByAvailable(@RequestParam Integer page, @RequestParam Integer size) throws DriverNotAvailable {
+	public DriverDto getByAvailable(@RequestParam int page, @RequestParam int size) throws DriverNotAvailable {
 		Pageable pageable = PageRequest.of(page, size); 
 		Page<Driver> driverP = driverService.getAll(pageable); 
 		dto.setList(driverP.getContent());
