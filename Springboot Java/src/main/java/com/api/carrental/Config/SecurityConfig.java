@@ -53,7 +53,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/caravailability/add").permitAll()
 				.requestMatchers("/api/caravailability/all").permitAll()
 				.requestMatchers("/api/caravailability/one/{id}").permitAll()
-				.requestMatchers("/api/carav+ailability/update/{id}").permitAll()
+				.requestMatchers("/api/caravailability/update/{id}").permitAll()
 				.requestMatchers("/api/caravailability/delete/{id}").permitAll()
 				.requestMatchers("/api/rentalcar/add").permitAll()
 				.requestMatchers("/api/rentalcar/all").permitAll()

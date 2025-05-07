@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/complaints")
-@CrossOrigin(origins = "http://localhost:5173/")
+//@CrossOrigin(origins = "http://localhost:5173/")
 public class ComplaintController {
 
     @Autowired
@@ -32,6 +32,16 @@ public class ComplaintController {
     public ResponseEntity<String> updateComplaint(@PathVariable int complaintId, @RequestBody Complaint updatedComplaint) {
         try {
             complaintService.updateComplaint(complaintId, updatedComplaint);
+            return ResponseEntity.ok("Complaint updated successfully");
+        } catch (InvalidIDException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    @PutMapping("respond/{complaintId}")
+    public ResponseEntity<String> updatetheResponse(@PathVariable int complaintId, @RequestBody Complaint updatedComplaint) {
+        try {
+            complaintService.updaterespond(complaintId, updatedComplaint);
             return ResponseEntity.ok("Complaint updated successfully");
         } catch (InvalidIDException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

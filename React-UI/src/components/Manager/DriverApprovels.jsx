@@ -7,6 +7,7 @@ function DriverApprovels() {
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
+  const [selectedDocs, setSelectedDocs] = useState([]);
 
   const getAllDrivers = async () => {
     try {
@@ -14,7 +15,7 @@ function DriverApprovels() {
         `http://localhost:8080/api/driver/getAll?page=${page}&size=${size}`
       );
       setDrivers(response.data.list);
-      setTotalPages(response.data.totalPages)
+      setTotalPages(response.data.totalPages);
     } catch (err) {
       console.log(err);
     }
@@ -24,7 +25,7 @@ function DriverApprovels() {
     getAllDrivers();
   }, [page]);
 
-  const handleApproveReject = async(driverId, availablility) => {
+  const handleApproveReject = async (driverId, availablility) => {
     try {
       await axios.put(
         `http://localhost:8080/api/driver/updateAvailablility/${driverId}/${availablility}`
@@ -35,14 +36,27 @@ function DriverApprovels() {
     }
   };
 
-  const deleteStudents = async(driverId) => {
+  const deleteStudents = async (driverId) => {
     try {
-      const resp = await axios.delete(
-        `http://localhost:8080/api/driver/delete/${driverId}`
+      await axios.delete(`http://localhost:8080/api/driver/delete/${driverId}`);
+      setDrivers((prev) => prev.filter((s) => s.driverId !== driverId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getDriverDocument = async (driverId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/driver-documents/driver/${driverId}`
       );
-      let temp = [...drivers];
-      temp = temp.filter((s) => s.driverId !== driverId);
-      setDrivers(temp);
+      console.log(response.data);
+      const documents = [
+        response.data.drivingLicence,
+        response.data.aadhaarCard,
+        response.data.addressProof,
+      ];
+      setSelectedDocs(documents); // expects array of image URLs
     } catch (err) {
       console.log(err);
     }
@@ -50,15 +64,11 @@ function DriverApprovels() {
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
-      <nav
-        className="navbar navbar-expand-lg mb-4 p-3"
-        style={{ backgroundColor: "#1C2631" }}
-      >
+      <nav className="navbar navbar-expand-lg mb-4 p-3" style={{ backgroundColor: "#1C2631" }}>
         <div className="container">
           <a href="#" className="navbar-brand">
             <h3 className="text-white">CarRent</h3>
           </a>
-
           <button
             className="navbar-toggler"
             style={{
@@ -76,19 +86,13 @@ function DriverApprovels() {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-2 ms-auto">
               <li className="nav-item">
-                <Link
-                  to="/driverlistformanager"
-                  className="nav-link text-white text-decoration-none"
-                >
+                <Link to="/driverlistformanager" className="nav-link text-white text-decoration-none">
                   Driver List
                 </Link>
               </li>
               <li className="nav-item">
                 <a href="#" className="nav-link">
-                  <button
-                    className="btn text-white fw-bold"
-                    style={{ backgroundColor: "#00B86B" }}
-                  >
+                  <button className="btn text-white fw-bold" style={{ backgroundColor: "#00B86B" }}>
                     Sell/Buy
                   </button>
                 </a>
@@ -97,6 +101,7 @@ function DriverApprovels() {
           </div>
         </div>
       </nav>
+
       <div className="container">
         <div className="d-flex justify-content-between align-items-center ms-auto m-5">
           <h1>Approvals</h1>
@@ -108,18 +113,12 @@ function DriverApprovels() {
               aria-label="Search"
               aria-describedby="button"
             />
-            <button
-              className="btn fw-bold text-white"
-              type="button"
-              id="button"
-              style={{
-                backgroundColor: "#00B86B",
-              }}
-            >
+            <button className="btn fw-bold text-white" type="button" id="button" style={{ backgroundColor: "#00B86B" }}>
               <i className="bi bi-search"></i>
             </button>
           </div>
         </div>
+
         <div className="">
           <table className="table text-center">
             <thead>
@@ -136,15 +135,13 @@ function DriverApprovels() {
             </thead>
             <tbody>
               {drivers
-                .filter(
-                  (unapprov) => unapprov.driverAvailability == "UNAVAILABLE"
-                )
+                .filter((unapprov) => unapprov.driverAvailability === "UNAVAILABLE")
                 .sort((a, b) => a.driverId - b.driverId)
                 .map((d, index) => (
                   <tr key={index}>
                     <th scope="row">{d.driverId}</th>
-                    <td>{d.name}</td>
                     <td>{d.user.userId}</td>
+                    <td>{d.name}</td>
                     <td>{d.experienceYears}</td>
                     <td>{d.licenseNo}</td>
                     <td>{d.perDayCharge}</td>
@@ -153,21 +150,19 @@ function DriverApprovels() {
                         <button
                           className="btn text-white border-0"
                           style={{ backgroundColor: "#00B86B" }}
-                          onClick={() => {
-                            handleApproveReject(d.driverId, "AVAILABLE");
-                          }}
+                          onClick={() => handleApproveReject(d.driverId, "AVAILABLE")}
                         >
                           Approve
                         </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            deleteStudents(d.driverId);
-                          }}
-                        >
+                        <button className="btn btn-danger" onClick={() => deleteStudents(d.driverId)}>
                           Reject
                         </button>
                       </div>
+                    </td>
+                    <td>
+                      <button className="btn btn-link" onClick={() => getDriverDocument(d.driverId)}>
+                        View Documents
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -175,39 +170,63 @@ function DriverApprovels() {
           </table>
         </div>
       </div>
-      <div className="d-flex justify-content-center mt-5">
-        <div className="">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination" >
-              <li className="page-item" >
-                <a
-                  className="page-link"
-                  href="#"
-                  onClick={() => {
-                    page === 0 ? setPage(0) : setPage(page - 1);
-                  }}
-                  style={{color:'#00B86B'}}
-                >
-                  Previous
-                </a>
-              </li>
 
-              <li className="page-item">
-                <a
-                  className="page-link"
-                  href="#"
-                  onClick={() => {
-                    page === totalPages - 1 ? setPage(page) : setPage(page + 1);
-                  }}
-                  style={{color:'#00B86B'}}
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+      <div className="d-flex justify-content-center mt-5">
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                onClick={() => {
+                  page === 0 ? setPage(0) : setPage(page - 1);
+                }}
+                style={{ color: "#00B86B" }}
+              >
+                Previous
+              </a>
+            </li>
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                onClick={() => {
+                  page === totalPages - 1 ? setPage(page) : setPage(page + 1);
+                }}
+                style={{ color: "#00B86B" }}
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
+
+      {/* Modal to show documents as an album */}
+      {selectedDocs.length > 0 && (
+        <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Driver Documents</h5>
+                <button type="button" className="close btn" onClick={() => setSelectedDocs([])}>
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body d-flex flex-wrap gap-3 justify-content-center">
+                {selectedDocs.map((docUrl, i) => (
+                  <img
+                    key={i}
+                    src={`${docUrl}`}
+                    alt={`Document ${i + 1}`}
+                    style={{ width: "200px", height: "auto", borderRadius: "10px" }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

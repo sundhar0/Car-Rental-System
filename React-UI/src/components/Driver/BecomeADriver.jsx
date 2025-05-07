@@ -1,45 +1,64 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 function BecomeADriver() {
+  // Driver info states
   const [perDayCharge, setPerDayCharge] = useState(0);
-  const [name, setName] = useState(null);
+  const [name, setName] = useState("");
   const [experience, setExperience] = useState(0);
-  const [shortDescription, setShortDescription] = useState(null);
-  const [licenceNo, setLicenceNo] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [msg, setMsg] = useState(null);
-  const [pImage, setPImage] = useState(null)
-  const [driver,setDriver] = useState([])
+  const [shortDescription, setShortDescription] = useState("");
+  const [licenceNo, setLicenceNo] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const [pImage, setPImage] = useState(null);
+  
+  // Document states
+  const [licenceDoc, setLicenceDoc] = useState(null);
+  const [aadhaarDoc, setAadhaarDoc] = useState(null);
+  const [addressProofDoc, setAddressProofDoc] = useState(null);
+  
+  // UI control states
+  const [step, setStep] = useState(1); // 1: Driver info, 2: Documents
+  const [driverId, setDriverId] = useState(null);
+  const navigate = useNavigate();
 
+  const validateStep1 = () => {
+    if (!name.trim()) {
+      setMsg("Name cannot be empty");
+      return false;
+    }
+    if (!licenceNo.trim()) {
+      setMsg("Licence No cannot be empty");
+      return false;
+    }
+    if (!username.trim()) {
+      setMsg("Username cannot be empty");
+      return false;
+    }
+    if (!password.trim()) {
+      setMsg("Password cannot be empty");
+      return false;
+    }
+    setMsg("");
+    return true;
+  };
 
-  const addDriver = async ($e) => {
-    $e.preventDefault();
-    if (name == null || name == "") {
-      return setMsg("Name cannot be empty");
-    } else {
-      setMsg(null);
+  const validateStep2 = () => {
+    if (!licenceDoc || !aadhaarDoc || !addressProofDoc) {
+      setMsg("All documents are required");
+      return false;
     }
+    setMsg("");
+    return true;
+  };
 
-    if (licenceNo == null || licenceNo == "") {
-      return setMsg("Licence No cannot be empty");
-    } else {
-      setMsg(null);
-    }
-    if (username == null || username == "" || username === undefined) {
-      return setMsg("Username cannot be empty");
-    } else {
-      setMsg(null);
-    }
-    if (password == null || password == "" || password == undefined) {
-      return setMsg("Password cannot be empty");
-    } else {
-      setMsg(null);
-    }
+  const submitDriverInfo = async (e) => {
+    e.preventDefault();
+    if (!validateStep1()) return;
 
-    let obj = {
+    const driverData = {
       name: name,
       licenseNo: licenceNo,
       experienceYears: experience,
@@ -52,48 +71,77 @@ function BecomeADriver() {
     };
 
     try {
-      let response = await axios.post(
+      // Step 1: Register driver
+      const response = await axios.post(
         `http://localhost:8080/api/driver/add`,
-        obj
+        driverData
       );
-      setDriver(response.data)
+      setDriverId(response.data.driverId);
 
-      await upload(response.data.driverId);
+      // Step 2: Upload profile image if exists
+      if (pImage) {
+        await uploadProfileImage(response.data.driverId);
+      }
 
+      // Move to document upload step
+      setStep(2);
+      setMsg("");
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setMsg("Registration failed. Please try again.");
     }
   };
 
-  const upload = async (driverId) => {
-    if (!pImage) {
-      alert('Image not selected');
-      return;
-    }
-  
+  const uploadProfileImage = async (driverId) => {
     const formData = new FormData();
     formData.append("file", pImage);
-    let token = localStorage.getItem('token');
-  
+    const token = localStorage.getItem("token");
+
     try {
-      const resp = await axios.post(
+      await axios.post(
         `http://localhost:8080/api/driver/image/upload/${driverId}`,
         formData,
         {
           headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      console.log(resp);
-      alert("Image uploaded...");
     } catch (err) {
-      console.error(err);
-      alert("Image upload failed.");
+      console.error("Profile image upload failed:", err);
     }
   };
-  
+
+  const submitDocuments = async (e) => {
+    e.preventDefault();
+    if (!validateStep2()) return;
+
+    const formData = new FormData();
+    formData.append("licenceDoc", licenceDoc);
+    formData.append("aadhaarDoc", aadhaarDoc);
+    formData.append("addressProofDoc", addressProofDoc);
+
+    try {
+      await axios.post(
+        `http://localhost:8080/api/driver-documents/${driverId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setMsg("Registration completed successfully!");
+      // Redirect after successful registration
+      setTimeout(() => navigate("/driverlist"), 2000);
+    } catch (error) {
+      console.error(error);
+      setMsg("Document upload failed. Please try again.");
+    }
+  };
 
   return (
     <div style={{ backgroundColor: "#253343", minHeight: "100vh" }}>
@@ -119,12 +167,8 @@ function BecomeADriver() {
             <ul className="navbar-nav d-flex align-items-center gap-4 ms-auto">
               <li className="nav-item">
                 <Link to={"/driverlist"}>
-                <a href="#" className="nav-link text-white">
-                  Driver List
-
-                </a>
+                    Driver List
                 </Link>
-                
               </li>
               <li className="nav-item">
                 <a href="#" className="nav-link text-white">
@@ -145,169 +189,146 @@ function BecomeADriver() {
           </div>
         </div>
       </nav>
-      <div className="container">
-        <form onSubmit={($event) => addDriver($event)}>
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: "85vh" }}
-          >
-            <div
-              className="card shadow-lg mt-5"
-              style={{ backgroundColor: "#1C2631", width: "30rem" }}
-            >
-              <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
-                <h5 className="card-title px-4 py-2 rounded">
-                  Become a <span style={{ color: "#00B86B" }}>Driver</span>
-                </h5>
-                <small
-                  className="fw-lighter text-danger"
-                  style={{ fontSize: "12px" }}
-                >
-                  {msg}
-                </small>
-                <div
-                  className="d-flex flex-column justify-content-center align-items-center gap-4"
-                  style={{ fontSize: "12px" }}
-                >
-                  <div className="input-groups">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        backgroundColor: "#30445B",
-                        width: "20rem",
-                      }}
-                      placeholder="Enter your Name"
-                      onChange={($event) => {
-                        setName($event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="input-groups">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        backgroundColor: "#30445B",
-                        width: "20rem",
-                      }}
-                      placeholder="Licence No"
-                      onChange={($event) => {
-                        setLicenceNo($event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="input-groups">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        backgroundColor: "#30445B",
-                        width: "20rem",
-                      }}
-                      placeholder="Experience"
-                      onChange={($event) => {
-                        setExperience($event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="input-groups">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        backgroundColor: "#30445B",
-                        width: "20rem",
-                      }}
-                      placeholder="Short Description"
-                      onChange={($event) => {
-                        setShortDescription($event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="input-groups">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        backgroundColor: "#30445B",
-                        width: "20rem",
-                      }}
-                      placeholder="Username"
-                      onChange={($event) => {
-                        setUsername($event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="input-groups">
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      className="rounded shadow-lg border-0 p-2 px-2 text-white"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        backgroundColor: "#30445B",
-                        width: "20rem",
-                      }}
-                      placeholder="Password"
-                      onChange={($event) => {
-                        setPassword($event.target.value);
-                      }}
-                    />
-                  </div>
 
-                  <label form="customRange2" className="form-label mt-2">
-                    Per Day Charge : {perDayCharge}
-                  </label>
-                  <input
-                    type="range"
-                    className="form-range"
-                    value={perDayCharge}
-                    min="0"
-                    max="2000"
-                    id="customRange2"
-                    onChange={($e) => {
-                      setPerDayCharge($e.target.value);
-                    }}
-                    style={{ accentColor: "#00B86B" }}
-                  />
-                  {
+      <div className="container">
+        {step === 1 ? (
+          // Step 1: Driver Information Form
+          <form onSubmit={submitDriverInfo}>
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "85vh" }}
+            >
+              <div
+                className="card shadow-lg mt-5"
+                style={{ backgroundColor: "#1C2631", width: "30rem" }}
+              >
+                <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
+                  <h5 className="card-title px-4 py-2 rounded">
+                    Become a <span style={{ color: "#00B86B" }}>Driver</span>
+                  </h5>
+                  <small
+                    className="fw-lighter text-danger"
+                    style={{ fontSize: "12px" }}
+                  >
+                    {msg}
+                  </small>
+                  <div
+                    className="d-flex flex-column justify-content-center align-items-center gap-4"
+                    style={{ fontSize: "12px" }}
+                  >
+                    <div className="input-groups">
+                      <input
+                        type="text"
+                        className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          backgroundColor: "#30445B",
+                          width: "20rem",
+                        }}
+                        placeholder="Enter your Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-groups">
+                      <input
+                        type="text"
+                        className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          backgroundColor: "#30445B",
+                          width: "20rem",
+                        }}
+                        placeholder="Licence No"
+                        value={licenceNo}
+                        onChange={(e) => setLicenceNo(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-groups">
+                      <input
+                        type="number"
+                        className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          backgroundColor: "#30445B",
+                          width: "20rem",
+                        }}
+                        placeholder="Experience (years)"
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-groups">
+                      <input
+                        type="text"
+                        className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          backgroundColor: "#30445B",
+                          width: "20rem",
+                        }}
+                        placeholder="Short Description"
+                        value={shortDescription}
+                        onChange={(e) => setShortDescription(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-groups">
+                      <input
+                        type="text"
+                        className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          backgroundColor: "#30445B",
+                          width: "20rem",
+                        }}
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-groups">
+                      <input
+                        type="password"
+                        className="rounded shadow-lg border-0 p-2 px-2 text-white"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          backgroundColor: "#30445B",
+                          width: "20rem",
+                        }}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+
+                    <label className="form-label mt-2">
+                      Per Day Charge : {perDayCharge}
+                    </label>
+                    <input
+                      type="range"
+                      className="form-range"
+                      value={perDayCharge}
+                      min="0"
+                      max="2000"
+                      onChange={(e) => setPerDayCharge(e.target.value)}
+                      style={{ accentColor: "#00B86B" }}
+                    />
+                    
                     <div className="my-3">
-                      <label
-                        form="form-label"
-                        className="form-label fst-italic"
-                      >
-                        Profile picture of your's
+                      <label className="form-label fst-italic">
+                        Profile picture
                       </label>
                       <input
                         className="form-control border-0"
                         type="file"
-                        id="formFileMultiple"
-                        multiple
                         style={{ background: "#00B86B" }}
-                        onChange={(e)=>{setPImage(e.target.files[0])}}
+                        onChange={(e) => setPImage(e.target.files[0])}
                       />
                       <br />
                       <button
@@ -318,12 +339,88 @@ function BecomeADriver() {
                         Continue
                       </button>
                     </div>
-                  }
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        ) : (
+          // Step 2: Document Upload Form
+          <form onSubmit={submitDocuments}>
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "85vh" }}
+            >
+              <div
+                className="card shadow-lg mt-5"
+                style={{ backgroundColor: "#1C2631", width: "30rem" }}
+              >
+                <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
+                  <h5 className="card-title px-4 py-2 rounded">
+                    Upload <span style={{ color: "#00B86B" }}>Documents</span>
+                  </h5>
+                  <small
+                    className="fw-lighter text-danger"
+                    style={{ fontSize: "12px" }}
+                  >
+                    {msg}
+                  </small>
+                  <div
+                    className="d-flex flex-column justify-content-center align-items-center gap-4"
+                    style={{ fontSize: "12px", width: "100%" }}
+                  >
+                    <div className="input-groups w-75">
+                      <label>Driving Licence Document:</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={(e) => setLicenceDoc(e.target.files[0])}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="input-groups w-75">
+                      <label>Aadhaar Card:</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={(e) => setAadhaarDoc(e.target.files[0])}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="input-groups w-75">
+                      <label>Address Proof:</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={(e) => setAddressProofDoc(e.target.files[0])}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="d-flex gap-3">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => setStep(1)}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn"
+                        style={{ backgroundColor: "#00B86B", color: "white" }}
+                      >
+                        Submit Documents
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

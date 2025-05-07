@@ -16,8 +16,9 @@ import BookingSuccess from "./components/Buyer/BookingSuccess";
 import AddingSuccess from "./components/Cars/SuccessPage";
 import DriverListManager from "./components/Manager/DriverListForManager";
 import CustomerDashboard from "./components/Customer/CustomerDashboard";
-import CustomerCareDashboard from "./components/CustomerCare/CustomerCareDashboard";
 import DriverRides from "./components/Driver/DriverRides";
+import ComplaintList from "./components/CustomerCare/ComplaintList";
+import DriverDocumentUpload from "./components/Driver/DriverDocumentUpload";
 
 function App() {
   return (
@@ -31,7 +32,6 @@ function App() {
         element={<DriverBook />}
       />
       <Route path="customerdashboard" element={<CustomerDashboard/>} />
-      <Route path="customercaredashboard" element={<CustomerCareDashboard/>} />
       <Route path="driverrides" element={<DriverRides/>}/>
       <Route path="becomedriver" element={<BecomeADriver />} />
       <Route path="driverApproval" element={<DriverApprovels />} />
@@ -41,11 +41,13 @@ function App() {
       <Route path="login" element={<LoginPage />} />
       <Route path="signup" element={<SignupPage />} />
       <Route path="BuyerDashboard" element={<BuyerPage />} />
-      <Route path="singleCar" element={<CarOverview />} />
-      <Route path="testDrive" element={<ScheduleTestDrive />} />
+      <Route path="singleCar/:id" element={<CarOverview />} />
+      <Route path="testDrive/:id" element={<ScheduleTestDrive />} />
       <Route path="booking" element={<BookingSuccess />} />
       <Route path="CarAdded" element={<AddingSuccess />} />
       <Route path="becomedriver" element={<BecomeADriver />} />
+      <Route path="complaintlist" element={<ComplaintList/>}/>
+      <Route path="driverdocument/:driverId" element={<DriverDocumentUpload/>}/>
     </Routes>
   );
 }
