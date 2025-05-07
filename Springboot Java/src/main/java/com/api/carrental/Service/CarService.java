@@ -45,6 +45,7 @@ public class CarService {
 		// after the manager given the approval it changes to approved
 		car.setStatus(CarStatus.PENDING);
 		//it will save the cars in the car table
+		logger.info("Car Added...");
 	    return carRepository.save(car);
 	}
 
@@ -99,6 +100,7 @@ public class CarService {
 		Optional<Car> optional=carRepository.findById(cId);
 		if(optional==null)
 			throw new InvalidIDException("Given Car Id is Invalid!!");
+		logger.info("Car Deleted...");
 		carRepository.deleteById(cId);
 		
 	}
@@ -126,6 +128,7 @@ public class CarService {
 		Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 		/*Save this path in Db */
 		car.setCarImage(path.toString());
+		logger.info("Image uploaded...");
 		return carRepository.save(car);
 	}
 
@@ -142,6 +145,7 @@ public class CarService {
 		newCar.setVehicleRegistrationNumber(newValue.getVehicleRegistrationNumber());
 		newCar.setCarColor(newValue.getCarColor());
 		logger.info("Car Value Updated..");
+		logger.info("Car Details updated...");
 		return carRepository.save(newCar);
 	}
 	

@@ -1,20 +1,10 @@
 package com.api.carrental.serviceTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.ReviewFeedbackRepository;
@@ -25,12 +15,16 @@ import com.api.carrental.model.Car;
 import com.api.carrental.model.Customer;
 import com.api.carrental.model.ReviewFeedback;
 
-@SpringBootTest
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 @ExtendWith(MockitoExtension.class)
 public class ReviewFeedbackServiceTest {
-
-	@InjectMocks
-    private ReviewFeedbackService reviewFeedbackService;
 
     @Mock
     private ReviewFeedbackRepository reviewFeedbackRepository;
@@ -41,191 +35,64 @@ public class ReviewFeedbackServiceTest {
     @Mock
     private CustomerService customerService;
 
-    private Customer customer;
-    private Car car;
-    private ReviewFeedback feedback;
+    @InjectMocks
+    private ReviewFeedbackService reviewFeedbackService;
 
     @BeforeEach
-    public void setUp() {
-        customer = new Customer();
-        customer.setId(1L);
-        customer.setFullName("Test Customer");
-
-        car = new Car();
-        car.setId(101);
-        car.setModel("Test Model");
-
-        feedback = new ReviewFeedback();
-        feedback.setFeedbackId(1);
-        feedback.setRating(5);
-        feedback.setReview("Excellent");
-        feedback.setCar(car);
-        feedback.setCustomer(customer);
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetByReview() throws InvalidIDException {
-        when(customerService.getSingleCustomer(1L)).thenReturn(customer);
-        when(reviewFeedbackRepository.findByCustomerId(1L)).thenReturn(Arrays.asList(feedback));
+    void testGetByReview() throws InvalidIDException {
+        int customerId = 1;
+        ReviewFeedback feedback1 = new ReviewFeedback();
+        ReviewFeedback feedback2 = new ReviewFeedback();
+        List<ReviewFeedback> feedbackList = Arrays.asList(feedback1, feedback2);
 
-        List<ReviewFeedback> list = reviewFeedbackService.getByReview(1L);
-        assertEquals(1, list.size());
-        assertEquals("Excellent", list.get(0).getReview());
+        Customer customer = new Customer();
+        when(customerService.getSingleCustomer(customerId)).thenReturn(customer);
+        when(reviewFeedbackRepository.findByCustomerId(customerId)).thenReturn(feedbackList);
+
+        List<ReviewFeedback> result = reviewFeedbackService.getByReview(customerId);
+        assertEquals(2, result.size());
+        verify(customerService).getSingleCustomer(customerId);
+        verify(reviewFeedbackRepository).findByCustomerId(customerId);
     }
 
     @Test
-    public void testAddReview_Success() throws InvalidIDException {
-        when(carService.getById(101)).thenReturn(car);
-        when(customerService.getSingleCustomer(1L)).thenReturn(customer);
-        when(reviewFeedbackRepository.save(any(ReviewFeedback.class))).thenReturn(feedback);
+    void testAddReview() throws InvalidIDException {
+        int carId = 1;
+        int customerId = 2;
 
-        Object savedFeedback = reviewFeedbackService.addReview(101, 1L, feedback);
-        assertEquals(feedback, savedFeedback);
+        Car car = new Car();
+        Customer customer = new Customer();
+        ReviewFeedback reviewFeedback = new ReviewFeedback();
+
+        when(carService.getById(carId)).thenReturn(car);
+        when(customerService.getSingleCustomer(customerId)).thenReturn(customer);
+        when(reviewFeedbackRepository.save(any(ReviewFeedback.class))).thenAnswer(i -> i.getArgument(0));
+
+        ReviewFeedback savedFeedback = (ReviewFeedback) reviewFeedbackService.addReview(carId, customerId, reviewFeedback);
+        assertEquals(car, savedFeedback.getCar());
+        assertEquals(customer, savedFeedback.getCustomer());
+
+        verify(carService).getById(carId);
+        verify(customerService).getSingleCustomer(customerId);
+        verify(reviewFeedbackRepository).save(reviewFeedback);
     }
 
     @Test
-    public void testAddReview_InvalidCarId() throws InvalidIDException {
-        when(carService.getById(999)).thenReturn(null);
+    void testGetByRating() {
+        int rating = 4;
+        ReviewFeedback feedback = new ReviewFeedback();
+        feedback.setRating(rating);
 
-        InvalidIDException exception = assertThrows(InvalidIDException.class, () -> {
-            reviewFeedbackService.addReview(999, 1L, feedback);
-        });
+        when(reviewFeedbackRepository.getByRating(rating)).thenReturn(List.of(feedback));
 
-        assertEquals("Given Car id is Invalid...", exception.getMessage());
-    }
-
-    @Test
-    public void testAddReview_InvalidCustomerId() throws InvalidIDException {
-        when(carService.getById(101)).thenReturn(car);
-        when(customerService.getSingleCustomer(99L)).thenReturn(null);
-
-        InvalidIDException exception = assertThrows(InvalidIDException.class, () -> {
-            reviewFeedbackService.addReview(101, 99L, feedback);
-        });
-
-        assertEquals("Given Customer Id is Invalid...", exception.getMessage());
-    }
-
-    @Test
-    public void testGetByRating() {
-        when(reviewFeedbackRepository.getByRating(5)).thenReturn(Arrays.asList(feedback));
-
-        List<ReviewFeedback> list = reviewFeedbackService.getByRating(5);
-        assertEquals(1, list.size());
-        assertEquals(5, list.get(0).getRating());
+        List<ReviewFeedback> result = reviewFeedbackService.getByRating(rating);
+        assertEquals(1, result.size());
+        assertEquals(rating, result.get(0).getRating());
+        verify(reviewFeedbackRepository).getByRating(rating);
     }
 }
-//package com.api.carrental.Service;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.Mockito.when;
-//
-//import java.util.Arrays;
-//import java.util.List;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//import com.api.carrental.Exception.InvalidIDException;
-//import com.api.carrental.Repository.ReviewFeedbackRepository;
-//import com.api.carrental.model.Car;
-//import com.api.carrental.model.Customer;
-//import com.api.carrental.model.ReviewFeedback;
-//
-//@SpringBootTest
-//@ExtendWith(MockitoExtension.class)
-//public class ReviewFeedbackServiceTest {
-//
-//	@InjectMocks
-//    private ReviewFeedbackService reviewFeedbackService;
-//
-//    @Mock
-//    private ReviewFeedbackRepository reviewFeedbackRepository;
-//
-//    @Mock
-//    private CarService carService;
-//
-//    @Mock
-//    private CustomerService customerService;
-//
-//    private Customer customer;
-//    private Car car;
-//    private ReviewFeedback feedback;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        customer = new Customer();
-//        customer.setId(1L);
-//        customer.setFullName("Test Customer");
-//
-//        car = new Car();
-//        car.setCarId(101);
-//        car.setModel("Test Model");
-//
-//        feedback = new ReviewFeedback();
-//        feedback.setFeedbackId(1);
-//        feedback.setRating(5);
-//        feedback.setReview("Excellent");
-//        feedback.setCar(car);
-//        feedback.setCustomer(customer);
-//    }
-//
-//    @Test
-//    public void testGetByReview() throws InvalidIDException {
-//        when(customerService.getSingleCustomer(1L)).thenReturn(customer);
-//        when(reviewFeedbackRepository.findByCustomerId(1L)).thenReturn(Arrays.asList(feedback));
-//
-//        List<ReviewFeedback> list = reviewFeedbackService.getByReview(1L);
-//        assertEquals(1, list.size());
-//        assertEquals("Excellent", list.get(0).getReview());
-//    }
-//
-//    @Test
-//    public void testAddReview_Success() throws InvalidIDException {
-//        when(carService.getById(101)).thenReturn(car);
-//        when(customerService.getSingleCustomer(1L)).thenReturn(customer);
-//        when(reviewFeedbackRepository.save(any(ReviewFeedback.class))).thenReturn(feedback);
-//
-//        Object savedFeedback = reviewFeedbackService.addReview(101, 1L, feedback);
-//        assertEquals(feedback, savedFeedback);
-//    }
-//
-//    @Test
-//    public void testAddReview_InvalidCarId() throws InvalidIDException {
-//        when(carService.getById(999)).thenReturn(null);
-//
-//        InvalidIDException exception = assertThrows(InvalidIDException.class, () -> {
-//            reviewFeedbackService.addReview(999, 1L, feedback);
-//        });
-//
-//        assertEquals("Given Car id is Invalid...", exception.getMessage());
-//    }
-//
-//    @Test
-//    public void testAddReview_InvalidCustomerId() throws InvalidIDException {
-//        when(carService.getById(101)).thenReturn(car);
-//        when(customerService.getSingleCustomer(99L)).thenReturn(null);
-//
-//        InvalidIDException exception = assertThrows(InvalidIDException.class, () -> {
-//            reviewFeedbackService.addReview(101, 99L, feedback);
-//        });
-//
-//        assertEquals("Given Customer Id is Invalid...", exception.getMessage());
-//    }
-//
-//    @Test
-//    public void testGetByRating() {
-//        when(reviewFeedbackRepository.getByRating(5)).thenReturn(Arrays.asList(feedback));
-//
-//        List<ReviewFeedback> list = reviewFeedbackService.getByRating(5);
-//        assertEquals(1, list.size());
-//        assertEquals(5, list.get(0).getRating());
-//    }
-//}

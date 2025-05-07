@@ -103,7 +103,6 @@ function BuyerPage() {
 
   return (
     <div style={{ minHeight: "100vh" }}>
-      {/* Navigation Bar */}
       <nav
         className="navbar navbar-expand-lg mb-4 p-3"
         style={{ backgroundColor: "#1C2631" }}
@@ -183,8 +182,6 @@ function BuyerPage() {
           </div>
         </div>
       </nav>
-
-      {/* Main Content */}
       <div className="container">
         <h1 className="fw-500 p-4 text-black" style={{ fontSize: "1.5rem" }}>
           Available Cars for Purchase
