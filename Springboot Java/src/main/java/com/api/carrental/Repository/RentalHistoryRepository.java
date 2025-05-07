@@ -13,3 +13,4 @@ public interface RentalHistoryRepository extends JpaRepository<RentalHistory, In
 	Page<RentalHistory> findByCustomerId(int customerId, Pageable pageable);
 
 }
+
