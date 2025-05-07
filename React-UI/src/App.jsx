@@ -17,13 +17,12 @@ import AddingSuccess from "./components/Cars/SuccessPage";
 import DriverListManager from "./components/Manager/DriverListForManager";
 import CustomerDashboard from "./components/Customer/CustomerDashboard";
 import DriverRides from "./components/Driver/DriverRides";
-import ComplaintList from "./components/CustomerCare/ComplaintList";
-import DriverDocumentUpload from "./components/Driver/DriverDocumentUpload";
 import UserDashboard from "./components/Customer/User";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import fetchAllCar from "./components/Store/CarStore/actions/AllCarActions";
 import fetchDriverAll from "./components/Store/DriverStore/action/driverAllActions";
+import ComplaintList from "./components/Manager/ComplaintList";
 
 function App() {
   const dispatch = useDispatch()
@@ -57,7 +56,6 @@ function App() {
       <Route path="CarAdded" element={<AddingSuccess />} />
       <Route path="becomedriver" element={<BecomeADriver />} />
       <Route path="complaintlist" element={<ComplaintList/>}/>
-      <Route path="driverdocument/:driverId" element={<DriverDocumentUpload/>}/>
       <Route path="userdashboard" element={<UserDashboard/>}/>
     </Routes>
   );

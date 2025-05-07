@@ -1,35 +1,30 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import profile from "../../assets/image.png";
 import { useSelector } from "react-redux";
 
-
 function DriverList() {
-  const [drivers, setDrivers] = useState([]);
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   
+  const driverAll = useSelector(state => state.driverAll.driverAll);
 
-  const driverAll = useSelector(state => state.driverAll.driverAll)
-
-  const getAllDrivers = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/driver/getAll?page=${page}&size=${size}`
-      );
-      setDrivers(response.data.list);
-      setTotalPages(response.data.totalPages);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getAllDrivers();
-    console.log(driverAll)
-  }, []);
+  // Filter drivers based on search term
+  const filteredDrivers = driverAll.filter(driver => {
+    if (searchTerm.trim() === "") return driver.driverAvailability === "AVAILABLE";
+    
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      driver.driverAvailability === "AVAILABLE" && (
+        driver.name?.toLowerCase().includes(searchLower) ||
+        driver.experienceYears?.toString().includes(searchLower) ||
+        driver.perDayCharge?.toString().includes(searchLower) ||
+        driver.rating?.toString().includes(searchLower) ||
+        driver.shortDescription?.toLowerCase().includes(searchLower)
+      )
+    );
+  });
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
@@ -71,9 +66,11 @@ function DriverList() {
                   <input
                     type="text"
                     className="form-control border-0"
-                    placeholder="search"
+                    placeholder="Search drivers..."
                     aria-label="search"
                     aria-describedby="basic-addon2"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <span
                     className="input-group-text border-0 text-white"
@@ -113,13 +110,19 @@ function DriverList() {
         </div>
       </nav>
       <div className="container">
-        <h1 className="fw-500 p-4 text-black" style={{ fontSize: "1.5rem" }}>
-          Available Drivers
-        </h1>
-        <div className="row">
-          {driverAll
-            .filter((d) => d.driverAvailability == "AVAILABLE")
-            .map((driv, index) => (
+        <div className="d-flex justify-content-between align-items-center p-4">
+          <h1 className="fw-500 text-black" style={{ fontSize: "1.5rem" }}>
+            Available Drivers
+          </h1>
+          {searchTerm && (
+            <small className="text-muted">
+              Showing {filteredDrivers.length} of {driverAll.filter(d => d.driverAvailability === "AVAILABLE").length} drivers
+            </small>
+          )}
+        </div>
+        {filteredDrivers.length > 0 ? (
+          <div className="row">
+            {filteredDrivers.map((driv, index) => (
               <div className="col-lg-3 mb-4" key={index}>
                 <div className="card text-center p-3 shadow-lg">
                   <img
@@ -146,41 +149,49 @@ function DriverList() {
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        ) : (
+          <div className="text-center py-5">
+            <h4 className="text-muted">
+              {searchTerm ? "No matching drivers found" : "No available drivers found"}
+            </h4>
+          </div>
+        )}
       </div>
-      <div className="d-flex justify-content-center mt-5">
-        <div className="">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li className="page-item">
-                <a
-                  className="page-link"
-                  href="#"
-                  onClick={() => {
-                    page === 0 ? setPage(0) : setPage(page - 1);
-                  }}
-                  style={{ color: "#00B86B" }}
-                >
-                  Previous
-                </a>
-              </li>
-
-              <li className="page-item">
-                <a
-                  className="page-link"
-                  href="#"
-                  onClick={() => {
-                    page === totalPages - 1 ? setPage(page) : setPage(page + 1);
-                  }}
-                  style={{ color: "#00B86B" }}
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </nav>
+      {filteredDrivers.length > 0 && (
+        <div className="d-flex justify-content-center mt-5">
+          <div className="">
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                <li className="page-item">
+                  <a
+                    className="page-link"
+                    href="#"
+                    onClick={() => {
+                      page === 0 ? setPage(0) : setPage(page - 1);
+                    }}
+                    style={{ color: "#00B86B" }}
+                  >
+                    Previous
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a
+                    className="page-link"
+                    href="#"
+                    onClick={() => {
+                      page === totalPages - 1 ? setPage(page) : setPage(page + 1);
+                    }}
+                    style={{ color: "#00B86B" }}
+                  >
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
