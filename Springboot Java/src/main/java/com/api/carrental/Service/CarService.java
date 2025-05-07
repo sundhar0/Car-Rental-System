@@ -90,7 +90,7 @@ public class CarService {
 //		return list;
 //	}
 
-	public Object getHistory(int cId) throws InvalidIDException {
+	public List<Car> getHistory(int cId) throws InvalidIDException {
 		//it will get the history by customer id
 		User user = authService.getById(cId);
 		if(user==null)
