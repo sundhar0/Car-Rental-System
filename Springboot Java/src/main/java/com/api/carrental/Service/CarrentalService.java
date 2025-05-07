@@ -1,18 +1,15 @@
 package com.api.carrental.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.carrental.Exception.InvalidBrandException;
 import com.api.carrental.Exception.InvalidFuelException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidModelException;
 import com.api.carrental.Exception.InvalidYearException;
-import com.api.carrental.Repository.BookingRepository;
 import com.api.carrental.Repository.CarrentalRepository;
 import com.api.carrental.model.Car;
 
@@ -20,8 +17,6 @@ import com.api.carrental.model.Car;
 public class CarrentalService {
 	@Autowired
 	private CarrentalRepository carrentalRepository;
-	@Autowired
-	private BookingRepository bookingRepository;
 
 	public List<Car> getCarByModel(String model) throws InvalidModelException {
 		List<Car>car=carrentalRepository.findByModel(model);
@@ -55,16 +50,6 @@ public class CarrentalService {
 			throw new InvalidIDException("Car not found with id: " + carId);
 		}
 		return optional.get();
-	}
-
-	
-
-	public List<Car> getCarByBrand(String brand) throws InvalidBrandException {
-		List<Car> car=carrentalRepository.findCarsByBrand(brand);
-		if(car.isEmpty()) {
-			throw new InvalidBrandException("car not found with "+brand);
-		}
-		return carrentalRepository.findCarsByBrand(brand);
 	}
 
 

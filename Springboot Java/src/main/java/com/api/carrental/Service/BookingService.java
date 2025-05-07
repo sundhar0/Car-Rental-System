@@ -10,7 +10,6 @@ import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Repository.BookingRepository;
 import com.api.carrental.Repository.CarrentalRepository;
 import com.api.carrental.Repository.CustomerRepository;
-import com.api.carrental.enums.BookingStatus;
 import com.api.carrental.model.Booking;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.Customer;
@@ -28,10 +27,6 @@ public class BookingService {
     }
 
 	public Booking createBooking(Booking booking) {
-
-		// Set initial status
-	    booking.setStatus(BookingStatus.PENDING);
-
 	    int carId = booking.getCar().getId();       // uses carId from Car entity
 	    Long customerId = booking.getCustomer().getId(); // uses id from Customer entity
 	    
@@ -48,32 +43,26 @@ public class BookingService {
 	    booking.setCar(car);
 	    booking.setCustomer(customer);
 
-
 	    return bookingRepository.save(booking);
 	}
 
 
-	 public Booking updateStatus(int id, String status) throws InvalidIDException {
-	        // Find the booking by ID
-	        Optional<Booking> optionalBooking = bookingRepository.findById(id);
-	        if (!optionalBooking.isPresent()) {
-	            throw new InvalidIDException("Booking ID not found: " + id);
-	        }
-
-	        Booking booking = optionalBooking.get();
-
-	        try {
-	            // Convert string to enum
-	            BookingStatus bookingStatus = BookingStatus.valueOf(status);
-	            booking.setStatus(bookingStatus);
-	        } catch (IllegalArgumentException e) {
-	            throw new IllegalArgumentException("Invalid status value: " + status);
-	        }
-
-	        // Save the updated booking
-	        return bookingRepository.save(booking);
+	public Booking updateBooking(int id, Booking newBookingData) throws InvalidIDException {
+	    Optional<Booking> optional = bookingRepository.findById(id);
+	    //check if the given id exist
+	    if (optional.isEmpty()) {
+	        throw new InvalidIDException("Booking not found with id: " + id);
 	    }
 
+	    Booking existingBooking = optional.get();
+
+	    // Update relevant fields only
+	    existingBooking.setBookingDate(newBookingData.getBookingDate());
+	    existingBooking.setReturnDate(newBookingData.getReturnDate());
+	    existingBooking.setDriveMode(newBookingData.getDriveMode());
+	    
+	    return bookingRepository.save(existingBooking);
+	}
 
 
 	public Booking getBookingById(int id) throws InvalidIDException {
