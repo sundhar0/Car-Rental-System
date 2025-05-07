@@ -9,5 +9,7 @@ import com.api.carrental.model.CarApproval;
 public interface CarApprovalRepository extends JpaRepository<CarApproval, Integer>{
 
 	List<CarApproval> findByApprovedTrue();
+
+	List<CarApproval> findByApprovedTrueAndId(int id);
 	
 }

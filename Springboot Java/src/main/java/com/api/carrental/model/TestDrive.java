@@ -30,7 +30,6 @@ public class TestDrive {
     private String time;
     
     
-    
     public String getTime() {
 		return time;
 	}

@@ -121,11 +121,11 @@ public class CarServiceTest {
     	//fetching the details by customer id
         when(customerService.getSingleCustomer(1)).thenReturn(customer);
         //if the customer id valid means storing the data
-        when(carRepository.findByCustomerId(1)).thenReturn(Arrays.asList(car1, car2));
+        when(carRepository.findByCarOwnerUserId(1)).thenReturn(Arrays.asList(car1, car2));
         List<Car> result = carService.getHistory(1);
         assertEquals(2, result.size());
         //checking the asserts
-        verify(carRepository, times(1)).findByCustomerId(1);
+        verify(carRepository, times(1)).findByCarOwnerUserId(1);
     }
  // testing the invalid customer id
     @Test

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,6 +68,24 @@ public class CarController {
 	    return dto;
 	}
 	
+	@GetMapping("/getAllCarsById/{id}")
+	public CarDto getAllCarsById(@PathVariable int id,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
+	    
+	    Pageable pageable = PageRequest.of(page, size);
+	    Page<Car> carPage = carService.getAllCarsById(id,pageable);
+	    
+	    CarDto dto = new CarDto();
+	    dto.setList(carPage.getContent());
+	    dto.setCurrentPage(page);
+	    dto.setSize(size);
+	    dto.setTotalElements((int) carPage.getTotalElements());
+	    dto.setTotalPages(carPage.getTotalPages());
+	    
+	    return dto;
+	}
+	
 	@GetMapping("/getById/{carId}")
 	public Car getById(@PathVariable int carId) throws InvalidIDException {
 		return carService.getById(carId);
@@ -82,7 +101,7 @@ public class CarController {
 	}
 	@DeleteMapping("/delete/{cId}")
 	public void deleteCar(@PathVariable int cId) throws InvalidIDException {
-		carService.DeleteCar(cId);
+		carService.deleteCar(cId);
 	}
 	
 	@PostMapping("/image/upload/{cid}")
@@ -90,5 +109,10 @@ public class CarController {
 							@RequestParam MultipartFile file) throws IOException, InvalidIDException {
 		
 		return carService.uploadImage(file,cid);
+	}
+	
+	@PutMapping("/updateCar/{cId}")
+	public Object updateCar(@PathVariable int cId,@RequestBody Car newValue) throws InvalidIDException {
+		return carService.updateCar(cId,newValue);
 	}
 }
