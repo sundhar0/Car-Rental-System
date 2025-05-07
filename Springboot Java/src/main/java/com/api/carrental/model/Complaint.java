@@ -19,11 +19,29 @@ public class Complaint {
 
     private String status;
     
-    private LocalDate updatedAt;
+    private LocalDate updatedAt = LocalDate.now();
     
-    private String description;
+    private String reponse;
+    
+	private String description;
+	
+	
 
-    
+	 public String getReponse() {
+		return reponse;
+	}
+
+	public void setReponse(String reponse) {
+		this.reponse = reponse;
+	}
+
+	public LocalDate getUpdatedAt() {
+			return updatedAt;
+		}
+
+		public void setUpdatedAt(LocalDate updatedAt) {
+			this.updatedAt = updatedAt;
+		}
     
 	public String getDescription() {
 		return description;

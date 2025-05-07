@@ -1,229 +1,187 @@
-package com.api.carrental.model;
- 
+	package com.api.carrental.model;
+	
+	import com.api.carrental.enums.CarSaleType;
+	import com.api.carrental.enums.CarStatus;
+	
+	import jakarta.persistence.Column;
+	import jakarta.persistence.Entity;
+	import jakarta.persistence.GeneratedValue;
+	import jakarta.persistence.GenerationType;
+	import jakarta.persistence.Id;
+	import jakarta.persistence.ManyToOne;
+	
+	@Entity
+	public class Car {
+	
+		@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private int id;
+		private String carMake;
+	    private String carModel;
+	    private String year;
+	    private String licensePlateNumber;
+	    private String vehicleRegistrationNumber;	
+	    private String carColor;
+	    private CarStatus status;
+	    private CarSaleType carSaleType;
+	    private String carImage;
+	    private String desription;
+	    
+	    
+	    
+	    
+	    public String getDesription() {
+			return desription;
+		}
 
-import com.api.carrental.enums.CarSaleType;
-import com.api.carrental.enums.CarStatus;
+		public void setDesription(String desription) {
+			this.desription = desription;
+		}
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+		public String getCarImage() {
+			return carImage;
+		}
 
-@Entity
-public class Car {
+		public void setCarImage(String carImage) {
+			this.carImage = carImage;
+		}
+		
+		
+		
+		public Car(int i, String string, String string2, double d, String string3, String string4, String string5,
+				String string6, User user, CarStatus available, CarSaleType rent) {
+			// TODO Auto-generated constructor stub
+		}
+	    
+	    public Car(int i, String string, String string2, int j, String string3, String string4, String string5, String string6, Customer customer, CarStatus approved, CarSaleType rent) {}
+		public Car() {
+			// TODO Auto-generated constructor stub
+		}
+	
+		public void setCarSaleType(CarSaleType carSaleType) {
+			this.carSaleType = carSaleType;
+		}
+		
+		@Column(nullable = false)
+	    private double price;
+	
+	    @Column(nullable = false)
+	    private String brand;
+	
+	    @Column(nullable = false)
+	    private String fuelType;
+	
+	    @Column(nullable = false)
+	    private String transmission;
+	
+	    @Column(nullable = false)
+	    private String mileage;
+	    
+	    @ManyToOne
+	    private User carOwner;
+	    
+	    
+	    public String getModel() {
+			return model;
+		}
+		public void setModel(String model) {
+			this.model = model;
+		}
+		private String model;
+	    
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public String getCarMake() {
+			return carMake;
+		}
+		public void setCarMake(String carMake) {
+			this.carMake = carMake;
+		}
+		public String getCarModel() {
+			return carModel;
+		}
+		public void setCarModel(String carModel) {
+			this.carModel = carModel;
+		}
+		public String getYear() {
+			return year;
+		}
+		public void setYear(String year) {
+			this.year = year;
+		}
+		public String getLicensePlateNumber() {
+			return licensePlateNumber;
+		}
+		public void setLicensePlateNumber(String licensePlateNumber) {
+			this.licensePlateNumber = licensePlateNumber;
+		}
+		public String getVehicleRegistrationNumber() {
+			return vehicleRegistrationNumber;
+		}
+		public void setVehicleRegistrationNumber(String vehicleRegistrationNumber) {
+			this.vehicleRegistrationNumber = vehicleRegistrationNumber;
+		}
+		public String getCarColor() {
+			return carColor;
+		}
+		public void setCarColor(String carColor) {
+			this.carColor = carColor;
+		}
+		public CarStatus getStatus() {
+			return status;
+		}
+		public void setStatus(CarStatus string) {
+			this.status = string;
+		}
+		
+		public User getCarOwner() {
+			return carOwner;
+		}
+		public void setCarOwner(User carOwner) {
+			this.carOwner = carOwner;
+		}
+		public double getPrice() {
+			return price;
+		}
+		public void setPrice(double price) {
+			this.price = price;
+		}
+		public String getBrand() {
+			return brand;
+		}
+		public void setBrand(String brand) {
+			this.brand = brand;
+		}
+		public String getFuelType() {
+			return fuelType;
+		}
+		public void setFuelType(String fuelType) {
+			this.fuelType = fuelType;
+		}
+		public String getTransmission() {
+			return transmission;
+		}
+		public void setTransmission(String transmission) {
+			this.transmission = transmission;
+		}
+		public String getMileage() {
+			return mileage;
+		}
+		public void setMileage(String mileage) {
+			this.mileage = mileage;
+		}
+		public CarSaleType getCarSaleType() {
+			return carSaleType;
+		}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int carId;
-
-    @Column(nullable = false)
-    private String model;
-
-    @Column(nullable = false)
-    private String year;
-
-    @Column(nullable = false)
-    private double price;
-
-    @Column(nullable = false)
-    private String brand;
-
-    @Column(nullable = false)
-    private String fuelType;
-
-    @Column(nullable = false)
-    private String transmission;
-
-    @Column(nullable = false)
-    private String mileage;
-    
-    private String carMake;
-    private String licensePlateNumber;
-    private String vehicleRegistrationNumber;
-    private String carColor;
-    private String status;
-    
-    @ManyToOne
-    private Customer customer;
-    
-    @ManyToOne
-    private CarDocuments carDocuments;
-    
-    @Enumerated(EnumType.STRING)
-    private CarStatus carStatus;
-
-    @Enumerated(EnumType.STRING)
-    private CarSaleType carSaleType;
-
-	public Car() {
-		super();
-		// TODO Auto-generated constructor stub
+		
+	
+		
+		
+		
+	    
 	}
-
-	public Car(int carId, String model, String year, double price, String brand, String fuelType, String transmission,
-			String mileage, String carMake, String licensePlateNumber, String vehicleRegistrationNumber,
-			String carColor, String status, Customer customer, CarDocuments carDocuments, CarStatus carStatus,
-			CarSaleType carSaleType) {
-		super();
-		this.carId = carId;
-		this.model = model;
-		this.year = year;
-		this.price = price;
-		this.brand = brand;
-		this.fuelType = fuelType;
-		this.transmission = transmission;
-		this.mileage = mileage;
-		this.carMake = carMake;
-		this.licensePlateNumber = licensePlateNumber;
-		this.vehicleRegistrationNumber = vehicleRegistrationNumber;
-		this.carColor = carColor;
-		this.status = status;
-		this.customer = customer;
-		this.carDocuments = carDocuments;
-		this.carStatus = carStatus;
-		this.carSaleType = carSaleType;
-	}
-
-	public int getCarId() {
-		return carId;
-	}
-
-	public void setCarId(int carId) {
-		this.carId = carId;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getFuelType() {
-		return fuelType;
-	}
-
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
-
-	public String getTransmission() {
-		return transmission;
-	}
-
-	public void setTransmission(String transmission) {
-		this.transmission = transmission;
-	}
-
-	public String getMileage() {
-		return mileage;
-	}
-
-	public void setMileage(String mileage) {
-		this.mileage = mileage;
-	}
-
-	public String getCarMake() {
-		return carMake;
-	}
-
-	public void setCarMake(String carMake) {
-		this.carMake = carMake;
-	}
-
-	public String getLicensePlateNumber() {
-		return licensePlateNumber;
-	}
-
-	public void setLicensePlateNumber(String licensePlateNumber) {
-		this.licensePlateNumber = licensePlateNumber;
-	}
-
-	public String getVehicleRegistrationNumber() {
-		return vehicleRegistrationNumber;
-	}
-
-	public void setVehicleRegistrationNumber(String vehicleRegistrationNumber) {
-		this.vehicleRegistrationNumber = vehicleRegistrationNumber;
-	}
-
-	public String getCarColor() {
-		return carColor;
-	}
-
-	public void setCarColor(String carColor) {
-		this.carColor = carColor;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public CarDocuments getCarDocuments() {
-		return carDocuments;
-	}
-
-	public void setCarDocuments(CarDocuments carDocuments) {
-		this.carDocuments = carDocuments;
-	}
-
-	public CarStatus getCarStatus() {
-		return carStatus;
-	}
-
-	public void setCarStatus(CarStatus carStatus) {
-		this.carStatus = carStatus;
-	}
-
-	public CarSaleType getCarSaleType() {
-		return carSaleType;
-	}
-
-	public void setCarSaleType(CarSaleType carSaleType) {
-		this.carSaleType = carSaleType;
-	}
-
-    
-
-}

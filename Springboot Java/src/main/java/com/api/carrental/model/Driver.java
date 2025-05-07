@@ -34,6 +34,8 @@ public class Driver {
     private String shortDescription;
     
     private double perDayCharge;
+    
+   
 
 	public int getDriverId() {
 		return driverId;
