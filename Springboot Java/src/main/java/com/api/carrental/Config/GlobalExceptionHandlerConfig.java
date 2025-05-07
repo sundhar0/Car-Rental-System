@@ -1,7 +1,5 @@
 package com.api.carrental.Config;
 
-import java.io.IOException;
-
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,11 +7,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.api.carrental.Exception.CarNotAvailable;
 import com.api.carrental.Exception.DriverNotAvailable;
-
 import com.api.carrental.Exception.InvalidDateException;
 import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidFuelException;
-import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Exception.InvalidModelException;
 import com.api.carrental.Exception.InvalidPaymentException;
 import com.api.carrental.Exception.InvalidUserNameException;
@@ -61,23 +57,6 @@ public class GlobalExceptionHandlerConfig {
 	public ErrorResponse carNotAvailableException(CarNotAvailable e) {
 		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
 	}
-
-	@ExceptionHandler(RuntimeException.class)
-	 public ErrorResponse invalidImageExceptionHandler(RuntimeException e) {
-		 return ErrorResponse.create
-				 			(e, 
-				 			HttpStatusCode.valueOf(400), 
-				 			e.getMessage()); 
-	 }
-	 
-	 @ExceptionHandler(IOException.class)
-	 public ErrorResponse invalidIOExceptionHandler(IOException e) {
-		 return ErrorResponse.create
-				 			(e, 
-				 			HttpStatusCode.valueOf(400), 
-				 			e.getMessage()); 
-	 }
-
 	
 	@ExceptionHandler(InvalidDateException.class)
 	public ErrorResponse invalidDateException(InvalidDateException e) {
@@ -88,5 +67,4 @@ public class GlobalExceptionHandlerConfig {
 	public ErrorResponse invalidPaymentException(InvalidPaymentException e) {
 		return ErrorResponse.create(e, HttpStatusCode.valueOf(400),e.getMessage());
 	}
-
 }
