@@ -32,7 +32,7 @@ public class CarTransactionController {
 	
 	@PostMapping("/buy/{sellerId}/{carId}/{buyerId}")
 	public CarTransaction buy(@RequestBody CarTransaction ct,
-			@PathVariable int carId, @PathVariable Long sellerId, @PathVariable Long buyerId) throws InvalidIDException {
+			@PathVariable int carId, @PathVariable int sellerId, @PathVariable int buyerId) throws InvalidIDException {
 
 		
 		Car car = carService.getById(carId);
@@ -48,3 +48,4 @@ public class CarTransactionController {
 		return ct;
 	}
 }
+

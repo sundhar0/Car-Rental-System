@@ -20,19 +20,34 @@
 	    private String carModel;
 	    private String year;
 	    private String licensePlateNumber;
-	    private String vehicleRegistrationNumber;
+	    private String vehicleRegistrationNumber;	
 	    private String carColor;
 	    private CarStatus status;
 	    private CarSaleType carSaleType;
 	    private String carImage;
-	    public String getCarImage() {
+	    private String desription;
+	    
+	    
+	    
+	    
+	    public String getDesription() {
+			return desription;
+		}
+
+		public void setDesription(String desription) {
+			this.desription = desription;
+		}
+
+		public String getCarImage() {
 			return carImage;
 		}
 
 		public void setCarImage(String carImage) {
 			this.carImage = carImage;
 		}
-
+		
+		
+		
 		public Car(int i, String string, String string2, double d, String string3, String string4, String string5,
 				String string6, User user, CarStatus available, CarSaleType rent) {
 			// TODO Auto-generated constructor stub

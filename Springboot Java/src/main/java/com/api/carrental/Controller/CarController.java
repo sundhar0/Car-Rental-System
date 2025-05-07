@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,6 +84,10 @@ public class CarController {
 	@DeleteMapping("/delete/{cId}")
 	public void deleteCar(@PathVariable int cId) throws InvalidIDException {
 		carService.DeleteCar(cId);
+	}
+	@PutMapping("/updateCar/{cId}")
+	public Object updateCar(@PathVariable int cId,@RequestBody Car newValue) {
+		return carService.updateCar(cId,newValue);
 	}
 	
 	@PostMapping("/image/upload/{cid}")

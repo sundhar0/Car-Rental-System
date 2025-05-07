@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import com.api.carrental.model.User;
 
 @RestController
 @RequestMapping("/api/userLogin")
+//@CrossOrigin(origins = {"http://localhost:5173/"})
 public class AuthController {
 
 	@Autowired
@@ -60,7 +63,7 @@ public class AuthController {
 		dto.setExpiry(jwtUtil.extractExpiration(token).toString());
 		return dto; 
 	}
-	@PostMapping("/userDetails")
+	@GetMapping("/userDetails")
 	public UserDetails userDetails(Principal principal) {
 		String username=principal.getName();
 		return myUserService.loadUserByUsername(username);

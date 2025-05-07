@@ -6,7 +6,7 @@ const UserDashboard = () => {
   const [customer, setCustomer] = useState({});
   const fetchCustomer=()=>{
     try{
-      const response=axios.get(`http://localhost:8080/api/userLogin/userDetails`,{
+      const response=axios.get(`http://localhost:8081/api/userLogin/userDetails`,{
         headers:{
           Authorization:`Bearer ${localStorage.getItem("token")}`,
         },
@@ -20,6 +20,47 @@ const UserDashboard = () => {
   useEffect(()=>{
     fetchCustomer();
   },[])
+  const deleteCar = async (complaintId) => {
+          try {
+              await axios.delete(`http://localhost:8081/api/complaints/${complaintId}`);
+              setComplaints(prev => prev.filter(c => c.complaintId !== complaintId));
+          } catch (err) {
+              console.log(err);
+          }
+      };
+    const updateCar = async (e, complaintId) => {
+            e.preventDefault();
+            try {
+                const { responseText, status } = updates[complaintId] || {};
+                const response = await axios.put(`http://localhost:8081/api/complaints/${complaintId}`, {
+                    reponse: responseText,
+                    status: status
+                });
+    
+                const updatedComplaints = complaints.map(complaint =>
+                    complaint.complaintId === complaintId
+                        ? { ...complaint, reponse: responseText, status, updatedAt: new Date().toISOString() }
+                        : complaint
+                );
+                setComplaints(updatedComplaints);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        const fetchCars = async () => {
+            try {
+              const response = await axios.get(
+                `http://localhost:8080/api/car/getById/${id}`
+              );
+              setCar(response.data);
+            } catch (error) {
+              console.error("Error fetching cars:", error);
+            }
+          };
+        
+          useEffect(() => {
+            fetchCars();
+          }, []);
 
 
   const renderContent = () => {
@@ -59,27 +100,6 @@ const UserDashboard = () => {
           <div className="m-5">
             <h3>Welcome, {customer.name}</h3>
           </div>
-
-        <div className="row g-4 mb-4">
-          <div className="col-md-4">
-            <div className="bg-white p-4 rounded shadow-sm text-center">
-              <small className="text-muted">Email</small>
-              <h6 className="mt-2">john@example.com</h6>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="bg-white p-4 rounded shadow-sm text-center">
-              <small className="text-muted">Phone</small>
-              <h6 className="mt-2">9876543210</h6>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="bg-white p-4 rounded shadow-sm text-center">
-              <small className="text-muted">Customer Since</small>
-              <h6 className="mt-2">Jan 2024</h6>
-            </div>
-          </div>
-        </div>
         </div>
         </div>
 

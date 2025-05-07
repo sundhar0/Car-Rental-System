@@ -39,7 +39,17 @@ public class ComplaintService {
         Complaint existing = complaintRepository.findById(complaintId)
                 .orElseThrow(() -> new InvalidIDException("Complaint not found"));
         existing.setIssue(updatedComplaint.getIssue());
-        existing.setStatus(updatedComplaint.getStatus());
+        existing.setReponse(updatedComplaint.getReponse());
+        
+        logger.info("Values Updated..");
+        return complaintRepository.save(existing);
+    }
+    
+    public Complaint updaterespond(int complaintId, Complaint updatedComplaint) throws InvalidIDException {
+        Complaint existing = complaintRepository.findById(complaintId)
+                .orElseThrow(() -> new InvalidIDException("Complaint not found"));
+        existing.setReponse(updatedComplaint.getReponse());
+        
         logger.info("Values Updated..");
         return complaintRepository.save(existing);
     }

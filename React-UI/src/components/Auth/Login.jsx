@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 
 function LoginPage() {
@@ -8,6 +8,8 @@ function LoginPage() {
   const [password, setPassword] = useState(null);
   const [msgUsername, setMsgUsername] = useState(null);
   const [msgPassword, setMsgPassword] = useState(null);
+  const navigate = useNavigate();
+
   const login = () => {
     let isCorrect = false;
     if (username == null || username === "" || username == undefined) {
@@ -98,7 +100,6 @@ function LoginPage() {
               }}
             />
           </div>
-          <Link to="/driverlist">
             <button
               className="btn btn-success w-100 mb-3"
               onClick={() => {
@@ -107,7 +108,6 @@ function LoginPage() {
             >
               Login
             </button>
-          </Link>
         </div>
 
         <div className="mb-3">

@@ -35,7 +35,7 @@ public class FavoritesService {
 
 	public Favorites addFavorites(Favorites favorites) {
 		int carId =favorites.getCar().getId();       // uses carId from Car entity
-	    Long customerId = (long) favorites.getCustomer().getId();
+	    int customerId =  favorites.getCustomer().getId();
 	    
 	    /*fetch the car entity from database using carid ensure the car exist if not throws exception*/	    
 	    Car car = carrentalRepository.findById(carId)
@@ -55,7 +55,7 @@ public class FavoritesService {
 
 	public Favorites addFavoritesforBuyer(Favorites favorites) throws InvalidIDException {
 		int carId=favorites.getCar().getId();
-		Long customerId=favorites.getCustomer().getId();
+		int customerId=favorites.getCustomer().getId();
 		Car car=carService.getById(carId);
 		Customer customer=customerService.getSingleCustomer(customerId);
 		favorites.setCar(car);
@@ -102,3 +102,4 @@ public class FavoritesService {
 	}
 
 }
+

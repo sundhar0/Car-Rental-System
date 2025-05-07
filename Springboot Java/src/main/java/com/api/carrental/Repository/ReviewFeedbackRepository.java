@@ -11,6 +11,6 @@ public interface ReviewFeedbackRepository extends JpaRepository<ReviewFeedback, 
 
 	List<ReviewFeedback> getByRating(int rating);
 
-	List<ReviewFeedback> findByCustomerId(Long cId);
+	List<ReviewFeedback> findByCustomerId(int cId);
 
 }
