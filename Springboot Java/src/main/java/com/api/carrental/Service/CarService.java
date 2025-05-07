@@ -24,10 +24,7 @@ import com.api.carrental.Repository.CarApprovalRepository;
 import com.api.carrental.Repository.CarRepository;
 import com.api.carrental.model.Car;
 import com.api.carrental.model.CarApproval;
-import com.api.carrental.model.Customer;
-import com.api.carrental.model.Driver;
 import com.api.carrental.model.User;
-//import com.api.carrental.model.ReviewFeedback;
 import com.api.carrental.enums.CarSaleType;
 import com.api.carrental.enums.CarStatus;
 
