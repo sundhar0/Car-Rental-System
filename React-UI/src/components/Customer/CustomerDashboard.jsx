@@ -112,14 +112,6 @@ function AddComplaint({ userId }) {
                                     Dashboard
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link
-                                    to="/complaints"
-                                    className="nav-link text-white text-decoration-none active"
-                                >
-                                    Complaints
-                                </Link>
-                            </li>
                         </ul>
                     </div>
                 </div>

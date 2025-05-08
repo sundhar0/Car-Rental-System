@@ -105,7 +105,6 @@ public class CarService {
 
 	}
 
-	@Transactional
 	public void deleteCar(int cId) throws InvalidIDException {
 	    Optional<Car> optional = carRepository.findById(cId);
 	    if (optional.isEmpty())

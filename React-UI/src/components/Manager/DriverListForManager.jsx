@@ -1,30 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setDriverAll } from "../Store/DriverStore/driverAllSlice";
 
 function DriverListManager() {
-  const [drivers, setDrivers] = useState([]);
   const [experienceYears, setExperience] = useState(null);
   const [perDayCharge, setPerDayCharge] = useState(null);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
+  const driverAll = useSelector((state) => state.driverAll.driverAll);
+  const dispatch = useDispatch();
 
-  const getAllDrivers = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/driver/getAll?page=${page}&size=${size}`
-      );
-      setDrivers(response.data.list);
-      setTotalPages(response.data.totalPages);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getAllDrivers();
-  }, [page]);
 
   const deleteDriver = async (driverId) => {
     try {
@@ -33,7 +21,7 @@ function DriverListManager() {
       );
       let temp = [...drivers];
       temp = temp.filter((d) => d.driverId != driverId);
-      setDrivers(temp);
+      dispatch(setDriverAll(temp));
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +39,7 @@ function DriverListManager() {
           ? { ...driver, experienceYears, perDayCharge }
           : driver
       );
-      setDrivers(updatedDrivers);
+      dispatch(setDriverAll(updatedDrivers));
     } catch (err) {
       console.log(err);
     }
@@ -100,21 +88,7 @@ function DriverListManager() {
                   Complaints
                 </Link>
               </li>
-              <div className="input-group" style={{ width: "250px" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button
-                  className="btn text-white"
-                  type="button"
-                  style={{ backgroundColor: "#00B86B" }}
-                >
-                  <i className="bi bi-search"></i>
-                </button>
-              </div>
+              
             </ul>
           </div>
         </div>
@@ -124,8 +98,7 @@ function DriverListManager() {
           Drivers
         </h1>
         <div className="row">
-          {drivers
-            .filter((d) => d.driverAvailability == "AVAILABLE")
+          {driverAll.filter((d) => d.driverAvailability == "AVAILABLE")
             .map((driv, index) => (
               <div className="col-md-3 mb-4" key={index}>
                 <div className="card text-center p-3 shadow-lg">

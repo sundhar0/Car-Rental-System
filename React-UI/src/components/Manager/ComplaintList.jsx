@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 
 function ComplaintList() {
   const [complaints, setComplaints] = useState([]);
-  const [filteredComplaints, setFilteredComplaints] = useState([]);
   const [updates, setUpdates] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
   
   const getAllComplaints = async () => {
     try {
@@ -24,24 +22,6 @@ function ComplaintList() {
     getAllComplaints();
   }, []);
 
-  // Search functionality
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredComplaints(complaints);
-    } else {
-      const filtered = complaints.filter((complaint) => {
-        const searchLower = searchTerm.toLowerCase();
-        return (
-          (complaint.user?.userId?.toString().toLowerCase().includes(searchLower)) ||
-          (complaint.issue?.toLowerCase().includes(searchLower)) ||
-          (complaint.description?.toLowerCase().includes(searchLower)) ||
-          (complaint.status?.toLowerCase().includes(searchLower)) ||
-          (complaint.reponse?.toLowerCase().includes(searchLower))
-        );
-      });
-      setFilteredComplaints(filtered);
-    }
-  }, [searchTerm, complaints]);
 
   const deleteComplaint = async (complaintId) => {
     try {
@@ -159,23 +139,6 @@ function ComplaintList() {
                   Active Drivers
                 </Link>
               </li>
-              <div className="input-group" style={{ width: "250px" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button
-                  className="btn text-white"
-                  type="button"
-                  style={{ backgroundColor: "#00B86B" }}
-                >
-                  <i className="bi bi-search"></i>
-                </button>
-              </div>
             </ul>
           </div>
         </div>
@@ -204,11 +167,7 @@ function ComplaintList() {
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h4 className="card-title mb-0">All Complaints</h4>
-              {searchTerm && (
-                <small className="text-muted">
-                  Showing {filteredComplaints.length} of {complaints.length} complaints
-                </small>
-              )}
+
             </div>
             <div className="table-responsive">
               <table className="table table-hover">
@@ -225,8 +184,8 @@ function ComplaintList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredComplaints.length > 0 ? (
-                    filteredComplaints.map((c, index) => (
+                  {complaints.length > 0 ? (
+                    complaints.map((c, index) => (
                       <tr key={index}>
                         <td>{c.complaintId}</td>
                         <td>{c.user?.userId || "N/A"}</td>
@@ -345,9 +304,7 @@ function ComplaintList() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="8" className="text-center py-4">
-                        {searchTerm ? "No matching complaints found" : "No complaints found"}
-                      </td>
+                      
                     </tr>
                   )}
                 </tbody>

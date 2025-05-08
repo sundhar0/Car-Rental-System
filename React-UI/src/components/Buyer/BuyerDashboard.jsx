@@ -192,13 +192,7 @@ function BuyerPage() {
           Available Cars for Purchase
         </h1>
 
-        {loading ? (
-          <div className="text-center py-5">
-            <div className="spinner-border text-success" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        ) : (
+        {
           <div className="row">
             {/* Filters */}
             <div className="col-md-3 mb-4">
@@ -300,7 +294,7 @@ function BuyerPage() {
                       <div className="card shadow-lg h-100">
                         <img
                           src={
-                            car.carImage ||
+                            `../../${car.carImage}` ||
                             "https://via.placeholder.com/300x200?text=Car+Image"
                           }
                           className="card-img-top"
@@ -435,7 +429,7 @@ function BuyerPage() {
               )}
             </div>
           </div>
-        )}
+        }
       </div>
     </div>
   );

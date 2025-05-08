@@ -10,21 +10,6 @@ function DriverList() {
   
   const driverAll = useSelector(state => state.driverAll.driverAll);
 
-  // Filter drivers based on search term
-  const filteredDrivers = driverAll.filter(driver => {
-    if (searchTerm.trim() === "") return driver.driverAvailability === "AVAILABLE";
-    
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      driver.driverAvailability === "AVAILABLE" && (
-        driver.name?.toLowerCase().includes(searchLower) ||
-        driver.experienceYears?.toString().includes(searchLower) ||
-        driver.perDayCharge?.toString().includes(searchLower) ||
-        driver.rating?.toString().includes(searchLower) ||
-        driver.shortDescription?.toLowerCase().includes(searchLower)
-      )
-    );
-  });
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
@@ -114,15 +99,11 @@ function DriverList() {
           <h1 className="fw-500 text-black" style={{ fontSize: "1.5rem" }}>
             Available Drivers
           </h1>
-          {searchTerm && (
-            <small className="text-muted">
-              Showing {filteredDrivers.length} of {driverAll.filter(d => d.driverAvailability === "AVAILABLE").length} drivers
-            </small>
-          )}
+          
         </div>
-        {filteredDrivers.length > 0 ? (
+        {
           <div className="row">
-            {filteredDrivers.map((driv, index) => (
+            {driverAll.map((driv, index) => (
               <div className="col-lg-3 mb-4" key={index}>
                 <div className="card text-center p-3 shadow-lg">
                   <img
@@ -150,15 +131,9 @@ function DriverList() {
               </div>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-5">
-            <h4 className="text-muted">
-              {searchTerm ? "No matching drivers found" : "No available drivers found"}
-            </h4>
-          </div>
-        )}
+        }
       </div>
-      {filteredDrivers.length > 0 && (
+      {driverAll.length > 0 && (
         <div className="d-flex justify-content-center mt-5">
           <div className="">
             <nav aria-label="Page navigation example">

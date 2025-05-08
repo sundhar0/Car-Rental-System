@@ -11,7 +11,7 @@ function DriverApprovels() {
 
   const driverAll = useSelector((state) => state.driverAll.driverAll);
 
-  const handleApproveReject = async (driverId, availablility) => {
+  const handleApprove = async (driverId, availablility) => {
     try {
       await axios.put(
         `http://localhost:8080/api/driver/updateAvailablility/${driverId}/${availablility}`
@@ -22,7 +22,7 @@ function DriverApprovels() {
     }
   };
 
-  const deleteStudents = async (driverId) => {
+  const deleteDriver = async (driverId) => {
     try {
       await axios.delete(`http://localhost:8080/api/driver/delete/${driverId}`);
       setDrivers((prev) => prev.filter((s) => s.driverId !== driverId));
@@ -31,22 +31,6 @@ function DriverApprovels() {
     }
   };
 
-  const getDriverDocument = async (driverId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/driver-documents/driver/${driverId}`
-      );
-      console.log(response.data);
-      const documents = [
-        response.data.drivingLicence,
-        response.data.aadhaarCard,
-        response.data.addressProof,
-      ];
-      setSelectedDocs(documents); // expects array of image URLs
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div className="" style={{ minHeight: "100vh" }}>
@@ -98,23 +82,6 @@ function DriverApprovels() {
       <div className="container">
         <div className="d-flex justify-content-between align-items-center ms-auto m-5">
           <h1>Approvals</h1>
-          <div className="input-group w-auto mb-3">
-            <input
-              type="text"
-              className="form-control form-control-sm"
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="button"
-            />
-            <button
-              className="btn fw-bold text-white"
-              type="button"
-              id="button"
-              style={{ backgroundColor: "#00B86B" }}
-            >
-              <i className="bi bi-search"></i>
-            </button>
-          </div>
         </div>
 
         <div className="">
@@ -128,7 +95,6 @@ function DriverApprovels() {
                 <th scope="col">Licence NO</th>
                 <th scope="col">Per Day Charge</th>
                 <th scope="col">Approve / Reject</th>
-                <th scope="col">Documents</th>
               </tr>
             </thead>
             <tbody>
@@ -151,26 +117,18 @@ function DriverApprovels() {
                           className="btn text-white border-0"
                           style={{ backgroundColor: "#00B86B" }}
                           onClick={() =>
-                            handleApproveReject(d.driverId, "AVAILABLE")
+                            handleApprove(d.driverId, "AVAILABLE")
                           }
                         >
                           Approve
                         </button>
                         <button
                           className="btn btn-danger"
-                          onClick={() => deleteStudents(d.driverId)}
+                          onClick={() => deleteDriver(d.driverId)}
                         >
                           Reject
                         </button>
                       </div>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-link"
-                        onClick={() => getDriverDocument(d.driverId)}
-                      >
-                        View Documents
-                      </button>
                     </td>
                   </tr>
                 ))}

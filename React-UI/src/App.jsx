@@ -32,9 +32,9 @@ function App() {
   }, [])
   return (
     <Routes>
-      <Route path="" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="driverlistmanager" element={<DriverListManager />} />
-      <Route path="landingpage" element={<LandingPage />} />
+      <Route path="" element={<LandingPage />} />
       <Route path="/driverlistformanager" element={<DriverListManager />} />
       <Route
         path="driverbook/:name/:rating/:shortDescription/:perDayCharge/:driverId"
