@@ -146,20 +146,7 @@ function AddComplaint({ userId }) {
                                             style={{ borderRadius: "8px", padding: "12px" }}
                                         />
                                     </div>
-                                    <div className="mb-4">
-                                        <label className="form-label fw-semibold">Status</label>
-                                        <select
-                                            className="form-select"
-                                            value={status}
-                                            onChange={(e) => setStatus(e.target.value)}
-                                            style={{ borderRadius: "8px", padding: "12px" }}
-                                        >
-                                            <option value="OPEN">OPEN</option>
-                                            <option value="IN_PROGRESS">IN PROGRESS</option>
-                                            <option value="RESOLVED">RESOLVED</option>
-                                            <option value="CLOSED">CLOSED</option>
-                                        </select>
-                                    </div>
+                                    
                                     <button 
                                         type="submit" 
                                         className="btn w-100 text-white fw-bold"

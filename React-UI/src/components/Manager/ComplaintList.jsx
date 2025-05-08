@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 
 function ComplaintList() {
   const [complaints, setComplaints] = useState([]);
-  const [updates, setUpdates] = useState({});
+  const [status, setStatus] = useState(null)
+  const [responseText, setResponseText] = useState(null)
+  
   
   const getAllComplaints = async () => {
     try {
@@ -37,40 +39,22 @@ function ComplaintList() {
   const updateComplaint = async (e, complaintId) => {
     e.preventDefault();
     try {
-      const { responseText, status } = updates[complaintId] || {};
-      const response = await axios.put(
-        `http://localhost:8080/api/complaints/${complaintId}`,
-        {
-          reponse: responseText,
-          status: status,
-        }
+      await axios.put(
+        `http://localhost:8080/api/complaints/${complaintId}?reponse=${responseText}&status=${status}`
       );
-
-      const updatedComplaints = complaints.map((complaint) =>
-        complaint.complaintId === complaintId
-          ? {
-              ...complaint,
-              reponse: responseText,
-              status,
-              updatedAt: new Date().toISOString(),
-            }
-          : complaint
+  
+      const updated = complaints.map((c) =>
+        c.complaintId === complaintId
+          ? { ...c, reponse: responseText, status, updatedAt: new Date().toISOString() }
+          : c
       );
-      setComplaints(updatedComplaints);
+      setComplaints(updated);
     } catch (err) {
       console.log(err);
     }
   };
+  
 
-  const handleUpdateChange = (complaintId, field, value) => {
-    setUpdates((prev) => ({
-      ...prev,
-      [complaintId]: {
-        ...prev[complaintId],
-        [field]: value,
-      },
-    }));
-  };
 
   const formatDate = (dateString) => {
     const options = {
@@ -92,7 +76,7 @@ function ComplaintList() {
       case "RESOLVED":
         return "bg-success";
       case "CLOSED":
-        return "bg-secondary";
+        return "bg-Danger";
       default:
         return "bg-light text-dark";
     }
@@ -193,7 +177,7 @@ function ComplaintList() {
                         <td>{c.description}</td>
                         <td>
                           <span className={`badge ${getStatusBadge(c.status)}`}>
-                            {c.status.replace("_", " ")}
+                            {c.status ? c.status.replace("_", " ") : "N/A"}
                           </span>
                         </td>
                         <td>{c.reponse || "No response yet"}</td>
@@ -249,9 +233,7 @@ function ComplaintList() {
                                       <select
                                         className="form-select"
                                         onChange={(e) =>
-                                          handleUpdateChange(
-                                            c.complaintId,
-                                            "status",
+                                          setStatus(
                                             e.target.value
                                           )
                                         }
@@ -276,11 +258,7 @@ function ComplaintList() {
                                         defaultValue={c.reponse}
                                         rows="4"
                                         onChange={(e) =>
-                                          handleUpdateChange(
-                                            c.complaintId,
-                                            "responseText",
-                                            e.target.value
-                                          )
+                                          setResponseText(e.target.value)
                                         }
                                       ></textarea>
                                     </div>
