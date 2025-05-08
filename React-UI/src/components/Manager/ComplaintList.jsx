@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 function ComplaintList() {
   const [complaints, setComplaints] = useState([]);
-  const [filteredComplaints, setFilteredComplaints] = useState([]);
-  const [updates, setUpdates] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState(null)
+  const [responseText, setResponseText] = useState(null)
+  
   
   const getAllComplaints = async () => {
     try {
@@ -24,24 +24,6 @@ function ComplaintList() {
     getAllComplaints();
   }, []);
 
-  // Search functionality
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredComplaints(complaints);
-    } else {
-      const filtered = complaints.filter((complaint) => {
-        const searchLower = searchTerm.toLowerCase();
-        return (
-          (complaint.user?.userId?.toString().toLowerCase().includes(searchLower)) ||
-          (complaint.issue?.toLowerCase().includes(searchLower)) ||
-          (complaint.description?.toLowerCase().includes(searchLower)) ||
-          (complaint.status?.toLowerCase().includes(searchLower)) ||
-          (complaint.reponse?.toLowerCase().includes(searchLower))
-        );
-      });
-      setFilteredComplaints(filtered);
-    }
-  }, [searchTerm, complaints]);
 
   const deleteComplaint = async (complaintId) => {
     try {
@@ -57,40 +39,22 @@ function ComplaintList() {
   const updateComplaint = async (e, complaintId) => {
     e.preventDefault();
     try {
-      const { responseText, status } = updates[complaintId] || {};
-      const response = await axios.put(
-        `http://localhost:8080/api/complaints/${complaintId}`,
-        {
-          reponse: responseText,
-          status: status,
-        }
+      await axios.put(
+        `http://localhost:8080/api/complaints/${complaintId}?reponse=${responseText}&status=${status}`
       );
-
-      const updatedComplaints = complaints.map((complaint) =>
-        complaint.complaintId === complaintId
-          ? {
-              ...complaint,
-              reponse: responseText,
-              status,
-              updatedAt: new Date().toISOString(),
-            }
-          : complaint
+  
+      const updated = complaints.map((c) =>
+        c.complaintId === complaintId
+          ? { ...c, reponse: responseText, status, updatedAt: new Date().toISOString() }
+          : c
       );
-      setComplaints(updatedComplaints);
+      setComplaints(updated);
     } catch (err) {
       console.log(err);
     }
   };
+  
 
-  const handleUpdateChange = (complaintId, field, value) => {
-    setUpdates((prev) => ({
-      ...prev,
-      [complaintId]: {
-        ...prev[complaintId],
-        [field]: value,
-      },
-    }));
-  };
 
   const formatDate = (dateString) => {
     const options = {
@@ -112,7 +76,7 @@ function ComplaintList() {
       case "RESOLVED":
         return "bg-success";
       case "CLOSED":
-        return "bg-secondary";
+        return "bg-Danger";
       default:
         return "bg-light text-dark";
     }
@@ -159,23 +123,6 @@ function ComplaintList() {
                   Active Drivers
                 </Link>
               </li>
-              <div className="input-group" style={{ width: "250px" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button
-                  className="btn text-white"
-                  type="button"
-                  style={{ backgroundColor: "#00B86B" }}
-                >
-                  <i className="bi bi-search"></i>
-                </button>
-              </div>
             </ul>
           </div>
         </div>
@@ -204,11 +151,7 @@ function ComplaintList() {
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h4 className="card-title mb-0">All Complaints</h4>
-              {searchTerm && (
-                <small className="text-muted">
-                  Showing {filteredComplaints.length} of {complaints.length} complaints
-                </small>
-              )}
+
             </div>
             <div className="table-responsive">
               <table className="table table-hover">
@@ -225,8 +168,8 @@ function ComplaintList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredComplaints.length > 0 ? (
-                    filteredComplaints.map((c, index) => (
+                  {complaints.length > 0 ? (
+                    complaints.map((c, index) => (
                       <tr key={index}>
                         <td>{c.complaintId}</td>
                         <td>{c.user?.userId || "N/A"}</td>
@@ -234,7 +177,7 @@ function ComplaintList() {
                         <td>{c.description}</td>
                         <td>
                           <span className={`badge ${getStatusBadge(c.status)}`}>
-                            {c.status.replace("_", " ")}
+                            {c.status ? c.status.replace("_", " ") : "N/A"}
                           </span>
                         </td>
                         <td>{c.reponse || "No response yet"}</td>
@@ -290,9 +233,7 @@ function ComplaintList() {
                                       <select
                                         className="form-select"
                                         onChange={(e) =>
-                                          handleUpdateChange(
-                                            c.complaintId,
-                                            "status",
+                                          setStatus(
                                             e.target.value
                                           )
                                         }
@@ -317,11 +258,7 @@ function ComplaintList() {
                                         defaultValue={c.reponse}
                                         rows="4"
                                         onChange={(e) =>
-                                          handleUpdateChange(
-                                            c.complaintId,
-                                            "responseText",
-                                            e.target.value
-                                          )
+                                          setResponseText(e.target.value)
                                         }
                                       ></textarea>
                                     </div>
@@ -345,9 +282,7 @@ function ComplaintList() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="8" className="text-center py-4">
-                        {searchTerm ? "No matching complaints found" : "No complaints found"}
-                      </td>
+                      
                     </tr>
                   )}
                 </tbody>

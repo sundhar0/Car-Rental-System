@@ -120,10 +120,10 @@ public class DriverService {
 	    driverRepository.save(driver);
 	}
 
-	public Driver uploadImage(MultipartFile file,int pid) throws IOException, InvalidIDException {
-		/*check if pid isvalid */
-		Driver driver = driverRepository.findById(pid)
-				.orElseThrow(()->new InvalidIDException("Invalid PID given.."));
+	public Driver uploadImage(MultipartFile file,int did) throws IOException, InvalidIDException {
+		/*check if did isvalid */
+		Driver driver = driverRepository.findById(did)
+				.orElseThrow(()->new InvalidIDException("Invalid dID given.."));
 		
 		List<String> allowedExtensions = Arrays.asList("png","jpg","jpeg","gif","svg"); 
 		String originalFileName = file.getOriginalFilename(); 
@@ -133,7 +133,7 @@ public class DriverService {
 		if( !(allowedExtensions.contains(extension))) {
 			throw new RuntimeException("Image Type Invalid");
 		}		
-		String uploadPath= "D:\\";
+		String uploadPath= "C:\\Users\\vigne\\hexa-Pro\\full project\\carrental\\React-UI\\public";
 		
 		/*Create directory *///Check if directory is present else create it
 		Files.createDirectories(Paths.get(uploadPath));

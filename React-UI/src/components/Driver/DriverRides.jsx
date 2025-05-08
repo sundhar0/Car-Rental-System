@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function DriverRides() {
   const [rides, setRides] = useState([]);
-  const [filteredRides, setFilteredRides] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
@@ -40,25 +39,6 @@ function DriverRides() {
     getDriverRides();
   }, [page]);
 
-  // Search functionality
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredRides(rides);
-    } else {
-      const filtered = rides.filter((ride) => {
-        const searchLower = searchTerm.toLowerCase();
-        return (
-          (ride.id?.toString().toLowerCase().includes(searchLower)) ||
-          (ride.user?.username?.toLowerCase().includes(searchLower)) ||
-          (ride.car?.model?.toLowerCase().includes(searchLower)) ||
-          (ride.rideStatus?.toLowerCase().includes(searchLower)) ||
-          (new Date(ride.rentalStart).toLocaleDateString().toLowerCase().includes(searchLower)) ||
-          (new Date(ride.rentalEnd).toLocaleDateString().toLowerCase().includes(searchLower))
-        );
-      });
-      setFilteredRides(filtered);
-    }
-  }, [searchTerm, rides]);
 
   const handleConfirmRide = async (rideId, status) => {
     try {
@@ -120,29 +100,6 @@ function DriverRides() {
       <div className="container">
         <div className="d-flex justify-content-between align-items-center ms-auto m-5">
           <h1>My Rides</h1>
-          <div className="d-flex align-items-center gap-3">
-            <div className="input-group w-auto mb-3">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                placeholder="Search"
-                aria-label="Search"
-                aria-describedby="button"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button
-                className="btn fw-bold text-white"
-                type="button"
-                id="button"
-                style={{
-                  backgroundColor: "#00B86B",
-                }}
-              >
-                <i className="bi bi-search"></i>
-              </button>
-            </div>
-          </div>
         </div>
         <div className="">
           <table className="table text-center">
@@ -158,8 +115,8 @@ function DriverRides() {
               </tr>
             </thead>
             <tbody>
-              {filteredRides.length > 0 ? (
-                filteredRides.map((ride, index) => (
+              {rides.length > 0 ? (
+                rides.map((ride, index) => (
                   <tr key={index}>
                     <th scope="row">{ride.id}</th>
                     <td>{ride.user.username || "N/A"}</td>

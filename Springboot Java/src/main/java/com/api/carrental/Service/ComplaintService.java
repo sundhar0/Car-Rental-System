@@ -45,11 +45,12 @@ public class ComplaintService {
         return complaintRepository.save(existing);
     }
     
-    public Complaint updaterespond(int complaintId, Complaint updatedComplaint) throws InvalidIDException {
+    public Complaint updaterespond(int complaintId, String response, String status) throws InvalidIDException {
         Complaint existing = complaintRepository.findById(complaintId)
                 .orElseThrow(() -> new InvalidIDException("Complaint not found"));
-        existing.setReponse(updatedComplaint.getReponse());
-        
+        existing.setReponse(response);
+        existing.setStatus(status);
+
         logger.info("Values Updated..");
         return complaintRepository.save(existing);
     }
