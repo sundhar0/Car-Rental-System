@@ -29,9 +29,7 @@ function CarOverview() {
         style={{ backgroundColor: "#1C2631" }}
       >
         <div className="container">
-          <Link to="/" className="navbar-brand">
-            <h3 className="text-white">CarRent</h3>
-          </Link>
+          
           <div className="d-flex align-items-center gap-3 ms-auto">
             <Link to="/BuyerDashboard" className="btn btn-outline-light">
               Back to Listings

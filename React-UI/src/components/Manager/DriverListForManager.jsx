@@ -34,7 +34,7 @@ function DriverListManager() {
         `http://localhost:8080/api/driver/update/${driverId}?experienceYears=${experienceYears}&perDayCharge=${perDayCharge}`
       );
 
-      const updatedDrivers = drivers.map((driver) =>
+      const updatedDrivers = driverAll.map((driver) =>
         driver.driverId === driverId
           ? { ...driver, experienceYears, perDayCharge }
           : driver

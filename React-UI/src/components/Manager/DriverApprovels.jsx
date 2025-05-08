@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { setDriverAll } from "../Store/DriverStore/driverAllSlice";
+
 
 function DriverApprovels() {
   const [selectedDocs, setSelectedDocs] = useState([]);
@@ -16,7 +18,8 @@ function DriverApprovels() {
       await axios.put(
         `http://localhost:8080/api/driver/updateAvailablility/${driverId}/${availablility}`
       );
-      setDrivers((prev) => prev.filter((d) => d.driverId !== driverId));
+      dispatch(setDriverAll((prev) => prev.filter((d) => d.driverId !== driverId)));
+      
     } catch (err) {
       console.log(err);
     }
@@ -25,7 +28,7 @@ function DriverApprovels() {
   const deleteDriver = async (driverId) => {
     try {
       await axios.delete(`http://localhost:8080/api/driver/delete/${driverId}`);
-      setDrivers((prev) => prev.filter((s) => s.driverId !== driverId));
+      dispatch(setDriverAll((prev) => prev.filter((d) => d.driverId !== driverId)));
     } catch (err) {
       console.log(err);
     }
@@ -100,7 +103,7 @@ function DriverApprovels() {
             <tbody>
               {driverAll
                 .filter(
-                  (unapprov) => unapprov.driverAvailability === "UNAVAILABLE"
+                  (unapprov) => unapprov.driverAvailability === "NOT_APPROVED"
                 )
                 .sort((a, b) => a.driverId - b.driverId)
                 .map((d, index) => (
