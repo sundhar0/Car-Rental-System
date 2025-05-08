@@ -28,7 +28,6 @@ function DriverRides() {
         `http://localhost:8080/api/rentWithDriver/driver/${driverResponse.data.driverId}?page=${page}&size=${size}`
       );
       setRides(ridesResponse.data.list);
-      setFilteredRides(ridesResponse.data.list); // Initialize filtered rides
       setTotalPages(ridesResponse.data.totalPages);
     } catch (err) {
       console.log(err);
@@ -44,7 +43,7 @@ function DriverRides() {
     try {
       await axios.put(
         `http://localhost:8080/api/rentWithDriver/updateStatus/${rideId}/${status}`,
-        null, // Add null as the body since we're not sending any data
+         
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

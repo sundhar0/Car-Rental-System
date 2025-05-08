@@ -14,15 +14,6 @@ function BecomeADriver() {
   const [msg, setMsg] = useState("");
   const [pImage, setPImage] = useState(null);
 
-  // Document states
-  const [licenceDoc, setLicenceDoc] = useState(null);
-  const [aadhaarDoc, setAadhaarDoc] = useState(null);
-  const [addressProofDoc, setAddressProofDoc] = useState(null);
-
-  // UI control states
-  const [step, setStep] = useState(1); // 1: Driver info, 2: Documents
-  const [driverId, setDriverId] = useState(null);
-  const navigate = useNavigate();
 
   const validateStep1 = () => {
     if (!name.trim()) {
@@ -45,14 +36,6 @@ function BecomeADriver() {
     return true;
   };
 
-  const validateStep2 = () => {
-    if (!licenceDoc || !aadhaarDoc || !addressProofDoc) {
-      setMsg("All documents are required");
-      return false;
-    }
-    setMsg("");
-    return true;
-  };
 
   const submitDriverInfo = async (e) => {
     e.preventDefault();
@@ -83,9 +66,6 @@ function BecomeADriver() {
         await uploadProfileImage(response.data.driverId);
       }
 
-      // Move to document upload step
-      setStep(2);
-      setMsg("");
     } catch (err) {
       console.error(err);
       setMsg("Registration failed. Please try again.");
@@ -104,42 +84,11 @@ function BecomeADriver() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
           },
         }
       );
     } catch (err) {
       console.error("Profile image upload failed:", err);
-    }
-  };
-
-  const submitDocuments = async (e) => {
-    e.preventDefault();
-    if (!validateStep2()) return;
-
-    const formData = new FormData();
-    formData.append("licenceDoc", licenceDoc);
-    formData.append("aadhaarDoc", aadhaarDoc);
-    formData.append("addressProofDoc", addressProofDoc);
-
-    try {
-      await axios.post(
-        `http://localhost:8080/api/driver-documents/${driverId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      setMsg("Registration completed successfully!");
-      // Redirect after successful registration
-      setTimeout(() => navigate("/driverlist"), 2000);
-    } catch (error) {
-      console.error(error);
-      setMsg("Document upload failed. Please try again.");
     }
   };
 
@@ -166,12 +115,12 @@ function BecomeADriver() {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav d-flex align-items-center gap-4 ms-auto">
               <li className="nav-item">
-                <Link to={"/driverlist"}>Driver List</Link>
-              </li>
-              <li className="nav-item">
-                <a href="#" className="nav-link text-white">
+                <Link
+                  to="/customerdashboard"
+                  className="nav-link text-white text-decoration-none"
+                >
                   Help
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <a href="#" className="nav-link">
@@ -189,7 +138,7 @@ function BecomeADriver() {
       </nav>
 
       <div className="container">
-        {step === 1 ? (
+        {
           // Step 1: Driver Information Form
           <form onSubmit={submitDriverInfo}>
             <div
@@ -340,7 +289,6 @@ function BecomeADriver() {
                         >
                           Continue
                         </Link>
-                        
                       </button>
                     </div>
                   </div>
@@ -348,83 +296,9 @@ function BecomeADriver() {
               </div>
             </div>
           </form>
-        ) : (
-          // Step 2: Document Upload Form
-          <form onSubmit={submitDocuments}>
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ height: "85vh" }}
-            >
-              <div
-                className="card shadow-lg mt-5"
-                style={{ backgroundColor: "#1C2631", width: "30rem" }}
-              >
-                <div className="card-body text-white d-flex flex-column justify-content-center align-items-center gap-2">
-                  <h5 className="card-title px-4 py-2 rounded">
-                    Upload <span style={{ color: "#00B86B" }}>Documents</span>
-                  </h5>
-                  <small
-                    className="fw-lighter text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    {msg}
-                  </small>
-                  <div
-                    className="d-flex flex-column justify-content-center align-items-center gap-4"
-                    style={{ fontSize: "12px", width: "100%" }}
-                  >
-                    <div className="input-groups w-75">
-                      <label>Driving Licence Document:</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        onChange={(e) => setLicenceDoc(e.target.files[0])}
-                        required
-                      />
-                    </div>
-
-                    <div className="input-groups w-75">
-                      <label>Aadhaar Card:</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        onChange={(e) => setAadhaarDoc(e.target.files[0])}
-                        required
-                      />
-                    </div>
-
-                    <div className="input-groups w-75">
-                      <label>Address Proof:</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        onChange={(e) => setAddressProofDoc(e.target.files[0])}
-                        required
-                      />
-                    </div>
-
-                    <div className="d-flex gap-3">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => setStep(1)}
-                      >
-                        Back
-                      </button>
-                      <button
-                        type="submit"
-                        className="btn"
-                        style={{ backgroundColor: "#00B86B", color: "white" }}
-                      >
-                        Submit Documents
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        )}
+        
+          
+        }
       </div>
     </div>
   );

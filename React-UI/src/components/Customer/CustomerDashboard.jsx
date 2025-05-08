@@ -7,8 +7,7 @@ function AddComplaint({ userId }) {
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("OPEN");
     const [complaints, setComplaints] = useState([]);
-    const [responseMap, setResponseMap] = useState({});
-    const [selectedComplaint, setSelectedComplaint] = useState(null);
+    const [response, setResponse] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,11 +16,8 @@ function AddComplaint({ userId }) {
                 issue,
                 description,
                 status,
-                user: { userId }
             });
-            alert("Complaint submitted successfully!");
-            setIssue("");
-            setDescription("");
+            
             fetchComplaints();
         } catch (err) {
             console.log(err);
@@ -38,20 +34,13 @@ function AddComplaint({ userId }) {
         }
     };
 
-    const handleResponseChange = (id, value) => {
-        setResponseMap((prev) => ({ ...prev, [id]: value }));
-    };
 
     const handleResponseSubmit = async (id) => {
-        const responseText = responseMap[id];
-        if (!responseText) return;
         try {
             await axios.put(`http://localhost:8080/api/complaints/respond/${id}`, {
-                reponse: responseText
+                reponse: response
             });
-            alert("Response updated successfully!");
             fetchComplaints();
-            setResponseMap((prev) => ({ ...prev, [id]: "" }));
         } catch (err) {
             console.log(err);
             alert("Failed to update response.");
@@ -207,8 +196,7 @@ function AddComplaint({ userId }) {
                                                                     type="text"
                                                                     className="form-control form-control-sm"
                                                                     placeholder="Type response..."
-                                                                    value={responseMap[c.complaintId] || ""}
-                                                                    onChange={(e) => handleResponseChange(c.complaintId, e.target.value)}
+                                                                    onChange={(e) => setResponse(e.target.value)}
                                                                     style={{ borderRadius: "6px" }}
                                                                 />
                                                                 <button

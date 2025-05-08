@@ -28,15 +28,15 @@ public class ComplaintController {
         }
     }
 
-//    @PutMapping("/{complaintId}")
-//    public ResponseEntity<String> updateComplaint(@PathVariable int complaintId, @RequestBody Complaint updatedComplaint) {
-//        try {
-//            complaintService.updateComplaint(complaintId, updatedComplaint);
-//            return ResponseEntity.ok("Complaint updated successfully");
-//        } catch (InvalidIDException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
+    @PutMapping("respond/{complaintId}")
+    public ResponseEntity<String> updateComplaint(@PathVariable int complaintId, @RequestBody Complaint updatedComplaint) {
+        try {
+            complaintService.updateComplaint(complaintId, updatedComplaint);
+            return ResponseEntity.ok("Complaint updated successfully");
+        } catch (InvalidIDException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     
     @PutMapping("/{complaintId}")
     public ResponseEntity<String> updatetheResponse(@PathVariable int complaintId, 
